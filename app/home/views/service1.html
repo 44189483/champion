@@ -1,0 +1,104 @@
+    
+    <!-- 客服热线 -->
+    <div class="rexian" style="display: none;">
+        <a>客服热线</a>
+        <a>在线留言</a>
+    </div>
+
+    <div class="tanc" style="display: none;">
+      <div>
+          <p class="tanc1">
+           在线留言
+           </p> 
+           <div class="tanc2">
+             <textarea name="content" id="content" cols="30" rows="10" placeholder="期待您的留言"></textarea>
+           </div>
+           <a class="tanc3">提交</a>
+           <a class="tanc4">取消</a>      
+      </div>  
+    </div>
+
+    <script type="text/javascript">   
+    (function () {
+      
+      //客服服务 显示菜单
+      $(".service").click(function(){
+        $(".rexian").toggle();
+      });
+
+      //单击下了项隐藏菜单
+      $(".rexian a").click(function(){
+        $(".rexian").hide();
+      });
+
+      //电话询问
+      $(".rexian a").eq(0).click(function(){
+
+        jqalert({
+          title: '客服热线',
+          content: '<div align="center"><p><img src="/public/home/images/icon_tel.png" alt="" /></p><p class="tel">13889467368</p></div>',
+          yestext: '点击拨号',
+          yesfn: function() {
+            window.location.href = "tel:13889467368";
+          }
+        });
+
+      });
+
+      //在线留言 显示
+      $(".rexian a").eq(1).click(function(){
+        $(".tanc").show();
+        //固定高度禁下拉
+        $("body").attr("style","overflow:hidden");  
+        $(".tanc").css("height",$(document).height());
+      });
+
+      //取消按钮
+      $(".tanc4").click(function(){
+        $(".tanc").hide();
+        $("body").attr("style","");
+      });
+      
+      //提交留言
+      $(".tanc3").click(function(){
+        var content = $("#content");
+        if(content.val() == ''){
+          jqalert({
+            title: '提示',
+            content: '留言内容必填'
+          });
+          return false;
+        }
+        $.ajax({  
+          type: "POST",  
+          url: "/message/save",  
+          data: {"content":content.val(),"type":1},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+            var text = data.replace(/\s/g, "");
+            if(text == 1){
+                jqalert({
+                  title: '提示',
+                  content: '留言成功',
+                  yesfn: function() {
+                    content.val('');
+                    $(".tanc").hide();
+                  }
+                });
+            }else{
+              jqalert({
+                title: '提示',
+                content: text
+              });
+              return false;
+            } 
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        }); 
+      });
+
+    })();
+    </script>

@@ -1,0 +1,121 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>添加轮播新闻</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/slide/save" enctype="multipart/form-data">
+
+                    <p>
+                        <label>图片</label>
+                        <span class="field">
+                            <input type="file" id="attchment" name="attchment"/>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>标题</label>
+                        <span class="field"><input type="text" name="title" id="title" class="smallinput"/></span>
+                    </p>
+
+                    <p>
+                        <label>内容</label>
+                        <span class="field"><textarea id="content" name="content"></textarea></span>
+                    </p>
+
+                    <p>
+                        <label>排序</label>
+                        <span class="field">
+                            <input type="text" name="ord" style="width:50px" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" /> 注:数值越大越靠前
+                        </span>
+                    </p>
+
+                    <br />
+                    
+                    <p class="stdformbutton">
+                        <button type="button" class="submit radius2" onclick="checkform(document.getElementById('form1'))">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<script>
+
+    function checkform(form){
+
+        if(form.title.value == ''){
+            alert("标题必填");
+            return false;
+        }
+
+        if(form.attchment.value == ''){
+            alert("图片必选");
+            return false;
+        }else{
+            var MyTest = document.getElementById("attchment").files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(MyTest);
+            reader.onload = function(theFile) {
+            　　var image = new Image();
+                image.src = theFile.target.result;
+                image.onload = function() {
+                    if(image.width != 640 && image.height != 300){
+                        alert("图片尺寸有误,必须是640*300象素");
+                        return false;
+                    }else{
+                        form.submit();
+                    }
+                }
+            }
+        }
+
+        
+    } 
+
+    KindEditor.ready(function(K) {
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            uploadJson : '/public/editor/php/upload_json.php',
+            fileManagerJson : '/public/editor/php/file_manager_json.php',
+            allowFileManager : true,
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link','clearhtml','source'
+            ]
+            });
+        prettyPrint();
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+.art{
+	width: 100%;
+	padding-top: 10px;
+	background-color: #fff;
+	margin-bottom: 5px;
+	position: relative;
+	color: #666;
+	padding-bottom: 10px;
+}
+.art0{
+	width: 94%;
+	margin-left: 3%;
+	position: relative;
+	line-height: 30px;
+}
+.art0>a>img{
+   width: 20px;
+   float: right;
+}
+.art1{
+	width: 94%;
+	margin-left: 3%;
+	position: relative;
+	font-size: 12px;
+}
+.art1>img{
+	width: 100%;
+}
+.art1-1{
+	position: absolute;
+	top: 30%;
+	left: 15%;
+}
+.art1-2{
+	width: 70%;
+	position: absolute;
+	top: 40%;
+	left: 15%;
+}
+.art1-3{
+	position: absolute;
+	top: 64%;
+	right: 15%;
+}
+.art1-4{
+	position: absolute;
+	top: 74%;
+	right: 15%;
+}

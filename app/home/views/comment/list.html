@@ -1,0 +1,89 @@
+  <?php foreach($comments as $val): ?>
+  <div class="message">
+    <div class="message-1">
+      <img src="<?php if (!empty($val->portraitUri)):?><?php echo $val->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" />
+      <?php if($val->level == 2):?><span>媒体</span><?php endif;?>
+    </div>
+    <p class="message-2"><?php echo $val->nickname;?></p>
+    <p class="message-3"><?php echo $val->createTime;?></p>
+    <p class="message-4"><?php echo $val->content;?></p>
+    <!-- 
+    <a href="" class="message-5">加好友</a>
+    <div class="message-6">
+      <img src="images/04baoming2.png" alt="">
+      <img src="images/04baoming2.png" alt="">
+      <img src="images/04baoming2.png" alt="">
+      <img src="images/04baoming2.png" alt="">
+      <img src="images/04baoming2.png" alt="">
+      <img src="images/04baoming2.png" alt="">
+    </div>
+    -->
+    <p class="message-7" data-id="<?php echo $val->id;?>">
+      <span class="review">回复</span>
+      <span>
+        <img src="/public/home/images/06shipin2.png" alt="">
+        <?php echo count($val->review);?>
+      </span>
+      <span class="praise">
+        <img src="/public/home/images/<?php if($val->isPraise == 1):?>zan_1.png<?php else:?>zan.png<?php endif;?>" alt="">
+        <span><?php echo $val->praise;?></span>
+      </span>
+    </p>
+    <?php if($val->review):?>
+    <div class="message-liuyan">
+        <?php foreach($val->review as $v): ?>
+        <div class="liuyan">
+            <div class="liuyan1">
+              <img src="<?php if (!empty($v->portraitUri)):?><?php echo $v->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" />
+              <?php if($v->level == 2):?><span>媒体</span><?php endif;?>
+            </div>
+            <p class="liuyan2"><?php echo $v->nickname;?>：<?php echo $v->content;?></p>
+            <p class="liuyan3"><?php echo $v->createTime;?></p>
+        </div>
+        <?php endforeach;?>
+    </div>
+    <?php endif;?>
+  </div>
+  <?php endforeach;?>
+
+  <script type="text/javascript">
+    $(function(){
+
+      //点赞
+      $(".praise").click(function(){
+        var area = $(this);
+        var id = area.parent().attr("data-id");
+        var num = parseInt(area.find("span").text());
+        $.ajax({  
+          type: "POST",  
+          url: "/comment/praise",  
+          data: {"id":id},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+            var text = data.replace(/\s/g, "");
+            area.find("span").text(num+parseInt(data));
+            if(text == 1){
+              $(area).find("img").attr("src","/public/home/images/zan_1.png");
+            }else if(text == -1){
+              $(area).find("img").attr("src","/public/home/images/zan.png");
+            }
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+      });
+
+      //回复当前人赋值
+      $(".review").click(function(){
+        var area = $(this);
+        var nickname = area.parent().parent().find(".message-2").text();
+        $("#comment").val("回复 "+nickname+"：");
+        $("#sign").val("回复 "+nickname+"：");//做个标记判断是否回复
+        $("#isReview").val(1);
+        $("#nid").val(area.parent().attr("data-id"));//当前留言的ID
+      });
+
+    });
+  </script>

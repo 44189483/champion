@@ -1,0 +1,96 @@
+<title>冠军惠-活动资料详情</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/03ziliao2.css">
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/share.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="/story/index/zl" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>活动资料</p>
+    <a class="head-1 share">
+        <img src="/public/home/images/03zhiyuan4.png" alt="" />
+    </a>
+  </div>
+    
+  <div class="tu">
+    <?php if(!empty($pic)):?>
+    <img src="/<?php echo $pic;?>" alt="" />
+    <?php endif;?>
+  </div>  
+
+  <div class="art">
+    <div class="title"><?php echo $title;?></div>
+    <div>
+      <span>主办单位：</span>
+      <p><?php echo $sponsor;?></p>
+    </div>
+    <div>
+      <span>承办单位：</span>
+      <p><?php echo $organizer;?></p>
+    </div>
+    <div>
+      <span>活动地点：</span>
+      <p><?php echo $activityAddress;?></p>
+    </div>
+    <div>
+      <span>活动方案：</span>
+      <p><?php echo $activityScheme;?></p>
+    </div>
+    <div>
+      <span>活动编号：</span>
+      <p><?php echo $serviceNumber;?></p>
+    </div>
+    <div>
+      <span>活动性质：</span>
+      <p><?php echo $activityNature;?></p>
+    </div>
+    <div>
+      <span>积分奖励：</span>
+      <p><?php echo $integral;?></p>
+    </div>
+    <div>
+      <span>招募人数：</span>
+      <p><?php echo $recruitment;?></p>
+    </div>
+    <div>
+      <span>活动时间：</span>
+      <p><?php echo substr($startTime,0,10).' 至 '.substr($endTime,0,10);?></p>
+    </div>
+
+    <div class="<?php if($isSign == 1 && $member->level != 0):?>btn<?php else:?>btna3<?php endif;?>">
+      <a href="/story/video/<?php echo $id;?>"><img src="/public/home/images/03ziliao2.png" alt=""><span>活动视频</span></a>
+      <a href="/story/pics/<?php echo $id;?>"><img src="/public/home/images/03ziliao3.png" alt=""><span>活动相册</span></a>
+      <a href="/story/article/<?php echo $id;?>"><img src="/public/home/images/03ziliao4.png" alt=""><span>活动美文</span></a>
+      <?php if($isSign == 1 && $member->level != 0):?>
+      <a href="/story/savedata/<?php echo $id;?>"><img src="/public/home/images/03ziliao5.png" alt=""><span>上传资料</span></a>
+      <?php endif;?>
+    </div>
+  
+  </div>
+
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+</div>   
+</body>
+</html>

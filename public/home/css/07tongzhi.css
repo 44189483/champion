@@ -1,0 +1,128 @@
+.title{
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	font-size: 16px;
+}
+.date{
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	font-size: 14px;
+	color: #999;
+	line-height: 30px;
+}
+.art{
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 15px;
+	color: #666;
+	line-height: 23px;
+}
+
+.art img{
+	max-width: 100%;
+}
+
+.shoucang{
+   width: 100%;
+   text-align: center;
+}
+.shoucang>img{
+	width: 35px;
+	text-decoration: none;
+	color: #fff;
+	display: block;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 8px;
+	position: fixed;
+	bottom: 120px;
+	left: 48%;
+}
+
+
+
+/*弹出层（留言）*/
+.tanc{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.6);
+	font-size: 16px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.tanc>div{
+    width: 80%;
+    /*margin-left:10%;*/
+    background-color: #fafafa;
+    border-radius: 6px;
+    text-align: center;
+    position: fixed;
+    top: 20vh;
+    left: 10%;
+    color: #4d4d4d;
+}
+.tanc1{
+	width: 50%;
+	margin-left: 25%;
+    color: #4d4d4d;
+    font-weight: bold;
+    border-bottom: solid 1px #a6a6a6;
+    line-height: 40px;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+.tanc2{
+	width: 90%;
+	margin-left: 5%;
+	border: solid 1px #e5e5e5;
+	position: relative;
+}
+.tanc2 textarea{
+	width: 96% !important;
+	border: none;
+	outline: none;
+	margin-top: 5px;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+.tanc2>a>img{
+	width: 20px;
+}
+.tanc2-1{
+	position: absolute;
+	bottom: 10px;  
+	right: 50px;
+}
+.tanc2-2{
+	position: absolute;
+	bottom: 10px;  
+	right: 10px;
+}
+.tanc3{
+	width: 35%;
+	margin-right: 5%;
+	display: inline-block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.tanc4{
+	width:  35%;
+	/*margin-left: 6%;*/
+	display: inline-block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-bottom: 5px;
+}

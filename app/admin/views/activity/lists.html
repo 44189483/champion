@@ -1,0 +1,105 @@
+    <div class="centercontent">
+    
+        <div class="pageheader">
+            <h1 class="pagetitle"><?php echo $title;?></h1>
+            <span class="pagedesc">活动资料</span>
+            <ul class="hornav0">
+                <li <?php if($type == 1 || $type == ''):?>class="current"<?php endif;?>><a href="<?php echo site_url('activity/lists/'.$aid.'/1'); ?>">美文</a></li>
+                <li <?php if($type == 2):?>class="current"<?php endif;?>><a href="<?php echo site_url('activity/lists/'.$aid.'/2'); ?>">图片</a></li>
+                <li <?php if($type == 3):?>class="current"<?php endif;?>><a href="<?php echo site_url('activity/lists/'.$aid.'/3'); ?>">视频</a></li>
+            </ul>
+        </div><!--pageheader-->
+        
+        <div id="contentwrapper" class="contentwrapper">
+        
+            <div class="subcontent">
+
+                <div class="tableoptions">
+                    <button type="button" onclick="window.location.href='/admin.php/activity/addinfo/<?php echo $aid;?>/<?php echo $type;?>'">添加资料</button>
+                </div>
+
+                <?php if($type == 1 || $type == 3):?>
+
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                    <thead>
+                        <tr>
+                            <th class="head0">标题</th>
+                            <th class="head0">发布人</th>
+                            <th class="head3">发布时间</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($result):?>
+                        <?php foreach ($result as $k => $val):?>
+                        <tr>
+                            <td title="<?php echo $val->title; ?>">
+                                <?php echo utfSubstr($val->title,0,20); ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->author; ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->createTime; ?>
+                            </td>
+                            <td class="center">
+                                <a href="<?php echo site_url('activity/editinfo/'.$val->id); ?>">编辑</a> / <a data-href="<?php echo site_url('activity/delinfo/'.$val->id); ?>" class="delete">删除</a>    
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <tr><td colspan="5" align="center">暂无信息...</td></tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+
+                <?php elseif($type == 2):?>
+
+                <div class="prodwrapper"> 
+                    
+                    <div class="prodcontent">
+
+                        <ul class="prodlist">
+                            <?php foreach ($result as $key => $val):?>
+                            <li class="one_third" style="margin-right:0;float:none;">
+                                <a href="<?php echo site_url('activity/delpic/'.$val->id); ?>" class="btn btn4 btn_trash" title="删除" style="position:absolute;right:0;top:0;z-index: 1;"></a>
+                                <div class="thumb"><img src="/<?php echo $val->content;?>" alt=""></div>
+                                <div class="content">
+                                    <div class="contentinner">
+                                        <div>
+                                            <span class="price">点赞:<?php echo $val->praise;?></span>
+                                            <a href="" class="title">
+                                                <img src="<?php echo $val->portraitUri;?>" width="20" alt=""/>
+                                                作者:<?php echo $val->author;?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php endforeach;?>  
+                        </ul>
+                        
+                    </div>
+                
+                    <br clear="all"><br>
+                
+                </div>
+
+                <?php endif;?>
+
+            </div>
+
+            <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                <?php echo $page;?>
+            </div>
+        
+        </div>
+        
+        <br clear="all">
+        
+    </div>
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

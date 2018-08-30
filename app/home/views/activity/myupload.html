@@ -1,0 +1,281 @@
+<title>冠军惠-我上传的</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<?php if($type == 1):?>
+<link rel="stylesheet" href="/public/home/css/04shangchuan1.css" />
+<?php elseif($type == 2):?>
+<link rel="stylesheet" href="/public/home/css/04shangchuan.css" />
+<?php elseif($type == 3):?> 
+<link rel="stylesheet" href="/public/home/css/04shangchuan2.css" />
+<?php endif;?>
+
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/BigPicture.min.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="/activity/detail/<?php echo $aid;?>" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>我上传的</p>
+    <!--
+    <a href="" class="head-1">
+        <img src="/public/home/images/03zhiyuan4.png" alt="">
+    </a>
+    -->
+  </div>
+  
+  <div class="nav">
+    <span><a href="/activity/myupload/<?php echo $aid;?>/2" <?php if($type == 2):?>class="xs"<?php endif;?>>照片</a></span>
+    <span><a href="/activity/myupload/<?php echo $aid;?>/3" <?php if($type == 3):?>class="xs"<?php endif;?>>视频</a></span>
+    <span><a href="/activity/myupload/<?php echo $aid;?>/1" <?php if($type == 1):?>class="xs"<?php endif;?>>文章</a></span>
+  </div>
+
+  <?php if($type == 1 || $type == 3):?>
+    <div id="minirefresh" class="minirefresh-wrap" style="top:108px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+    <script>
+                      
+      var i = 1;
+      var counterArr = [0];
+      var str = '';
+
+      var appendTestData = function(dom, count, isReset, index) {
+          if (typeof dom === 'string') {
+              dom = document.querySelector(dom);
+          }
+          
+          var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+          
+          var counterIndex = index || 0;
+          
+          counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+          if (isReset) {
+              dom.innerHTML = '';
+              counterArr[counterIndex] = 0;
+          }
+        
+          $.ajax({
+            type: "GET",
+            url: "/activity/myajaxdata/<?php echo $aid;?>/<?php echo $type;?>",
+            data: {'page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+
+                  <?php if($type == 1):?>
+                 
+                    str += '<a class="art" href="/activity/myuploaddetail/'+this.id+'"><p class="art1">'+this.title+'</p><p class="art2">'+this.date+'</p><p class="art3">'+this.content+'</p></a>';
+
+                    //<span><object><a href=""class="art1-1"><img src="/public/home/images/03huodong1.png" alt="">'+this.praise+'</a></object><object><a href=""class="art1-2"><img src="/public/home/images/03huodong2.png" alt=""></a></object></span>
+
+                  <?php elseif($type == 3):?>
+
+                    str += '<div class="art"><div class="art1"><p class="art1-1">'+this.title+'</p><a class="scang collect" data-id="'+this.id+'"><img src="/public/home/images/';
+                    if(this.collect == 1){
+                      str += 'shoucang_1.png';
+                    }else{
+                      str += 'shoucang.png';
+                    }
+                    str += '" alt="" /></a><div class="art1-2">'+this.content+'</div><p class="art1-3"><span class="art1-31"><img src="<?php echo $this->session->member->portraitUri;?>" alt=""></span><span class="art1-32">上传者：<?php echo $this->session->member->nickname;?></span><span class="art1-33">'+this.date+'</span><a class="praise art1-34" data-id="'+this.id+'">';
+
+                  if(this.isPraise == 1){
+                    str += '<img src="/public/home/images/zan_1.png" alt="" />';
+                  }else{
+                    str += '<img src="/public/home/images/zan.png" alt="" />';
+                  }
+
+                  str += '<span>'+this.praise+'</span></a></p></div></div>';
+
+                  <?php endif;?>
+                
+                });
+
+                i++;
+
+              }
+
+            }
+          });
+
+          var child = parseHtml(str);
+
+          dom.appendChild(child);
+
+      };
+
+      // 记录一个最新
+      var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+          requestDelayTime = 600;
+
+      var miniRefresh = new MiniRefresh({
+          container: '#minirefresh',
+          down: {
+              callback: function() {
+                  setTimeout(function() {
+                      // 每次下拉刷新后，上拉的状态会被自动重置
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endDownLoading(true);
+                  }, requestDelayTime);
+              }
+          },
+          up: {
+              isAuto: true,
+              callback: function() {
+                  setTimeout(function() {
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                  }, requestDelayTime);
+              }
+          }
+      });
+
+    </script>
+  <?php elseif($type == 2):?>
+    <div class="htmleaf-container">
+      <div class="htmleaf-content bgcolor-3">
+        <div id="div1">
+            <?php foreach($result as $val):?>
+            <div class="box">
+              <img src="/<?php echo $val->image;?>" class="photo" alt="">
+              <p class="title">
+                <img src="<?php echo $this->session->member->portraitUri;?>" alt="" />
+                <span class="title1">上传者：<?php echo $val->author;?></span>
+                <span class="title2"><?php echo $val->date;?></span>
+                <a class="praise" data-id="<?php echo $val->id;?>">
+                  <img src="/public/home/images/<?php if($val->isPraise == 1):?>zan_1.png<?php else:?>zan.png<?php endif;?>" alt=""> 
+                  <span><?php echo $val->praise;?></span>
+                </a>
+              </p>
+            </div>
+            <?php endforeach;?>
+        </div>
+      </div>
+    </div>
+    <script src="/public/home/js/jquery.waterfall.js"></script>
+    <script>
+      var i = 2;
+      $("#div1").waterfall({
+          itemClass: ".box",
+          minColCount: 2,
+          spacingHeight: 10,
+          resizeable: true,
+          isFadeIn:true,
+          ajaxCallback: function(success, end) {
+            success(loadpic(i));
+            end();
+            i++;
+          }
+      });
+      function loadpic(i){
+        $.ajax({
+          type: "GET",
+          url: "/activity/myajaxdata/<?php echo $aid;?>/2",
+          data: {'page': i},
+          dataType: "json",
+          success: function (data) {
+            $(data).each(function () {
+              var str = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><img src="/'+this.image+'" alt="" class="photo" /><p class="title"><img src="/public/home/images/logo.png" alt=""><span class="title1">上传者：'+this.author+'</span><span class="title2">'+this.date+'</span><a class="praise" data-id="'+this.id+'">';
+
+              if(this.isPraise == 1){
+                str += '<img src="/public/home/images/zan_1.png" alt="" />';
+              }else{
+                str += '<img src="/public/home/images/zan.png" alt="" />';
+              }
+
+              str += '<span>'+this.praise+'</span></a></p></div>';
+
+              $(str).fadeIn().appendTo($("#div1"));
+            });
+          }
+        });   
+      }
+    </script>
+    <script>
+    (function() {
+
+      function setClickHandler(id, fn) {
+        document.getElementById(id).onclick = fn;
+      }
+
+      setClickHandler('div1', function(e) {
+        e.target.className === 'photo' && BigPicture({
+        el: e.target,
+        imgSrc: e.target.src.replace('_thumb', '')
+        });
+      });
+
+    })();
+    </script>
+  <?php endif;?>
+
+  <script type="text/javascript">
+    $(function () {
+      //图片/视频点赞
+      $(".conter").delegate(".praise","click",function(){
+        var area = $(this);
+        var id = area.attr("data-id");
+        var num = parseInt(area.find("span").text());
+        $.ajax({  
+          type: "POST",  
+          url: "/activity/praise",  
+          data: {"id":id},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+            var text = data.replace(/\s/g, "");
+            area.find("span").text(num+parseInt(data));
+            if(text == 1){
+              $(area).find("img").attr("src","/public/home/images/zan_1.png");
+            }else if(text == -1){
+              $(area).find("img").attr("src","/public/home/images/zan.png");
+            }
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+      });
+      //文章/图片/视频收藏
+      $(".conter").delegate(".collect","click",function(){
+        var area = $(this);
+        var id = area.attr("data-id");
+        $.ajax({  
+          type: "POST",  
+          url: "/activity/collect",  
+          data: {"id":id},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+            var v = data.replace(/\s/g, "");
+            if(v == 1){
+              area.find("img").attr("src","/public/home/images/shoucang_1.png");
+            }else if(v == -1){
+              area.find("img").attr("src","/public/home/images/shoucang.png");
+            }
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+      });
+    });
+  </script>
+</div>  

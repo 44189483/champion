@@ -1,0 +1,55 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠-普通会员注册</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo1-zhiyuanzc.css" />
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+<div class="conter">
+ 	
+ 	<div class="head">
+ 		<a href="javascript:history.back();" class="head-0">
+ 			<img src="/public/home/images/01zhuce3.png" alt="" />
+ 		</a>
+ 		<p>普通会员注册</p>
+        <a class="head-1 service">
+            <img src="/public/home/images/02jihuo1.png" alt="" />
+        </a>
+ 	</div>
+
+    <form id="ptform" name="ptform" method="POST" action="">
+
+        <div class="user">
+        	<img src="/public/home/images/02jihuo2.png" alt="">
+            <input type="text" name="nick" id="nick" class="input1" placeholder="用户名" />
+        </div>
+        
+        <div class="password">
+            <img src="/public/home/images/02jihuo3.png" alt="">
+            <input type="password" name="pwd" id="pwd" class="input1" placeholder="密码" />
+            <a href="javascript:;">
+                <img src="/public/home/images/02jihuo5.png" alt="" onclick="hideShowPsw(this,'pwd','02jihuo5')"/>
+            </a>
+        </div>
+        <div class="password1">
+            <img src="/public/home/images/02jihuo4.png" alt="">
+            <input type="password" name="repwd" id="repwd" class="input1" placeholder="确认密码" />
+            <a href="javascript:;">
+                <img src="/public/home/images/02jihuo5.png" alt="" onclick="hideShowPsw(this,'repwd','02jihuo5')" />
+            </a>
+        </div>
+
+        <a href="" class="agreement">普通用户协议</a>
+
+        <input type="hidden" name="act" id="act" value="save" />
+
+        <button type="button" name="ptsubmit" id="ptsubmit" class="btn">下一步</button>
+
+    </form>
+
+    <?php $this->load->view('service1.html');?>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<title>冠军惠-查你想要的</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/shousuo.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script type="text/javascript">
+  function checksearch(){
+    if($("#keyword").val() == ''){
+      jqalert({
+        title: '提示',
+        content: '搜索关键词必填'
+      });
+      return false;
+    }
+    $("#form1").submit();
+  }
+</script>
+</head>
+<body>
+
+<div class="conter">
+  
+    <div class="head1">
+        <a href="javascript:history.back();" class="head1-0">
+            <img src="/public/home/images/01zhuce3.png" alt="">
+        </a>
+        <form name="form1" id="form1" method="GET" action="/index/seach">
+          <p class="head1-2">
+            <input type="text" name="keyword" id="keyword" placeholder="搜你想要的" value="<?php echo $keyword;?>"/>
+            <img src="/public/home/images/index1.png" alt="" onclick="checksearch()" />
+          </p>
+        </form>
+    </div>
+
+    <div class="art1">
+
+      <!--
+      <a href="">
+        <img src="/public/home/images/ss1.png" alt="">
+        志愿服务证明搜索到<span>11</span>条信息
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      -->
+
+      <?php if($total == 0):?>
+        <div align="center">暂无匹配任何信息</div>
+      <?php endif;?>
+
+      <?php if($hd_total > 0):?>
+      <a href="/activity/search?keyword=<?php echo $keyword;?>">
+        <img src="/public/home/images/ss4.png" alt="">
+        志愿服务搜索到<span><?php echo $hd_total;?></span>条信息
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+      <?php if($zx_total > 0):?>
+      <a href="/story/search/zx?keyword=<?php echo $keyword;?>">
+        <img src="/public/home/images/ss2.png" alt="">
+        媒体资讯搜索到<span><?php echo $zx_total;?></span>条信息
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+      <?php if($gg_total > 0):?>
+      <a href="/notice/search?keyword=<?php echo $keyword;?>">
+        <img src="/public/home/images/ss3.png" alt="">
+        通知公告搜索到<span><?php echo $gg_total;?></span>条信息
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+      <?php if($course_total > 0):?>
+      <a href="/course/search?keyword=<?php echo $keyword;?>">
+        <img src="/public/home/images/ss3.png" alt="">
+        在线教程搜索到<span><?php echo $course_total;?></span>条信息
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+    </div>

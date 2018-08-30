@@ -1,0 +1,107 @@
+.art1,.art2,.art3,.art4{
+	background-color: #fff;
+	margin-bottom: 10px;
+	color: #999;
+}
+.art>div>p{
+	width: 90%;
+	margin-left: 5%;
+	border-bottom: solid 1px #d2d2d2;
+	background-color: #fff;
+	line-height: 45px;
+	color: #808080;
+}
+.art div p span{
+	display: inline-block;
+	width: 110px;
+}
+.art>div>p>input{
+	outline: none;
+	margin-left: 5px;
+	width: calc(100% - 115px);
+	height: 45px;
+	border: none;
+	color: #4d4d4d;
+}
+.art1-yanzheng span{
+	width: 60px !important;
+}
+.art1-yanzheng input{
+	width: calc(100% - 160px) !important;
+}
+.art2 p span a,.art4 p span a{
+	font-size: 12px;
+}
+
+.art>div>p:last-child{
+	width: 90%;
+	padding-left: 5%;
+	padding-right: 5%;
+	margin-left: 0px;
+	border-bottom: solid 1px #cecece;
+}
+.art1>p>a{
+	float: right;
+	display: inline-block;
+	text-decoration: none;
+	color: #808080;
+	border: solid 1px #fe1859;
+	border-radius: 8px;
+	line-height: 25px;
+	font-size: 12px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top:10px;
+}
+.art5{
+	text-align: center;
+	color: #999;
+}
+.art5>span{
+	color: #ff0000;
+	font-size: 16px;
+}
+
+
+.art6{
+	font-size: 0px;
+}
+.art6-1{
+	display: block;
+	line-height: 35px;
+	border-radius: 5px;
+	color: #fff;
+	width: 35%;
+	text-decoration: none;
+	text-align: center;
+	font-size: 14px;
+	margin: 0 auto;
+	margin-top: 15px;
+	margin-bottom: 20px;
+	background-color: #ff0000;
+	/*margin-left: 10%;*/
+	border: none;
+}
+.art6-2{
+	background-color: #009cff;
+	margin-left: 10%;
+}
+
+/*edit by sun*/
+#getphonecode{
+	float: right;
+	background: #fff;
+	width: auto;
+	display: inline-block;
+	color: #808080;
+	border: solid 1px #fe1859;
+	border-radius: 8px;
+	line-height: 25px;
+	height: 27px;
+	font-size: 12px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top:10px;
+}
+
+

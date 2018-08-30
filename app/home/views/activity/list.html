@@ -1,0 +1,121 @@
+<title>冠军惠-志愿者招骋</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/04zhiyuanfw1.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+
+</head>
+<body>
+<div class="conter">  
+  <div class="head">
+    <a href="/" class="head-0">
+        <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>志愿者招募</p>
+  </div>
+  <div class="nav">
+      <span><a href="/activity" <?php if($type == ''):?>class="xs"<?php endif;?>>正在招募</a></span>
+      <span><a href="/activity/index/begain" <?php if($type == 'begain'):?>class="xs"<?php endif;?>>已经开始</a></span>
+      <span><a href="/activity/index/over" <?php if($type == 'over'):?>class="xs"<?php endif;?>>已经结束</a></span>
+  </div>
+  
+  <div id="minirefresh" class="minirefresh-wrap" style="top:108px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+  <script>
+                    
+    var i = 1,type='<?php echo $type;?>';
+    var counterArr = [0];
+    var str = '';
+
+    var appendTestData = function(dom, count, isReset, index) {
+        if (typeof dom === 'string') {
+            dom = document.querySelector(dom);
+        }
+        
+        var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+        
+        var counterIndex = index || 0;
+        
+        counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+        if (isReset) {
+            dom.innerHTML = '';
+            counterArr[counterIndex] = 0;
+        }
+      
+        $.ajax({
+            type: "GET",
+            url: "/activity/index/" + type,
+            data: {'file':'ajax','page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                 
+                  str += '<a class="art" href="/activity/detail/'+this.id+'"><div><img src="/'+this.pic+'" alt="" /><p class="art-0 blue">可获得：'+this.integral+'积分</p></div><p class="art-1">'+this.title+'</p><p class="art-2">活动时间：'+this.startDate+'/'+this.endDate+'</p><p class="art-3';
+
+                  if(type == 'begain'){
+                    str += this.isSign == 1 ? ' yellow">已报名' : ' red">进行中';
+                  }else if(type == 'over'){
+                    str += this.isSign == 1 ? ' deepgrey">已报名' : ' grey">已结束';
+                  }else{
+                    str += this.isSign == 1 ? ' deepblue">已报名' : ' blue">招募中';
+                  }
+
+                  str += '</p></a>';
+
+                });
+
+                i++;
+
+              }
+              
+            }
+          });
+
+        var child = parseHtml(str);
+
+        dom.appendChild(child);
+
+    };
+
+    // 记录一个最新
+    var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+        requestDelayTime = 600;
+
+    var miniRefresh = new MiniRefresh({
+        container: '#minirefresh',
+        down: {
+            callback: function() {
+                setTimeout(function() {
+                    // 每次下拉刷新后，上拉的状态会被自动重置
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endDownLoading(true);
+                }, requestDelayTime);
+            }
+        },
+        up: {
+            isAuto: true,
+            callback: function() {
+                setTimeout(function() {
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                }, requestDelayTime);
+            }
+        }
+    });
+
+  </script>

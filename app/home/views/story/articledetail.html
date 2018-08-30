@@ -1,0 +1,117 @@
+<title>冠军惠-活动美文详情</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/03huodong2.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/share.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="" />
+    </a>
+    <p>活动美文</p>
+    <a class="head-1 share">
+        <img src="/public/home/images/03zhiyuan4.png" alt="" />
+    </a>
+  </div>
+
+  <div class="line"></div>
+  <div class="art">
+    <p class="title">美文：<?php echo $title;?></p>
+    <p class="art1">
+      <span>上传者：<?php echo $nickname;?></span><br/>
+      <span>上传时间：<?php echo $createTime;?></span>
+    </p>
+    <p class="art2">
+      <?php echo $content;?>
+    </p>
+  </div>
+ 
+  <p class="art3" data-id="<?php echo $id;?>">
+    <a class="art3-1 praise">
+      <img src="/public/home/images/<?php if($isPraise == 1):?>zan_1.png<?php else:?>zan.png<?php endif;?>" alt="" />
+      <span><?php echo $praise;?></span>
+    </a>
+    <a class="art3-2 collect">
+      <img src="/public/home/images/<?php if($isCollect == 1):?>shoucang_1.png<?php else:?>shoucang.png<?php endif;?>" alt="" />
+    </a>
+  </p>
+  <script type="text/javascript">
+  $(function(){
+
+    //文章点赞
+    $(".praise").click(function(){
+      var area = $(this);
+      var id = area.parent().attr("data-id");
+      var num = parseInt(area.find("span").text());
+      $.ajax({  
+        type: "POST",  
+        url: "/story/praise",  
+        data: {"id":id},
+        cache: false,
+        beforeSend: function(){
+        },  
+        success: function(data){ 
+          var text = data.replace(/\s/g, "");
+          area.find("span").text(num+parseInt(data));
+          if(text == 1){
+            $(area).find("img").attr("src","/public/home/images/zan_1.png");
+          }else if(text == -1){
+            $(area).find("img").attr("src","/public/home/images/zan.png");
+          }
+        },
+        error: function(jqXHR, textStatus, errorMsg){
+        }   
+      });
+    });
+
+    //文章收藏
+    $(".collect").click(function(){
+      var area = $(this);
+      var id = area.parent().attr("data-id");
+      $.ajax({  
+        type: "POST",  
+        url: "/story/collect",  
+        data: {"id":id},
+        cache: false,
+        beforeSend: function(){
+        },  
+        success: function(data){ 
+          var v = data.replace(/\s/g, "");
+          if(v == 1){
+            area.find("img").attr("src","/public/home/images/shoucang_1.png");
+          }else if(v == -1){
+            area.find("img").attr("src","/public/home/images/shoucang.png");
+          }
+        },
+        error: function(jqXHR, textStatus, errorMsg){
+        }   
+      });
+    });
+
+  });
+  </script>
+
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','<?php echo $title;?>','','<?php echo utfSubstr(strip_tags($content),0,100);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,8)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','<?php echo $title;?>','','<?php echo utfSubstr(strip_tags($content),0,100);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,8)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','<?php echo $title;?>','','<?php echo utfSubstr(strip_tags($content),0,100);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,8)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','<?php echo $title;?>','','<?php echo utfSubstr(strip_tags($content),0,100);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,8)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+</div>   
+</body>
+</html>

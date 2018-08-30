@@ -1,0 +1,141 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>编辑教程</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/course/save" enctype="multipart/form-data">
+                    <p>
+                        <label>类型</label>
+                        <span class="field">
+                            <select name="type">
+                                <option value="">-请选择-</option> 
+                                <option value="1" <?php if($type == 1): ?>selected="selected"<?php endif;?>>-基础-</option>
+                                <option value="2" <?php if($type == 2): ?>selected="selected"<?php endif;?>>-提高-</option>
+                            </select>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>名称</label>
+                        <span class="field"><input type="text" name="title" id="title" class="smallinput" required="required" value="<?php echo $title;?>"/></span>
+                    </p>
+
+                    <p align="center">
+                        <span id="load"></span>
+                    </p>
+                    <p id="panel">
+                        <span class="field">
+                            <img src="/<?php echo $cover;?>" width="382" alt=""/>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>视频地址</label>
+                        <span class="field"><input type="text" name="url" id="url" class="smallinput" required="required" value="<?php echo $url;?>"/></span>
+                    </p>
+
+                    <p>
+                        <label>内容</label>
+                        <span class="field"><textarea id="content" name="content"><?php echo $content;?>"</textarea>
+                    </p>
+
+                    <p>
+                        <label>积分</label>
+                        <span class="field"><input type="text" name="integral" id="integral" class="smallinput" required="required" value="<?php echo $integral;?>"/></span>
+                    </p>
+
+                    <p>
+                        <label>发布</label>
+                        <span class="formwrapper">
+                            <span>
+                                <input type="checkbox" name="status" style="opacity: 0;" value="1" <?php if($status =='1'):?>checked="checked"<?php endif;?>/>
+                            </span>
+                        </span>
+                    </p>
+                    
+                    <p class="stdformbutton">
+                        <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+</div><!--bodywrapper-->
+
+<style type="text/css">
+    .uploader .error{
+
+    }
+</style>
+<script type="text/javascript">
+
+    jQuery(document).ready(function(){
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                type:"required",
+                title:"required",
+                integral:"digits"
+            },
+            messages: {
+                type: "类型必选",
+                title: "请填写标题",
+                integral:"积分必须为整数"
+            },  
+            submitHandler:function(form){
+
+                form.submit();
+
+            }    
+        });
+
+    });
+
+    KindEditor.ready(function(K) {
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            uploadJson : '/public/editor/php/upload_json.php',
+            fileManagerJson : '/public/editor/php/file_manager_json.php',
+            allowFileManager : true,
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link','clearhtml','source'
+            ]
+            });
+        prettyPrint();
+    });
+
+</script>
+
+</body>
+</html>

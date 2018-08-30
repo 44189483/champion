@@ -1,0 +1,175 @@
+.art{
+	width: 100%;
+	height: auto;
+	position: relative;
+}
+.art-1{
+   width: 100%;
+}
+.art-2{
+	display: block;
+	width: 25%;
+	color: #fff;
+	text-decoration: none;
+	line-height: 35px;
+	text-align: center;
+	border: solid 1px #fff;
+	border-radius: 10px;
+	position: absolute;
+	top: 20%;
+	left: 5%;
+}
+.art-3{
+	display: block;
+	/*width: 20%;*/
+	width:70px;
+	height:70px;
+	border: solid 3px #fff;
+	border-radius: 50%;
+	position: absolute;
+	top: 8%;
+	left: 40%;
+}
+.art-4{
+	display: block;
+	width: 25%;
+	color: #fff;
+	text-decoration: none;
+	line-height: 35px;
+	text-align: center;
+	border: solid 1px #fff;
+	border-radius: 10px;
+	position: absolute;
+	top: 20%;
+	right: 5%;
+}
+.art-5{
+	display: block;
+	color: #fff;
+	width: 100%;
+	font-size: 16px;
+	text-decoration: none;
+	line-height: 35px;
+	text-align: center;
+	position: absolute;
+	top:45%;
+}
+.art-6{
+	display: block;
+	color: #fff;
+	width: 100%;
+	text-decoration: none;
+	line-height: 35px;
+	text-align: center;
+	position: absolute;
+	top:57%;
+}
+.art-7{
+	display: block;
+	color: #fff;
+	width: 100%;
+	text-decoration: none;
+	line-height: 35px;
+	text-align: center;
+	position: absolute;
+	bottom:5%;
+}
+.art-7>span{
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+}
+
+
+.art1,.art2,.art3{
+	width: 100%;
+	background-color: #fff;
+	margin-bottom: 10px;
+	position: relative;
+	color: #808080;
+	border-bottom: solid 1px #c3c1c1; 
+}
+.art1>a,.art2>a,.art3>a{
+	display: block;
+	width: 93%;
+	padding-left: 3%;
+	margin-left: 2%;
+	color: #808080;
+	text-decoration: none;
+	line-height: 45px;
+	border-bottom: solid 1px #e6e6e6;
+	position: relative;
+}
+.art1>a>img:first-child,.art2>a>img:first-child,.art3>a>img:first-child{
+	width: 25px;
+	float: left;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.art1>a>img:last-child,.art2>a>img:last-child,.art3>a>img:last-child{
+	width: 10px;
+	float: right;
+	margin-top: 15px;
+}
+.art1>a>span,.art2>a>span,.art3>a>span{
+	position: absolute;
+	top: 0px;
+	right: 20px;
+}
+/*弹出层*/
+.tanc{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.6);
+	font-size: 16px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.tanc>div{
+    width: 80%;
+    /*margin-left:10%;*/
+    background-color: #fafafa;
+    border-radius: 6px;
+    text-align: center;
+    position: absolute;
+    top: 20vh;
+    left: 10%;
+    color: #4d4d4d;
+}
+.tanc1{
+	width: 50%;
+	margin-left: 25%;
+    color: #4d4d4d;
+    font-weight: bold;
+    border-bottom: solid 1px #a6a6a6;
+    line-height: 40px;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+.tanc2{
+	color: #ff0000;
+	font-size: 18px;
+	line-height: 40px;
+}
+.tanc3{
+	width: 50%;
+	margin-left: 25%;
+	display: block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-top: 25px;
+	margin-bottom: 35px;
+}
+.tanc4{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+.tan4>img{
+	width: 20px;
+}

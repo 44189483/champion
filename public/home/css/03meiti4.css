@@ -1,0 +1,38 @@
+.head{
+	margin-bottom: 0px !important;
+	border-bottom: none !important;
+}
+.tu{
+	width: 100%;
+}
+.tu>img{
+	width: 100%;
+}
+.art{
+	width: 100%;
+	height: auto;
+	background-color: #fff;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+}
+.title{
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 55px !important;
+}
+.art>div{
+	width: 90%;
+	margin-left: 5%;
+	color: #666;
+	line-height: 25px;
+}
+.art>div>span{
+	color: #fe1859;
+	display: inline-block;
+	width: 70px;
+	float: left;
+}
+.art1{
+   width: 100%;
+}

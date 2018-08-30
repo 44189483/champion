@@ -1,0 +1,226 @@
+/*上传照片*/
+.upload{
+	width: 90%;
+	margin-left: 5%;
+	background-color: #fff;
+	margin-top: 15px;
+	color: #666;
+	border-radius: 8px;
+	padding-top: 15px;
+	padding-bottom: 30px;
+	border-bottom: solid 1px #ccc;
+}
+.upload>p{
+	width: 96%;
+	margin-left: 2%;
+	color: #999;
+}
+.upload>p>span{
+	color: #ccc;
+	font-size: 12px;
+}
+.upload>p>img{
+	width: 22px;
+	float: left;
+	margin-right: 10px;
+}
+.upload>div{
+	width: 40%;
+	margin-left: 30%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	position: relative;
+}
+.upload>div>img{
+	width: 100%;
+}
+.upload>div>input{
+	width: 100%;
+	height: 100%;
+	background-color: red;
+	position: absolute;
+	top:0px;
+	left: 0px;
+	opacity: 0;
+}
+.explain{
+	color: #1d9ef1;
+	width: 100%;
+	text-align: center;
+	margin-top: 10px;
+}
+
+
+
+
+.agreement{
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #fe1859;
+	margin-top: 30%;
+}
+.btn{
+	display: block;
+	width: 90%;
+	margin-left: 5%;
+	text-align: center;
+	color: #fff;
+	background-color:  #ff0000;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	font-size: 16px;
+	line-height: 40px;
+	text-decoration: none;
+	border-radius: 5px;
+	border: none;
+}
+
+
+/*弹出层（留言）*/
+.tanchu{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.6);
+	font-size: 16px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.tanchu>div{
+    width: 80%;
+    /*margin-left:10%;*/
+    background-color: #fafafa;
+    border-radius: 6px;
+    text-align: center;
+    position: absolute;
+    top: 20vh;
+    left: 10%;
+    color: #4d4d4d;
+}
+.tanchu1{
+	width: 50%;
+	margin-left: 25%;
+    color: #4d4d4d;
+    font-weight: bold;
+    border-bottom: solid 1px #a6a6a6;
+    line-height: 40px;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+.tanchu2{
+	width: 90%;
+	margin-left: 5%;
+	border: solid 1px #e5e5e5;
+	position: relative;
+}
+.tanchu2 textarea{
+	width: 96%;
+	border: none;
+	outline: none;
+	margin-top: 5px;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+.tanchu2>a>img{
+	width: 20px;
+}
+.tanchu2-1{
+	position: absolute;
+	bottom: 10px;  
+	right: 50px;
+}
+.tanchu2-2{
+	position: absolute;
+	bottom: 10px;  
+	right: 10px;
+}
+.tanchu3{
+	width: 35%;
+	margin-right: 5%;
+	display: inline-block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.tanchu4{
+	width:  35%;
+	/*margin-left: 6%;*/
+	display: inline-block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-bottom: 5px;
+}
+
+
+
+/*弹出层*/
+.tanc{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.6);
+	font-size: 16px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.tanc>div{
+    width: 80%;
+    /*margin-left:10%;*/
+    background-color: #fff;
+    border-radius: 6px;
+    text-align: center;
+    position: absolute;
+    top: 20vh;
+    left: 10%;
+    color: #4d4d4d;
+}
+.tanc1{
+	width: 50%;
+	margin-left: 25%;
+    color: #4d4d4d;
+    font-weight: bold;
+    border-bottom: solid 1px #a6a6a6;
+    line-height: 40px;
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+.tanc2{
+	width: 50%;
+	margin-left: 25%;
+	display: block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.tanc3{
+	width: 50%;
+	margin-left: 25%;
+	display: block;
+	text-decoration: none;
+	color: #4d4d4d;
+	background-color: #e5e5e5;
+	border: solid 1px #bfbfbf;
+	border-radius: 5px;
+	line-height: 30px;
+	margin-bottom: 5px;
+}
+.tanc4{
+	color: #ff0000;
+	margin-bottom: 25px;
+	font-size: 12px;
+}

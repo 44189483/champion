@@ -1,0 +1,59 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠-账号激活</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo1-zhiyuanzc.css" />
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+<div class="conter">
+ 	
+ 	<div class="head">
+ 		<a href="javascript:history.back();" class="head-0">
+ 			<img src="/public/home/images/01zhuce3.png" alt="" />
+ 		</a>
+ 		<p>冠军账号激活</p>
+        <a class="head-1 service">
+            <img src="/public/home/images/02jihuo1.png" alt="" />
+        </a>
+ 	</div>
+    
+    <form action="" method="POST" id="activeform" name="activeform">
+
+        <div class="user">
+        	<img src="/public/home/images/02jihuo2.png" alt="" />
+            <input type="text" id="user" name="user" class="input1" placeholder="用户名/真实姓名" />
+        </div>
+
+        <div class="password password0">
+            <img src="/public/home/images/02jihuo01.png" alt="" />
+            <input type="text" id="inumber" name="inumber"  class="input1" placeholder="身份证后六位或手机后六位" />
+        </div>
+        
+        <div class="password">
+            <img src="/public/home/images/02jihuo3.png" alt="" />
+            <input type="password" id="pwd" name="pwd"  class="input1" placeholder="密码" />
+            <a href="javascript:;">
+                <img src="/public/home/images/02jihuo5.png" onclick="hideShowPsw(this,'pwd','02jihuo5')" alt=""/>
+            </a>
+        </div>
+        <div class="password1">
+            <img src="/public/home/images/02jihuo4.png" alt="" />
+            <input type="password" id="repwd" name="repwd" class="input1" placeholder="确认密码" />
+            <a href="javascript:;">
+                <img src="/public/home/images/02jihuo5.png" onclick="hideShowPsw(this,'repwd','02jihuo5')" alt="" />
+            </a>
+        </div>
+        <p style="text-align: center;color: red;font-size: 14px;padding: 20px auto;">只有在此平台下没有激活的志愿者账号方可使用?</p>
+        <a href="" class="agreement">冠军惠用户协议</a>
+        <input type="hidden" id="act" name="act" value="update" />
+        <button type="button" id="checksubmit" class="btn">确认激活</button>
+        <!--<button type="button" id="activenext" class="btn">下一步</button>-->
+
+    </form>
+
+    <?php $this->load->view('service1.html');?>
+
+</div>
+</body>
+</html> 

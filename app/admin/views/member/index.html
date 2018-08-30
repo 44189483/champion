@@ -1,0 +1,183 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3>会员列表</h3>
+            </div><!--contenttitle-->
+
+            <div class="dataTables_wrapper" id="dyntable_wrapper">
+
+                <div id="dyntable_length" class="dataTables_length">
+                    <label> 
+                        <form method="GET" action="">
+                            <select name="level">
+                                <option value="">-会员类型-</option> 
+                                <option value="0" <?php if($level == 0 && $level != ''):?>selected="selected"<?php endif;?>>-普通会员-</option>
+                                <option value="1" <?php if($level == 1):?>selected="selected"<?php endif;?>>-志愿者-</option>
+                                <option value="2" <?php if($level == 2):?>selected="selected"<?php endif;?>>-媒体-</option>
+                            </select>
+                            &nbsp;
+                            <label><input type="text" name="phone" id="phone" placeholder="手机号" value="<?php echo $phone;?>" class="smallinput"/></label>
+                            &nbsp;
+                            <button type="submit" class="stdbtn">查询</button>
+                            <button type="button" class="stdbtn" onclick="history.back()">返 回</button>
+                            <button type="button" onclick="window.location.href='/admin.php/member/add'" class="stdbtn">添加会员</button>
+                        </form>
+                    </label>
+                </div>
+
+                <div class="dataTables_filter" id="dyntable2_filter">
+                    <form id="excelform" action="/admin.php/excel/import" method="post" enctype="multipart/form-data">
+                        <input type="file" id="file" name="file"/> 
+                        <button type="button" class="stdbtn" id="upfile">导入会员</button>&nbsp; 
+                        <button type="button" onclick="window.location.href='/admin.php/excel/export'" class="stdbtn">导出会员</button>                     
+                    </form>
+                </div>
+
+                <form name="form" id="form" method="POST" action="/admin.php/member/del">
+                    <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                        <thead>
+                            <tr>
+                                <th class="head3">
+                                    <input type="checkbox" class="checkall"/>
+                                </th>
+                                <th class="head3">类型</th>
+                                <th class="head0">姓名</th>
+                                <th class="head0">手机</th>
+                                <th class="head3">身份证</th>
+                                <th class="head3">邮箱</th>
+                                <th class="head3">激活</th>
+                                <th class="head3">时间</th>
+                                <th class="head0">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php if($rows):?>
+                            <?php foreach ($rows as $k => $val):?>
+                            <tr>
+                                <td class="head0">
+                                    <input type="checkbox" name="id[]" value="<?php echo $val->id;?>" />
+                                </td>
+                                <td class="head3">
+                                    <?php 
+                                        switch($val->level){
+                                            case 0:
+                                                echo '普通会员';
+                                                break;
+                                            case 1:
+                                                echo '志愿者';
+                                                break;
+                                            case 2:
+                                                echo '媒体';
+                                                break;
+                                        }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php echo $val->nickname; ?>
+
+                                    <?php echo $val->realname; ?>
+                                </td>
+                                <td>
+                                    <?php echo $val->phone;?>
+                                </td>
+                                <td class="head3">
+                                    <?php echo $val->identificationNumber;?>
+                                </td>
+                                
+                                <td class="head3">
+                                    <?php echo $val->email;?>
+                                </td>
+                                <td class="head3">
+                                    <?php if($val->level == 1 ): ?>        
+                                    <input type="checkbox" <?php if($val->activation =='1'):?>checked="checked"<?php endif;?> value="1" name="activation" id="<?php echo $val->id;?>" onchange="changeCheck('users','id',<?php echo $val->id;?>,'activation',<?php echo $val->activation;?>);"/>
+                                    <?php else: ?>
+                                    <input type="checkbox" <?php if($val->status =='1'):?>checked="checked"<?php endif;?> value="1" name="status" id="<?php echo $val->id;?>" onchange="changeCheck('users','id',<?php echo $val->id;?>,'status',<?php echo $val->status;?>);"/>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="head3">
+                                    <?php echo $val->createdAt; ?>
+                                </td>
+                                <td class="center">
+                                    <a href="<?php echo site_url('member/edit/'.$val->id); ?>">编辑</a> / <a data-href="<?php echo site_url('member/del/'.$val->id); ?>" class="delete">删除</a>
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+                        <?php else:?>
+                            <tr><td colspan="10" align="center">暂无信息...</td></tr>
+                        <?php endif;?>
+                        </tbody>
+                    </table>
+                    <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                        <button type="button" class="deletebutton">删除选中</button>
+                        <?php echo $page;?>
+                    </div>
+                </form>
+
+            </div>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<img src="../../public/admin/images/loaders/loader7.gif" alt="" id="load" style="display: none;">
+ 
+<script type="text/javascript">
+
+    function popup(popupName){
+        var _scrollHeight = jQuery(document).scrollTop(),//获取当前窗口距离页面顶部高度
+        _windowHeight = jQuery(window).height(),//获取当前窗口高度
+        _windowWidth = jQuery(window).width(),//获取当前窗口宽度
+        _popupHeight = popupName.height(),//获取弹出层高度
+        _popupWeight = popupName.width();//获取弹出层宽度
+        _posiTop = (_windowHeight - _popupHeight)/2 + _scrollHeight;
+        _posiLeft = (_windowWidth - _popupWeight)/2;
+        popupName.css({"position":"absolute","z-index":"1002","left": _posiLeft + "px","top":_posiTop + "px","display":"block"});//设置position
+    }
+   
+    //导入EXCEL
+    jQuery("#upfile").click(function(){ 
+
+        var file = jQuery("#file").val();
+        var point  = file.lastIndexOf(".");
+        var ext = file.substr(point);
+        if(file == '' || file == null){
+            jAlert('excel文件没有选择', '提示');
+            return false;
+        }else if(ext != '.xls' && ext != '.xlsx'){
+            jAlert('文件格式有误,必须是xls或xlsx', '提示');
+            return false;
+        }    
+
+        jQuery("#popup_panel").hide();
+
+        jQuery("#excelform").ajaxSubmit({
+            type: "POST",//提交类型
+            url: "/admin.php/excel/import",//请求地址
+            data: {"file":file},//请求数据
+            beforeSubmit:function(){  
+                popup(jQuery("#load"));
+            },
+            success: function (data) {//请求成功后的函数
+                if(data == 'success'){
+                    jQuery.jGrowl('导入成功');
+                    window.location.reload();
+                }else{
+                    jQuery.jGrowl('导入失败');
+                }
+            },
+            error: function (data) { 
+                jQuery.jGrowl(data); 
+            },//请求失败的函数
+            async: true
+        });
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3><?php echo $title;?>-会员:<?php echo $username;?></h3>
+            </div><!--contenttitle-->
+
+            <form id="form1" name="form1" class="stdform stdform2" method="post" action="/admin.php/examine/save" onSubmi="return checkform(this)">
+
+                <?php foreach ($question as $key => $val):?>
+
+                    <p>
+                        <span class="field">
+                            问题<b><?php echo $key;?></b>.<?php echo $val['q'];?>
+
+                            <?php foreach ($val['c'] as $k => $v):?>
+                            <span>
+                                <br><br>
+                                <input type="checkbox" disabled="disabled" <?php if($k == $answer['c_'.$key]):?>checked="checked"<?php endif;?> />
+                                选项(<?php echo $k;?>).
+                                <?php echo $v;?>
+                            </span>
+                            <?php endforeach;?>
+                        </span>
+                    </p>
+
+                <?php endforeach;?>
+
+                <p class="stdformbutton" align="center">
+                    
+                    <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                </p>
+
+            </form>
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

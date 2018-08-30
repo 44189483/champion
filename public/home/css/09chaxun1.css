@@ -1,0 +1,30 @@
+.art{
+	width: 100%;
+	margin-bottom: 15px;
+	color: #666;
+	line-height: 23px;
+	background-color: #fff;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	border-bottom: solid 1px #d0d0d0;
+}
+.art>input{
+	font-size: 16px;
+	outline: none;
+	margin-left: 5%;
+	width: 80%;
+	border: none;
+}
+.chaxun{
+	display: block;
+   width: 90%;
+   margin-left: 5%;
+   color: #fff;
+   background-color: #ff0000;
+   text-decoration: none;
+   border-radius: 5px;
+   border: none;
+   line-height: 40px;
+   text-align: center;
+   margin-top: 20%;
+}

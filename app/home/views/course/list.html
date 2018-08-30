@@ -1,0 +1,115 @@
+<title>冠军惠-视频教程</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/06shipin1.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+      <a href="/" class="head-0">
+          <img src="/public/home/images/01zhuce3.png" alt="">
+      </a>
+      <p>视频教程</p>
+  </div>
+ 
+  <div id="minirefresh" class="minirefresh-wrap" style="top: 55px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+  <script>
+                    
+    var i = 1;
+    var counterArr = [0];
+    var str = '';
+
+    var appendTestData = function(dom, count, isReset, index) {
+        if (typeof dom === 'string') {
+            dom = document.querySelector(dom);
+        }
+        
+        var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+        
+        var counterIndex = index || 0;
+        
+        counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+        if (isReset) {
+            dom.innerHTML = '';
+            counterArr[counterIndex] = 0;
+        }
+      
+        $.ajax({
+            type: "GET",
+            url: "/course",
+            data: {'file':'ajax','page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                  
+                  var type = this.type;
+
+                  if(type == 1){
+                    str += '<div class="art1"><p class="art1-1"><a href="/course/detail/'+this.id+'">'+this.title+'</a></p><div class="art1-2"><a href="/course/detail/'+this.id+'"><img src="/'+this.cover+'" width="100%"/></a></div><p class="art1-3"><span>'+this.content+'</span><span>可获积分<br>'+this.integral+'</span></p></div>';
+                  }
+
+                  if(type == 2){
+                    str += '<div class="art2"><p class="art2-1"><a href="/course/detail/'+this.id+'">'+this.title+'</a></p><div class="art2-2"><a href="/course/detail/'+this.id+'"><img src="/'+this.cover+'" width="100%"/></a></div><p class="art2-3"><span>'+this.content+'</span><span>'+this.integral+'积分<br>以上可观看</span></p></div>';
+                  }
+
+                });
+
+                i++;
+
+              }
+
+            }
+          });
+
+        var child = parseHtml(str);
+
+        dom.appendChild(child);
+
+    };
+
+    // 记录一个最新
+    var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+        requestDelayTime = 600;
+
+    var miniRefresh = new MiniRefresh({
+        container: '#minirefresh',
+        down: {
+            callback: function() {
+                setTimeout(function() {
+                    // 每次下拉刷新后，上拉的状态会被自动重置
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endDownLoading(true);
+                }, requestDelayTime);
+            }
+        },
+        up: {
+            isAuto: true,
+            callback: function() {
+                setTimeout(function() {
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                }, requestDelayTime);
+            }
+        }
+    });
+
+  </script>

@@ -1,0 +1,75 @@
+.head1{
+	width: 100%;
+	height: 60px;
+	background-color: #fff;
+	position: relative;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 200;
+}
+.head1-0>img{
+	width: 14px;
+	position: absolute;
+	left: 10px;
+	top: 20px;
+}
+/*搜索*/
+.head1-2{
+	height: 30px;
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	position: relative;
+}
+.head1-2 input{
+	width: 90%;
+	padding-left: 2%;
+	padding-right: 8%;
+	height: 30px;
+	font-size: 16px;
+	float: left;
+	outline: none;
+	border-radius: 5px;
+	border: solid 1px #d2d2d2;
+	margin-top: 15px;
+}
+.head1-2 img{
+	width: 15px;
+    position: absolute;
+    right: 2%;
+    top: 23px;
+}
+.art1{
+	width: 100%;
+	background-color: #fff;
+	margin-bottom: 10px;
+	position: relative;
+	color: #808080;
+	padding-top:60px; 
+}
+.art1>a{
+	display: block;
+	width: 93%;
+	padding-left: 3%;
+	margin-left: 2%;
+	color: #808080;
+	text-decoration: none;
+	line-height: 80px;
+	border-bottom: solid 1px #e6e6e6;
+	position: relative;
+}
+.art1>a>img:first-child,.art2>a>img:first-child,.art3>a>img:first-child{
+	width: 50px;
+	float: left;
+	margin-top: 15px;
+	margin-right: 10px;
+}
+.art1>a>img:last-child,.art2>a>img:last-child,.art3>a>img:last-child{
+	width: 20px;
+	float: right;
+	margin-top: 25px;
+}
+.art1>a>span,.art2>a>span,.art3>a>span{
+	color: #ff1623;
+}

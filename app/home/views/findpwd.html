@@ -1,0 +1,34 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠-找回密码</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo1-zhiyuanzc.css" />
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="" />
+    </a>
+    <p>忘记密码</p>
+  </div>
+  <form id="fpform" name="fpform" method="POST" action="">  
+    <div class="art1"> 
+      <p>
+        手机号码 <input type="text" name="mobile" id="mobile"/>
+        <input type="button" id="getphonecode" value="发送验证码" />
+      </p>
+      <p>验证码<input type="text" name="verifcode" id="verifcode" /></p>
+      <p>新密码<input type="password" name="pwd" id="pwd"/></p>
+      <p>确认密码<input type="password" name="repwd" id="repwd" /></p>
+      <input type="hidden" name="type" id="type" value="findpwd"/>
+      <input type="hidden" name="act" id="act" value="update"/>
+    </div>
+    <a href="" class="agreement">冠军惠用户协议</a>
+    <button type="button" name="findsubmit" id="findsubmit" class="btn">提交</button>
+  </form>
+</div> 
+</body>
+</html>

@@ -1,0 +1,224 @@
+<title>冠军惠-我要发稿</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/03meiti2.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script src="/public/home/js/jquery.form.js"></script>
+<script src="/public/home/js/mobileFix.mini.js?v=ad62f13"></script>
+<script src="/public/home/js/exif.js?v=dd609b9"></script>
+<script src="/public/home/js/lrz.js?v=3d33fcf"></script> 
+
+<!--editor-->
+<link rel="stylesheet" href="/public/editor/themes/default/default.css" />
+<link rel="stylesheet" href="/public/editor/plugins/code/prettify.css" />
+<script charset="utf-8" src="/public/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/public/editor/lang/zh_CN.js"></script>
+<script charset="utf-8" src="/public/editor/plugins/code/prettify.js"></script>
+<script type="text/javascript">
+  /*
+  * switchTab 标签切换
+  * m - 容器及标题ID
+  * n - 当前元素
+  */
+  function switchTab(m,n){
+      var tli = document.getElementById("tabs_menu"+m).getElementsByTagName("input");
+      var mli = document.getElementById("tabs_main"+m).getElementsByTagName("label");
+      for(i = 0; i < tli.length; i++){
+        //tli[i].className = i == n ? "active" : "";
+        mli[i].style.display = i == n ? "block" : "none";
+      }
+  }
+
+  $(function(){
+
+    $("#submit").click(function(){
+
+      var title = $("#title");
+      if(title.val() == ''){
+        jqalert({
+          title: '提示',
+          content: '标题必填'
+        });
+        return false;
+      }
+      /*
+      var file = $("#file");
+      if(file.val() == ''){
+        jqalert({
+          title: '提示',
+          content: '图片必选'
+        });
+        return false;
+      }
+      */
+
+      var radio = $("input[name='radio']:checked").val();
+
+      if(radio == 1){
+        
+        var content = $("#content");
+        if(content.val() == ''){
+          jqalert({
+            title: '提示',
+            content: '内容必填'
+          });
+          return false;
+        }
+      }
+
+      if(radio == 2){
+        var link = $("#link");
+        if(link.val() == ''){
+          jqalert({
+            title: '提示',
+            content: '链接必填'
+          });
+          return false;
+        }else{
+
+          var reg = /(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+          if(!reg.test(link.val())){
+            jqalert({
+              title: '提示',
+              content: '链接格式有误以http://或https://开头'
+            });
+            return false;
+          } 
+
+        }
+      }
+
+      $("#form1").ajaxSubmit({
+        type: "POST",//提交类型
+        url: "/story/mypress",//请求地址
+        beforeSubmit:function(){  
+        },
+        success: function (data) {//请求成功后的函数
+          var text = data.replace(/\s/g, "");
+          if(text == 0){
+            jqalert({
+              title: '提示',
+              content: '提交失败,请重新再试'
+            });
+            return false;
+          }else{
+            jqalert({
+              title: '提示',
+              content: '提交成功',
+              yestext: '确定',
+              notext: '继续',
+              yesfn: function() {
+                  window.location.href='/story/index/zx';
+              },
+              nofn: function() {
+                $('#showpic').attr('src','/public/home/images/03meiti1.png');
+                $('#form1 input:not([type=radio]),#form1 textarea').val('');
+                $('input[type=hidden]').val('save');
+              }
+            });
+            return false;
+          }   
+        },
+        error: function (data) { 
+        },
+        async: true
+      });
+
+    });
+
+  });
+
+  KindEditor.ready(function(K) {
+      editor1 = K.create('textarea[name="content"]', {
+          cssPath : '/public/editor/plugins/code/prettify.css',
+          afterCreate : function() {
+              var self = this;
+              K.ctrl(document, 13, function() {
+                  self.sync();
+                  K('form[name=form1]')[0].submit();
+              });
+              K.ctrl(self.edit.doc, 13, function() {
+                  self.sync();
+                  K('form[name=form1]')[0].submit();
+              });
+          },afterBlur: function(){this.sync();},
+          themeType : 'simple',
+          resizeType: 1,
+          height : "200px", 
+          width:"100%",   //将宽度设置为div宽度的100%即可
+          filterMode : false, 
+          dialogAlignType:"page",
+          items: [
+              'fontname', 'fontsize', 'forecolor', '|', 'link', 'bold', 'italic', 'underline',
+              'removeformat', 'clearhtml','|', 'justifyleft', 'justifycenter', 'justifyright'
+          ]
+          });
+      prettyPrint();
+  });
+</script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>我要发稿</p>
+    <a class="head-1">
+    </a>
+  </div>
+  <form id="form1" name="form1">
+    <div class="art">
+      <p class="title" id="tabs_menu0">
+        选择上传方式
+        <span><input type="radio" id="rad1" name="radio" checked="checked" value="1" onclick="switchTab(0,0)" /><label for="rad1">在线编辑</label></span>
+        <span><input type="radio" id="rad2" name="radio" onclick="switchTab(0,1)" value="2" /><label for="rad2">添加外链</label></span>
+      </p>
+      <p class="art1">稿件题目<input type="text" name="title" id="title" /></p>
+      <p class="art2">添加图片<span></span></p>
+      <div class="upload">
+        <img src="/public/home/images/03meiti1.png" alt="" id="showpic" />
+        <input type="file" id="file" name="file" accept="image/*" />
+        <input type="hidden" id="base64img" name="base64img"/>
+      </div>
+      <div id="tabs_main0">
+        <label>
+          <div class="neir">
+            <p>稿件内容</p>
+            <textarea name="content" id="content" cols="30" rows="8"></textarea>
+          </div>
+        </label>
+        <label style="display: none">
+          <p class="art1">外网链接<input type="text" name="link" id="link" placeholder="http://" /></p>
+        </label>
+      </div>
+    </div>
+    <input type="hidden" name="act" value="save" />
+    <button type="button" id="submit" class="tijiao">提交</button>
+  </form>
+  <p class="guize"><a href="/story/rule">发稿规则</a></p>
+  <script type="text/javascript">
+    //图片压缩为上传处理
+    (function () {
+      var input = document.querySelector('#file');
+      if(input){
+        input.onchange = function () {
+          lrz(this.files[0], {width: 400}, function (results) {
+              //console.log(results);
+              var showpic = document.querySelector('#showpic'),
+              base64img = document.querySelector('#base64img');
+              showpic.src = base64img.value = results.base64;
+          });
+        };
+        // 演示用服务器太慢，做个延缓加载
+        window.onload = function () {
+            input.style.display = 'inline-block';
+        }
+      }
+    })();
+  </script>
+</div>   
+</body>
+</html>

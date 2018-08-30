@@ -1,0 +1,171 @@
+<title>冠军惠-设置中心</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun7.css" />
+<link rel="stylesheet" href="/public/home/css/lc_switch.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/lc_switch.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script type="text/javascript">
+  function logout(){
+    jqalert({
+      title: '提示',
+      content: '您确定退出吗?',
+      yestext: '确定',
+      notext: '取消',
+      yesfn: function() {
+        window.location.href='/user/logout';
+      },
+      nofn: function() {
+      }
+    });
+  }
+
+  function getRegistrationId(){
+    var registration_id;
+    if(android){
+      registration_id = android.getJGID();//安卓交互
+      type = 'android';
+    }
+    
+    //alert(registration_id);
+    $.ajax({  
+      type: "POST",  
+      url: "/user/getPushId",  
+      data: {"registration_id":registration_id,"type":type},
+      cache: false,
+      beforeSend: function(){
+      },  
+      success: function(data){
+      },
+      error: function(jqXHR, textStatus, errorMsg){
+      }   
+    });
+  }
+    
+  $(document).ready(function(e) {
+
+    //默认接收推送ID
+    getRegistrationId();
+
+    $('input').lc_switch();
+    $('body').delegate('.lcs_check', 'lcs-statuschange', function() {
+
+      var status = ($(this).is(':checked')) ? 1 : 0;
+      
+      $.ajax({  
+        type: "POST",  
+        url: "/user/mobilePush",  
+        data: {"status":status},
+        cache: false,
+        beforeSend: function(){
+        },  
+        success: function(data){
+        },
+        error: function(jqXHR, textStatus, errorMsg){
+        }   
+      }); 
+      
+    });
+
+  });
+
+</script>
+</head>
+<body>
+<div class="conter">
+  
+    <div class="head">
+        <a href="javascript:history.back();" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="">
+        </a>
+        <p>设置</p>
+    </div>
+
+    <div class="art">
+      <span>新消息提醒<input type="checkbox" name="check-3" value="6" class="lcs_check lcs_tt1" checked="checked" autocomplete="off" /></span>
+      <!--
+      <a href="">聊天设置</a>
+      <a href="">隐私设置</a>
+      <a href="">通用设置</a>
+      <a href="">账号与安全</a>
+      -->
+    </div>
+    <div class="art1">
+      <a href="/article/about">关于冠军惠</a>
+      <a class="help">帮助与反馈</a>
+    </div>
+    <div class="art2">
+      <a href="javascript:logout();">退出</a>
+    </div>
+
+    <div class="tanc" style="display: none;">
+      <div>
+          <p class="tanc1">帮助与反馈</p> 
+          <div class="tanc2">
+           <textarea name="content" id="content" cols="30" rows="10" placeholder="期待您的留言"></textarea>
+          </div>
+          <a class="tanc3">提交</a>
+          <a class="tanc4">取消</a>      
+      </div>  
+    </div>
+    <script type="text/javascript">
+      (function () {
+  
+        //意见/建议 显示
+        $(".help").click(function(){
+          $(".tanc").show();
+          //固定高度禁下拉
+          $("body").attr("style","overflow:hidden");  
+          $(".tanc").css("height",$(document).height()); 
+        });
+
+        //取消按钮
+        $(".tanc4").click(function(){
+          $(".tanc").hide();
+          $("body").attr("style","");
+        });
+        
+        //提交留言
+        $(".tanc3").click(function(){
+          var content = $("#content");
+          if(content.val() == ''){
+            jqalert({
+              title: '提示',
+              content: '反馈必填'
+            });
+            return false;
+          }
+          $.ajax({  
+            type: "POST",  
+            url: "/message/save",  
+            data: {"content":content.val(),"type":2},
+            cache: false,
+            beforeSend: function(){
+            },  
+            success: function(data){ 
+              var text = data.replace(/\s/g, "");
+              if(text == 1){
+                  jqalert({
+                    title: '提示',
+                    content: '留言成功',
+                    yesfn: function() {
+                      content.val('');
+                      $(".tanc").hide();
+                    }
+                  });
+              }else{
+                jqalert({
+                  title: '提示',
+                  content: text
+                });
+                return false;
+              } 
+            },
+            error: function(jqXHR, textStatus, errorMsg){
+            }   
+          }); 
+        });
+
+      })();
+    </script>

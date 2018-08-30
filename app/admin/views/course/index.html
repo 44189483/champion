@@ -1,0 +1,111 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3>教程列表</h3>
+            </div><!--contenttitle-->
+
+            <div class="dataTables_wrapper" id="dyntable_wrapper">
+
+                <div id="dyntable_length" class="dataTables_length">
+                    <label> 
+                        <form method="GET" action="">
+                            <select name="type">
+                                <option value="">-类型-</option> 
+                                <option value="1" <?php if($type == 1):?>selected="selected"<?php endif;?>>-基础-</option>
+                                <option value="2" <?php if($type == 2):?>selected="selected"<?php endif;?>>-提高-</option>
+                            </select>
+                            &nbsp;
+                            <label><input type="text" name="title" id="title" placeholder="名称" value="<?php echo $title;?>" class="smallinput"/></label>
+                            &nbsp;
+                            <button type="submit" class="stdbtn">查询</button>
+                            <button type="button" class="stdbtn" onclick="history.back()">返 回</button>
+                            <button type="button" onclick="window.location.href='/admin.php/course/add'" class="stdbtn floatright">添加教程</button>
+                        </form>
+                    </label>
+                </div>
+
+                <form name="form" id="form" method="POST" action="/admin.php/course/del">
+                    <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                        <thead>
+                            <tr>
+                                <th class="head0">
+                                    <input type="checkbox" class="checkall"/>
+                                </th>
+                                <th class="head3">类型</th>
+                                <th class="head0">名称</th>
+                                <th class="head0">积分</th>
+                                <th class="head3">发布</th>
+                                <th class="head3">时间</th>
+                                <th class="head0">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php if($rows):?>
+                            <?php foreach ($rows as $k => $val):?>
+                            <tr>
+                                <td class="head0">
+                                    <input type="checkbox" name="id[]" value="<?php echo $val->id;?>" />
+                                </td>
+                                <td class="head3">
+                                    <?php 
+                                        switch($val->type){
+                                            case 1:
+                                                echo '基础';
+                                                break;
+                                            case 2:
+                                                echo '提高';
+                                                break;
+                                        }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php echo $val->title; ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        switch($val->type){
+                                            case 1:
+                                                echo '赠送';
+                                                break;
+                                            case 2:
+                                                echo '需要';
+                                                break;
+                                        }
+                                    ?>
+                                    <?php echo $val->integral;?>
+                                </td>
+                                <td class="head3">
+                                    <input type="checkbox" <?php if($val->status =='1'):?>checked="checked"<?php endif;?> value="1" name="status" id="<?php echo $val->status;?>" onchange="changeCheck('course','id',<?php echo $val->id;?>,'status',<?php echo $val->status;?>);"/>
+                                </td>
+                                <td class="head3">
+                                    <?php echo $val->createTime; ?>
+                                </td>
+                                <td class="center">
+                                    <a href="<?php echo site_url('course/edit/'.$val->id); ?>">编辑</a> / <a data-href="<?php echo site_url('course/del/'.$val->id); ?>" class="delete">删除</a> / <a href="<?php echo site_url('comment/index/course/'.$val->id); ?>">评论</a>
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+                        <?php else:?>
+                            <tr><td colspan="10" align="center">暂无信息...</td></tr>
+                        <?php endif;?>
+                        </tbody>
+                    </table>
+                    <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                        <button type="button" class="deletebutton">删除选中</button>
+                        <?php echo $page;?>
+                    </div>
+                </form>
+
+            </div>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

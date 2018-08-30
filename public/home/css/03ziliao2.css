@@ -1,0 +1,70 @@
+.tu{
+	width: 100%;
+	margin-bottom: 10px;
+}
+.tu>img{
+	width: 100%;
+}
+
+
+.art{
+	width: 100%;
+	height: auto;
+	background-color: #fff;
+}
+.title{
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 55px !important;
+}
+.art>div{
+	width: 90%;
+	margin-left: 5%;
+	color: #666;
+	line-height: 25px;
+}
+.art>div>span{
+	color: #fe1859;
+	display: inline-block;
+	/*width: 70px;*/
+	float: left;
+}
+.art>div>p{
+	display: inline-block;
+	width: calc(90% - 70px);
+}
+
+
+.btn{
+	width: 100%;
+	font-size: 0px;
+	margin-top: 20px;
+	padding-bottom: 15px;
+	text-align: center;
+}
+.btn>a{
+	text-decoration: none;
+	color: #666;
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+    width: 25%;
+}
+.btna3>a{
+	margin-top: 20px;
+	padding-bottom: 15px;
+	text-decoration: none;
+	color: #666;
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+    width: 32%;
+}
+.btn>a>span,.btna3>a>span{
+	display: block;
+}
+.btn>a>img,.btna3>a>img{
+	width: 50px;
+}
+

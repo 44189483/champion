@@ -1,0 +1,98 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>幻灯片</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/slide/save" enctype="multipart/form-data">
+
+                    <p>
+                        <label>图片</label>
+                        <span class="field"><input type="file" name="attchment" id="attchment" required="required"/>(图片大小640*300)</span>
+                    </p>
+
+                    <p>
+                        <label>链接</label>
+                        <span class="field">
+                            <input type="text" value="<?php if(!empty($row->link)):echo $row->link;endif;?>" name="link" style="width:180px" />
+                        </span>
+                    </p>
+
+                    <?php if(!empty($row->url)):?>
+                    <p align="center">
+                        <img src="/<?php echo $row->url;?>" alt="" style="opacity: 1;height:200px;" />
+                    </p>
+                    <?php endif; ?>
+
+                    <p>
+                        <label>排序</label>
+                        <span class="field">
+                            <input type="text" value="<?php if(!empty($row->ord)):echo $row->ord;endif;?>" name="ord" style="width:50px" onafterpaste="this.value=this.value.replace(/\D/g,'')" onkeyup="this.value=this.value.replace(/\D/g,'')" /> 注:数值越大越靠前
+                        </span>
+                    </p>
+
+                    <p class="stdformbutton">
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div>
+        
+        </div>
+        
+    </div>
+
+    <div class="centercontent tables">
+
+        <div id="contentwrapper" class="contentwrapper widgetpage">
+            <?php if($rows):?>
+            <div class="widgetbox">
+                <div class="title"><h3>幻灯片列表</h3></div>
+                <div class="widgetcontent">
+                    <ul id="slidercontent">
+                        <?php foreach ($rows as $key => $val):?>
+                        <li>
+                            <div class="slide_wrap">
+                                <div class="slide_img">
+                                    <input type="text" value="<?php echo $val->ord;?>" name="name" id="input_1_<?php echo $val->id;?>" onchange="saveData('img','ord',this.value,'id',this.id);" style="position:absolute;left:0;top:0;" size="1"/>
+                                    <a href="<?php echo site_url('slide/del/'.$val->id); ?>" class="btn btn4 btn_trash" title="删除" style="position:absolute;right:0;top:0;"></a>
+                                    <img src="/<?php echo $val->url;?>" alt=""/>
+                                </div>
+                            </div>
+                        </li>
+                        <?php endforeach;?>  
+                    </ul>
+                </div><!--widgetcontent-->
+            </div><!--widgetbox-->
+            <?php endif;?>       
+        </div><!--contentwrapper-->
+
+    </div>
+
+</div><!--bodywrapper-->
+<style>
+    .stdform label.error{
+        position: absolute;
+        top: 3px;
+        left: 10px;
+        z-index: 0;
+    }
+    .slide_img img{
+        max-width: 100%;
+    }
+</style>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.filename').empty();
+        jQuery('.uploader').click(function(){
+            jQuery('.error').css('display','none');
+        });
+    });
+</script>
+</body>
+</html>

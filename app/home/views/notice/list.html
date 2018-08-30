@@ -1,0 +1,113 @@
+<title>冠军惠-系统通知</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/07gonggao.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+      <a href="javascript:history.back();" class="head-0">
+          <img src="/public/home/images/01zhuce3.png" alt="">
+      </a>
+      <p>通知公告</p>
+  </div>
+ 
+  <div id="minirefresh" class="minirefresh-wrap" style="top: 55px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+  <script>
+                    
+    var i = 1;
+    var counterArr = [0];
+    var str = '';
+
+    var appendTestData = function(dom, count, isReset, index) {
+        if (typeof dom === 'string') {
+            dom = document.querySelector(dom);
+        }
+        
+        var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+        
+        var counterIndex = index || 0;
+        
+        counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+        if (isReset) {
+            dom.innerHTML = '';
+            counterArr[counterIndex] = 0;
+        }
+      
+        $.ajax({
+            type: "GET",
+            url: "/notice",
+            data: {'file':'ajax','page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                  
+                  str += '<a class="art" href="/notice/detail/'+this.id+'"><p class="art1">';
+                  if(this.read == 0){
+                    str += '<img src="/public/home/images/07gonggao2.png" alt="" />';
+                  }
+                  str += '<span>系统通知</span></p><p class="art2">'+this.createTime+'</p><p class="art3">'+this.title+'</p></a>';
+
+                  /*<object><a href=""><img src="/public/home/images/07gonggao3.png" alt=""></a></object>*/
+                  
+                });
+
+                i++;
+
+              }
+
+            }
+        });
+
+        var child = parseHtml(str);
+
+        dom.appendChild(child);
+
+    };
+
+    // 记录一个最新
+    var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+        requestDelayTime = 600;
+
+    var miniRefresh = new MiniRefresh({
+        container: '#minirefresh',
+        down: {
+            callback: function() {
+                setTimeout(function() {
+                    // 每次下拉刷新后，上拉的状态会被自动重置
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endDownLoading(true);
+                }, requestDelayTime);
+            }
+        },
+        up: {
+            isAuto: true,
+            callback: function() {
+                setTimeout(function() {
+                    appendTestData(listDom, 5, true);
+                    miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                }, requestDelayTime);
+            }
+        }
+    });
+
+  </script>

@@ -1,0 +1,69 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>关于冠军惠</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/about/save">
+
+                    <p>
+                        <label>内容</label>
+                        <span class="field"><textarea id="content" name="content"><?php echo $content;?></textarea>
+                    </p>
+
+                    <br />
+                    
+                    <p class="stdformbutton">
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+<script>
+
+    KindEditor.ready(function(K) {
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            uploadJson : '/public/editor/php/upload_json.php',
+            fileManagerJson : '/public/editor/php/file_manager_json.php',
+            allowFileManager : true,
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "300px", 
+            width:"500px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link','clearhtml','source'
+            ]
+            });
+        prettyPrint();
+    });
+</script>
+</body>
+</html>

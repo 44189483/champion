@@ -1,0 +1,88 @@
+.art{
+	width: 100%;
+	height: auto;
+	display: block;
+	position: relative;
+	margin-bottom: 10px;
+}
+.art-1{
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+}
+.art-2{
+	font-weight: bold;
+	color: #fe1859;
+	width: 100%;
+	font-size: 16px;
+	text-align: center;
+	line-height: 35px;
+}
+.art-3{
+	color: #999;
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+}
+.art1{
+	width: 82%;
+    margin-left: 5%;
+    background-color: #fff;
+    padding: 4%;
+    border: solid 1px #bfbfbf;
+    margin-top: 20px;
+    color: #666;
+    line-height: 25px;
+    position: relative;
+    padding-bottom: 30px;
+}
+.art1-1>span{
+	color: #4d4d4d;
+	font-weight: bold;
+	font-size: 15px;
+}
+.art1-2{
+	text-align: right;
+}
+.art1-3{
+	text-align: center;
+	margin-top: 20%;
+}
+.art1-4{
+    text-align: center;
+}
+.art1-5{
+    text-align: center;
+}
+.art1-6{
+	width: 30%;
+	position: absolute;
+	bottom: 5%;
+	right: 2%;
+}
+
+
+/*按钮*/
+.art2{
+	display: inline-block;
+	width: 35%;
+	background-color: #188afe;
+	color: #fff;
+	text-align: center;
+	line-height:36px; 
+	border-radius: 18px;
+	text-decoration: none;
+	margin-left: 12%;
+	margin-right: 5%;
+	margin-top: 20px;
+}
+.art3{
+	display: inline-block;
+	width: 35%;
+	background-color: #ff0000;
+	color: #fff;
+	text-align: center;
+	line-height:36px; 
+	border-radius: 18px;
+	text-decoration: none;
+}

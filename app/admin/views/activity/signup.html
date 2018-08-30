@@ -1,0 +1,89 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3><?php echo $title;?></h3>
+            </div><!--contenttitle-->
+
+            <div class="tableoptions">
+
+                <form method="POST" action="/admin.php/activity/savesignup">
+
+                    当前已报名:<?php echo $total;?>人
+                    
+                    <select data-placeholder="多选志愿者" name="mids[]" class="chzn-select" style="width:350px" tabindex="2" multiple="multiple">
+                      <option value=""></option>
+                      <?php foreach($select as $val):?> 
+                      <option value="<?php echo $val['id'];?>"><?php echo $val['realname'];?></option> 
+                      <?php endforeach;?>
+                    </select>
+
+                    <input type="hidden" name="aid" value="<?php echo $aid;?>" />
+
+                    <button type="submit">添加</button>
+
+                    <button type="button" class="backbutton" onclick="window.location.href='/admin.php/activity'">返 回</button>
+
+                </form>
+
+            </div>
+
+            <!--tableoptions-->	
+
+            <form name="form" id="form">
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                    <thead>
+                        <tr>
+                            <th class="head3">会员ID</th>
+                            <th class="head3">姓名</th>
+                            <th class="head0">签名</th>
+                            <th class="head0">审核</th>
+                            <th class="head3">报名时间</th>
+                            <th class="head3">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($rows):?>
+                        <?php foreach ($rows as $k => $val):?>
+                        <tr>
+                            <td class="head3">
+                                <?php 
+                                    echo $val->mid;
+                                ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->realname; ?>
+                            </td>
+                            <td>
+                                <img src="/<?php echo $val->signature; ?>" alt="" height="100"/>
+                            </td>
+                            <td>
+                                <input type="checkbox" <?php if($val->status =='1'):?>checked="checked"<?php endif;?> value="1" name="status" id="<?php echo $val->status;?>" onchange="changeCheck('signup','id',<?php echo $val->id;?>,'status',<?php echo $val->status;?>);"/>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->createTime; ?>
+                            </td>
+                            <td class="center">
+                                <a data-href="<?php echo site_url('activity/delsignup/'.$val->id); ?>" class="delete">删除</a>
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <tr><td colspan="6" align="center">暂无信息...</td></tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                    <?php echo $page;?>
+                </div>
+            </form>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+</body>
+</html>

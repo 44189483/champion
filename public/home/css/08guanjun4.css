@@ -1,0 +1,28 @@
+.art{
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 15px;
+	color: #666;
+	line-height: 23px;
+}
+.art>p{
+	margin-bottom: 15px;
+}
+
+.shoucang{
+   width: 100%;
+   text-align: center;
+}
+.shoucang>img{
+	width: 35px;
+	text-decoration: none;
+	color: #fff;
+	display: block;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 8px;
+	position: fixed;
+	bottom: 120px;
+	left: 48%;
+}
+

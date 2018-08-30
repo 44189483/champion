@@ -1,0 +1,45 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>密码设置</h3>
+            </div><!--contenttitle-->
+        	
+            <div id="validation" class="subcontent">
+            	
+                    <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/setpwd/save">
+
+                    	<p>
+                        	<label>管理员</label>
+                            <span class="field"><?php echo $optionKey;?>
+                            </span>
+                        </p>
+                        
+                        <p>
+                        	<label>新密码</label>
+                            <span class="field"><input type="password" name="newpwd" id="newpwd" class="smallinput"  required="required"/></span>
+                        </p>
+                        
+                        <p>
+                        	<label>重复密码</label>
+                            <span class="field"><input type="password" name="repwd" id="repwd" class="smallinput" required="required"/></span>
+                        </p>
+                        
+                        <p class="stdformbutton">
+                        	<button type="submit" class="submit radius2">提交</button>
+                            <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                        </p>
+                    </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

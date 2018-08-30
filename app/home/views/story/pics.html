@@ -1,0 +1,188 @@
+<title>冠军惠-活动图集</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/03tuji1.css">
+
+<link rel="stylesheet" href="/public/home/css/amazeui.min.css" />
+
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<!--<script src="/public/home/js/BigPicture.min.js"></script>-->
+<script src="/public/home/js/share.js"></script>
+
+<script src="/public/home/js/amazeui.js"></script>
+
+<style type="text/css">
+  .bg{
+    background-size:100% 100% !important;
+    width:25px;
+    height:25px;
+    display:block;
+  }
+</style>
+
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>活动图集</p>
+    <a class="head-1 share">
+        <img src="/public/home/images/03zhiyuan4.png" alt="" />
+    </a>
+  </div>
+
+  <div class="htmleaf-container">
+    <div class="htmleaf-content bgcolor-3">
+      <div id="div1" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+          <?php foreach($result as $val):?>
+          <div class="box">
+            <img src="/<?php echo $val->image;?>" alt=""/>
+            <a class="scang collect bg" data-id="<?php echo $val->id;?>" style="background: url('/public/home/images/<?php if($val->collect == 1):?>shoucang_1.png<?php else:?>shoucang.png<?php endif;?>') no-repeat;">
+            </a>
+            <p class="title">
+              <span class="bg" style="background: url('<?php echo $val->portraitUri;?>') no-repeat;"></span>
+              <span class="title1">上传者：<?php echo $val->author;?></span>
+              <span class="title2"><?php echo $val->date;?></span>
+              <a class="praise bg" data-id="<?php echo $val->id;?>"  style="background: url('/public/home/images/<?php if($val->isPraise == 1):?>zan_1.png<?php else:?>zan.png<?php endif;?>') no-repeat;text-indent:30px;">
+                <span><?php echo $val->praise;?></span>
+              </a>
+            </p>
+          </div>
+          <?php endforeach;?>
+      </div>
+    </div>
+  </div>
+
+  <br/><br/><br/><br/>
+
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','活动图集','','<?php echo $title;?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,7)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','活动图集','','<?php echo $title;?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,7)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','活动图集','','<?php echo $title;?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,7)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','活动图集','','<?php echo $title;?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,7)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+  <script src="/public/home/js/jquery.waterfall.js"></script>
+  <script>
+    var i = 2;
+
+    $("#div1").waterfall({
+        itemClass: ".box",
+        minColCount: 2,
+        spacingHeight: 10,
+        resizeable: true,
+        isFadeIn:true,
+        ajaxCallback: function(success, end) {
+          success(loadpic(i));
+          end();
+          i++;
+        }
+    });
+
+    function loadpic(i){
+      $.ajax({
+        type: "GET",
+        url: "/story/ajaxpics/<?php echo $id;?>",
+        data: {'page': i},
+        dataType: "json",
+        success: function (data) {
+          if(data){
+            $(data).each(function () {
+
+              var str = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><img src="/'+this.image+'" alt="" /><a class="scang collect bg" data-id="'+this.id+'" style="background: url(/public/home/images/';
+
+              if(this.collect == 1){
+                str += 'shoucang_1.png) no-repeat;">';
+              }else{
+                str += 'shoucang.png) no-repeat;">';
+              }
+
+              str +='</a><p class="title"><span class="bg" style="background: url('+this.portraitUri+') no-repeat;"></span><span class="title1">上传者：'+this.author+'</span><span class="title2">'+this.date+'</span><a class="praise bg" data-id="'+this.id+'" style="background: url(/public/home/images/';
+
+              if(this.isPraise == 1){
+                str += 'zan_1.png) no-repeat;text-indent:30px;">';
+              }else{
+                str += 'zan.png) no-repeat;text-indent:30px;">';
+              }
+              str += '<span>'+this.isPraise+'</span></a></p></div>';
+
+              $(str).fadeIn().appendTo($("#div1"));
+
+            });
+          }
+        }
+      });   
+    }
+
+    //点赞
+    $("body").delegate(".praise","click",function(){
+
+        var area = $(this);
+        var id = area.attr("data-id");
+        var num = parseInt(area.find("span").text());
+        $.ajax({  
+          type: "POST",  
+          url: "/story/praise",  
+          data: {"id":id},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+
+            var text = data.replace(/\s/g, "");
+            area.find("span").text(num+parseInt(data));
+            if(text == 1){
+              $(area).attr("style","background:url('/public/home/images/zan_1.png') no-repeat;text-indent:30px;");
+            }else if(text == -1){
+              $(area).attr("style","background:url('/public/home/images/zan.png') no-repeat;text-indent:30px;");
+            }
+
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+      
+    });
+
+    //收藏
+    $("body").delegate(".collect","click",function(){
+
+        var area = $(this);
+        var id = area.attr("data-id");
+        $.ajax({  
+          type: "POST",  
+          url: "/story/collect",  
+          data: {"id":id},
+          cache: false,
+          beforeSend: function(){
+          },  
+          success: function(data){ 
+            var v = data.replace(/\s/g, "");
+            if(v == 1){
+              area.attr("style","background:url('/public/home/images/shoucang_1.png')");
+            }else if(v == -1){
+              area.attr("style","background:url('/public/home/images/shoucang.png')");
+            }
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+
+    });
+  
+  </script>
+
+</div>  

@@ -1,0 +1,67 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo4.css" />
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+<div class="conter">
+ 	
+ 	<div class="head">
+ 		<a href="javascript:history.back();" class="head-0">
+ 			<img src="/public/home/images/01zhuce3.png" alt="" />
+ 		</a>
+ 		<p>完善资料</p>
+    <a class="head-1 service">
+        <img src="/public/home/images/02jihuo1.png" alt="" />
+    </a>
+ 	</div>
+  
+  <form id="informationForm" name="informationForm" method="POST" action="">
+  <div class="art">
+    <div class="art1"> 
+      <p>手机号码 
+        <input type="text" name="mobile" id="mobile" value="<?php echo $phone;?>" />
+        <input type="button" id="getphonecode" value="发送验证码" />
+      </p>
+      <p class="art1-yanzheng"><span>验证码</span><input type="text" name="verifcode" id="verifcode" style="width: 100px;"/></p>
+    </div>
+    <div class="art2">
+      <p><span>身份证号码</span><input type="text" name="inumber" id="inumber" value="<?php echo $identificationNumber;?>" /></p>
+      <p><span>邮箱</span><input type="text" name="email" id="email" value="<?php echo $email;?>" /></p>
+      <p><span>常住地</span><input type="text" name="live" id="live" value="<?php echo $liveAddress;?>" /></p>
+      <p><span>民族</span><input type="text" name="nation" id="nation" value="<?php echo $nation;?>" /></p>
+      <p><span>通信地址</span><input type="text" name="contact" id="contact" value="<?php echo $contactAddress;?>" /></p>
+      <p><span>籍贯<a href="">（出生地）</a></span><input type="text" name="birth" id="birth" value="<?php echo $birthAddress;?>" /></p>
+    </div>
+    <?php if($level == 1):?>
+    <div class="art3">
+      <p><span>运动项目</span><input type="text" name="event" id="event" value="<?php echo $sportEvent;?>" /></p>
+      <p><span>所属运动队</span><input type="text" name="item" id="item" value="<?php echo $sportTeam;?>" /></p>
+      <p><span>主要奖项</span><input type="text" name="prize" id="prize" value="<?php echo $sportPrize;?>" /></p>
+    </div>
+    <?php elseif($level == 2):?>
+      <div class="art3">
+        <p><span>媒体名称</span><input type="text" name="media" id="media" value="<?php echo $mediaCompany;?>" /></p>
+      </div>
+    <?php endif;?>
+    <div class="art4">
+      <p><span>修改密码<a>(选填)</a></span><input type="password" name="pwd" id="pwd" /></p>
+      <p><span>确认密码<a>(选填)</a></span><input type="password" name="repwd" id="repwd" /></p>
+    </div>
+    <p class="art5">补全资料可获得积分：<span>500</span></p>
+    <p class="art6">
+      <input type="hidden" name="type" id="type" value="information"/>
+      <input type="hidden" name="do" id="do" value="<?php echo $do;?>"/>
+      <button type="button" name="infosubmit" id="infosubmit" class="art6-1">确认提交</button>
+      <a href="" class="art6-2">以后添加</a>
+    </p>
+  </div>
+  </form>
+
+  <?php $this->load->view('service1.html');?>
+
+</div>   
+</body>
+</html>

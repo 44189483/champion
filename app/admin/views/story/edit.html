@@ -1,0 +1,173 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>编辑资讯</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/story/save" enctype="multipart/form-data">
+
+                    <p id="tabs_menu0">
+                        <label>选择上传方式</label>
+                        <span class="field">
+                            <input type="radio" name="radio" <?php if($type == 1):?>checked="checked"<?php endif;?> value="1" onclick="switchTab(0,0)" />在线编辑 
+                            <input type="radio" name="radio" <?php if($type == 2):?>checked="checked"<?php endif;?> onclick="switchTab(0,1)" value="2">添加外链
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>所属媒体</label>
+                        <span class="field">
+                            <select data-placeholder="请选择媒体" id="mid" name="mid" class="chzn-select" style="width:350px" tabindex="2">
+                                  <option value=""></option>
+                                  <option value="0" <?php if($mid == 0):?>selected="selected"<?php endif;?>>官方</option> 
+                                  <?php foreach($users as $val):?> 
+                                  <option value="<?php echo $val['id'];?>" <?php if($mid == $val['id']):?>selected="selected"<?php endif;?>><?php echo $val['realname'];?></option> 
+                                  <?php endforeach;?>
+                            </select>
+                        </span>
+                    </p>
+
+                    <?php if(!empty($attach)):?>
+                    <p align="center">
+                        <span id="load"></span>
+                    </p>
+                    <p id="panel">
+                        <span class="field">
+                        <img src="/<?php echo $attach;?>" height="200" alt=""/>
+                        </span>
+                    </p>
+                    <?php endif; ?>
+
+                    <p>
+                        <label>图片</label>
+                        <span class="field">
+                            <input type="file" id="attchment" name="attchment" />
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>标题</label>
+                        <span class="field"><input type="text" name="title" id="title" class="smallinput" value="<?php echo $title;?>" /></span>
+                    </p>
+
+                    <div id="tabs_main0">
+
+                        <p <?php if($type != 1):?>style="display: none;"<?php endif;?>>
+                            <label>内容</label>
+                            <span class="field"><textarea id="content" name="content">
+                                <?php 
+                                    if($type == 1): echo $content;
+                                endif;?>
+                            </textarea>
+                        </p>
+
+                        <p <?php if($type != 2):?>style="display: none;"<?php endif;?>>
+                            <label>链接</label>
+                            <span class="field">
+                                <input type="text" name="link" id="link" placeholder="http://" value="<?php 
+                                    if($type == 2): echo $content;
+                                endif;?>" class="smallinput" />
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <p>
+                        <label>时间</label>
+                        <span class="field"><input type="text" name="datetime" id="datetime" class="smallinput" required="required" readonly="readonly" value="<?php echo $createTime;?>" /></span>
+                    </p>
+
+                    <br />
+                    
+                    <p class="stdformbutton">
+                        <input type="hidden" name="id" value="<?php echo $id;?>" />
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<script>
+
+    jQuery(document).ready(function(){
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                mid:"required",
+                title:"required"
+            },
+            messages: {
+                mid:"媒体必选",
+                title:"标题必填"
+            }
+        });
+
+        jQuery('#datetime').datetimepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+
+    });
+
+    KindEditor.ready(function(K) {
+
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        prettyPrint();
+
+    });
+
+    /*
+      * switchTab 标签切换
+      * m - 容器及标题ID
+      * n - 当前元素
+      */
+    function switchTab(m,n){
+        var tli = document.getElementById("tabs_menu"+m).getElementsByTagName("input");
+        var mli = document.getElementById("tabs_main"+m).getElementsByTagName("p");
+        for(i = 0; i < tli.length; i++){
+            //tli[i].className = i == n ? "active" : "";
+            mli[i].style.display = i == n ? "block" : "none";
+        }
+    }
+
+</script>
+</body>
+</html>

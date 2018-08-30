@@ -1,0 +1,52 @@
+<title>志愿者服务证明</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun3.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script type="text/javascript">
+<?php if($hadimg == 0):?>
+$(function(){
+  //获取证书区域
+  var width = $(".art1").width();
+  var height = $(".art1").height();
+  /*后端变量不能正常显示文字所以前端处理*/
+  var arr = new Array();
+  arr[0] = '兹证明:';
+  arr[1] = '<?php echo $this->session->member->realname;?>已于<?php echo $cdate;?>报名参加了“<?php echo $title;?>”的志愿者服务工作;并前往位于<?php echo $activityAddress;?>的活动场地,进行志愿服务工作.';
+  arr[2] = '特此证明';
+  arr[3] = '<?php echo $sponsor;?>';
+  arr[4] = '中国体育总局核发';
+  arr[5] = '<?php echo $endDate;?>';
+  arr[6] = './public/home/images/08guanjun4.png';
+  arr[7] = '<?php echo $id;?>';
+  $.post('/user/provepic/<?php echo $id;?>',{'w':width,'h':height,'arr':arr});
+});
+<?php endif;?>
+</script> 
+</head>
+<body>
+<div class="conter">  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+        <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>志愿者服务证明</p>
+  </div>
+  <div class="art">
+      <p class="art-1"><?php echo $title;?></p>
+      <p class="art-2">志愿服务证明书</p>
+      <p class="art-3">活动ID：<?php echo $serviceNumber;?></p>
+    </div>
+    <div class="art1">
+      <p>兹证明：</p>
+      <p class="art1-1"><span><?php echo $member->realname;?></span>已于<?php echo $cdate;?>报名参加了<span>“<?php echo $title;?>”</span>的志愿者服务工作；并前往位于<?php echo $activityAddress;?>的活动场地，进行志愿服务工作。</p>
+      <p class="art1-2">特此证明</p>
+      <p class="art1-3"><?php echo $sponsor;?></p>
+      <p class="art1-4">中国体育总局核发</p>
+      <p class="art1-5"><?php echo $endDate;?></p>
+      <img src="/public/home/images/08guanjun4.png" alt="" class="art1-6" />
+    </div>
+    <a href="/activity/detail/<?php echo $id;?>" class="art2">查看活动</a>
+    <a href="/user/download/pr/<?php echo $id;?>" class="art3">下载打印版证明</a>
+</div>   
+</body>
+</html>

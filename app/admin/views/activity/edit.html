@@ -1,0 +1,283 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>编辑活动</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/activity/save" enctype="multipart/form-data" onsubmit="return checkform(this)">
+
+                    <p>
+                        <label>活动类型</label>
+                        <span class="field">
+                            <select name="type">
+                                <option value="">-请选择-</option> 
+                                <option value="1" <?php if($type == 1): ?>selected="selected"<?php endif;?>>-志愿服务活动-</option>
+                                <option value="2" <?php if($type == 2): ?>selected="selected"<?php endif;?>>-中心参与/邀请-</option>
+                                <option value="3" <?php if($type == 3): ?>selected="selected"<?php endif;?>>-线下志愿培训-</option>
+                                <option value="4" <?php if($type == 4): ?>selected="selected"<?php endif;?>>-志愿服务会议-</option>
+                            </select>
+                        </span>
+                    </p>
+
+                    <?php if(!empty($pic)):?>
+                        <p align="center">
+                            <span id="load"></span>
+                        </p>
+                        <p id="panel">
+                            <span class="field">
+                            <img src="/<?php echo $pic;?>" height="200" alt=""/>
+                            </span>
+                            <!--<button type="button" onclick="delData('recruitment','pic','id',<?php echo $id;?>)">删除</button>-->
+                        </p>
+                    <?php endif; ?>
+
+                    <p>
+                        <label>图片</label>
+                        <span class="field">
+                            <input type="file" id="attchment" name="attchment" />
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>活动编号</label>
+                        <span class="field"><input type="text" name="number" id="number" class="smallinput" value="<?php echo $serviceNumber;?>"/></span>
+                    </p>
+
+                    <p>
+                        <label>标题</label>
+                        <span class="field"><input type="text" name="title" id="title" class="smallinput" value="<?php echo $title;?>" /></span>
+                    </p>
+
+                    <p>
+                        <label>主办方</label>
+                        <span class="field"><input type="text" name="sponsor" id="sponsor" class="smallinput" value="<?php echo $sponsor;?>" /></span>
+                    </p>
+
+                    <p>
+                        <label>承办方</label>
+                        <span class="field"><input type="text" name="organizer" id="organizer" class="smallinput" value="<?php echo $organizer;?>" /></span>
+                    </p>
+
+                    <p>
+                        <label>活动地址</label>
+                        <span class="field"><input type="text" name="address" id="address" class="smallinput" value="<?php echo $activityAddress;?>" /></span>
+                    </p>
+
+                    <p>
+                        <label>活动方案</label>
+                        <span class="field"><textarea id="scheme" name="scheme"><?php echo $activityScheme;?></textarea>
+                    </p>
+
+                    <p>
+                        <label>加入运动项目需求</label>
+                        <span class="field"><textarea id="need" name="need"><?php echo $sportNeed;?></textarea>
+                    </p>
+
+                    <p>
+                        <label>其他条件</label>
+                        <span class="field"><textarea id="other" name="other"><?php echo $other;?></textarea>
+                    </p>
+
+                    <p>
+                        <label>活动性质</label>
+                        <span class="field"><input type="text" name="nature" id="nature" class="smallinput" value="<?php echo $activityNature;?>" /></span>
+                    </p>
+
+                    <p>
+                        <label>招募人数</label>
+                        <span class="field"><input type="text" name="recruitment" id="recruitment" class="smallinput" value="<?php echo $recruitment;?>" /></span>
+                    </p>
+
+                    <!--
+                    <p>
+                        <label>积分</label>
+                        <span class="field"><input type="text" name="integral" id="integral" class="smallinput" value="<?php echo $integral;?>" /></span>
+                    </p>
+                    -->
+
+                    <p>
+                        <label>开始时间</label>
+                        <span class="field"><input type="text" name="start" id="start" class="smallinput" required="required" readonly="readonly" value="<?php echo $startTime;?>"  /></span>
+                    </p>
+
+                    <p>
+                        <label>结束时间</label>
+                        <span class="field"><input type="text" name="end" id="end" class="smallinput" required="required" readonly="readonly" value="<?php echo $endTime;?>"  /></span>
+                    </p>
+
+                    <p>
+                        <label>时间说明:</label>
+
+                        <span class="formwrapper">
+                            当开始时间大于当前时间时,该活动处于招幕中;<br/>当开始时间小于等于当前时间,结束时间大于等于当前时间时,该活动处于进行中;<br/>当结束时间小于当前时间,该活动处于结束中.
+                        </span>
+
+                    </p>
+
+                    <p>
+                        <label>审核</label>
+                        <span class="formwrapper">
+                            <span>
+                                <input type="checkbox" name="status" style="opacity: 0;" value="1" <?php if($status =='1'):?>checked="checked"<?php endif;?> />
+                            </span>
+                        </span>
+                    </p>
+
+                    <br />
+                    
+                    <p class="stdformbutton">
+                        <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+<script>
+
+    function checkform(form){
+        if(form.attchment.value == '' && $("#panel img").length == 0){
+            alert("图片必选");
+            return false;
+        }
+        //else{
+        //     var MyTest = document.getElementById("attchment").files[0];
+        //     var reader = new FileReader();
+        //     reader.readAsDataURL(MyTest);
+        //     reader.onload = function(theFile) {
+        //     　　var image = new Image();
+        //        image.src = theFile.target.result;
+        //        image.onload = function() {
+        //             if(this.width > 640 || this.height > 300){
+        //                 alert("图片尺寸有误,必须是640*300象素");
+        //                 return false;
+        //             }
+        //        };
+        //     };
+        // }
+    }
+
+    jQuery(document).ready(function(){
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                type:"required",
+                title:"required",
+                integral:"digits"
+            },
+            messages: {
+                type:"类型必选",
+                title:"标题必填",
+                integral:"积分必须为整数"
+            }
+        });
+
+        jQuery('#start').datetimepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+        jQuery("#end").datetimepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+
+    });
+
+    KindEditor.ready(function(K) {
+
+        editor1 = K.create('textarea[name="scheme"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        editor2 = K.create('textarea[name="need"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        editor3 = K.create('textarea[name="other"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        prettyPrint();
+
+    });
+</script>
+</body>
+</html>

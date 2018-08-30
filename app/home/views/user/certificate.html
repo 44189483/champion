@@ -1,0 +1,44 @@
+<title>冠军惠-志愿者证</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun14.css" />
+</head>
+<body>
+<div class="conter">
+    <div class="head">
+        <a href="javascript:history.back();" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="" />
+        </a>
+        <p>我的志愿者证</p>
+    </div>
+
+    
+    <div class="art">
+
+      <img src="/upload/member/qrcode/bgqr_<?php echo $member->id;?>.png" alt="" class="art1" />
+      <!--
+       <img src="/public/home/images/08guanjun17.png" alt="" class="art1" />
+       <p class="art2">志愿者</p>
+
+        <?php if($member->portraitUri):?>
+        <img src="<?php echo $member->portraitUri;?>" alt="" class="art3" />
+        <?php else:?>
+        <img src="/public/home/images/logo.png" alt="" class="art3" />
+        <?php endif;?>
+
+       <p class="art4">
+          <?php echo $member->realname;?>
+          <span><?php echo $member->nickname;?></span>
+       </p>
+       <img src="/upload/member/qrcode/<?php echo $member->id;?>.png" alt="" class="art5" />
+       <p class="art6">
+         <span>证件ID：<?php echo $member->id;?></span>
+       </p>
+      -->
+
+    </div>
+    
+    <a href="/user/download/qr/<?php echo $member->id;?>" class="btn">下载志愿者证打印版</a>
+    
+</div>   
+</body>
+</html>

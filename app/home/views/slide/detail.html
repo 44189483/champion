@@ -1,0 +1,144 @@
+<title>冠军惠-新闻详情</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/04baoming1.css" />
+<link rel="stylesheet" href="/public/home/css/smohan.face.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script type="text/javascript" src="/public/home/js/jquery.form.js"></script>
+<script type="text/javascript" src="/public/home/js/jSignature.min.noconflict.js"></script>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/public/home/js/flashcanvas.min.js"></script>
+<![endif]-->
+<script src="/public/home/js/smohan.face.js"></script>
+<script src="/public/home/js/share.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="/" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>新闻详情</p>
+    <a class="head-1 share">
+        <img src="/public/home/images/03zhiyuan4.png" alt="">
+    </a>
+  </div>
+    
+  <div class="tu">
+    <?php if(!empty($pic)):?>
+    <img src="/<?php echo $pic;?>" alt="" />
+    <?php endif;?>
+  </div>  
+
+  <div class="art detail-art">
+    <div class="title"><?php echo $title;?></div>
+    <div><?php echo $content;?></div>
+  </div>
+
+  <div id="someelement"></div>
+
+  <!-- 留言 -->
+  <div id="commentbox">
+    <div align="center"><img src="/public/home/images/loader10.gif"/></div>
+  </div>
+  
+  <div class="gaodu"></div>
+
+  <?php if($this->session->member && $this->session->member->level != 0):?>
+  <div class="comments" id="Smohan_FaceBox">
+    <a href="javascript:;" class="xiaolian"><img src="/public/home/images/06shipin5.png" alt=""></a>
+    <input type="text" name="comment" id="comment" placeholder="期待您的评论" class="inp" />
+    <!--<a href="" class="jiahao"><img src="/public/home/images/04baoming3.png" alt=""></a>-->
+    <a href="javascript:;" class="comments-2"><img src="/public/home/images/06shipin4.png" alt=""></a>
+    <input type="hidden" id="type" value="slide"/>
+    <input type="hidden" id="sign" />
+    <input type="hidden" id="nid" />
+  </div>
+  <?php endif;?>
+  
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','<?php echo $title;?>','<?php echo $pic;?>','<?php echo utfSubstr(strip_tags($content),0,50);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,9)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','<?php echo $title;?>','<?php echo $pic;?>','<?php echo utfSubstr(strip_tags($content),0,50);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,9)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','<?php echo $title;?>','<?php echo $pic;?>','<?php echo utfSubstr(strip_tags($content),0,50);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,9)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','<?php echo $title;?>','<?php echo $pic;?>','<?php echo utfSubstr(strip_tags($content),0,50);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,9)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+     
+    $(function() {
+
+      //加载评论
+      loadcomment();
+
+      //评论表情
+      $("a.xiaolian").smohanfacebox({ 
+          Event : "click",    //触发事件     
+          divid : "Smohan_FaceBox", //外层DIV ID 
+          textid : "comment" //文本框 ID 
+      }); 
+      //解析表情  $('#Zones').replaceface($('#Zones').html()); 
+
+      //提交评论
+      $('.comments-2').click(function(){
+        var content = $('#comment').val();
+        if(content == null || content == ''){
+          jqalert({
+            title: '提示',
+            content: '内容必填'
+          });
+          return false;
+        }
+
+        //判断是否包含
+        var isReview,id;
+        if($("#sign").val() && content.search($("#sign").val()) > -1 ){//回复
+          isReview = 1;  
+          id = $("#nid").val();
+        }else{//只是评论
+          isReview = 0;
+          id = <?php echo $id;?>;
+        }
+
+        $.ajax({  
+          type: "POST",  
+          url: "/comment/save",  
+          data: {'type':$('#type').val(),'comment':$('#comment').val(),'id':id,'isReview':isReview},
+          async:false,
+          cache: false,
+          beforeSend: function(){
+            $("#commentbox").html('<div align="center"><img src="/public/home/images/loader10.gif"/></div>');
+          },  
+          success: function(){ 
+            $('#comment').val('');
+            loadcomment();  
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+
+      });
+
+    });
+
+    function loadcomment(){
+      $("#commentbox").load("/comment/getdata/slide/<?php echo $id;?>");
+    }
+
+  </script>
+</div>   
+</body>
+</html>

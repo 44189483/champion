@@ -1,0 +1,78 @@
+    <link rel="stylesheet" type="text/css" href="/public/diyUpload/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/public/diyUpload/css/diyUpload.css">
+    
+
+    <script type="text/javascript" src="/public/diyUpload/js/webuploader.html5only.min.js"></script>
+
+    <script type="text/javascript" src="/public/diyUpload/js/diyUpload.js"></script>
+
+    <div class="centercontent">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle"><?php echo $title;?> --- 图片管理</h1>
+        </div><!--pageheader-->
+
+        <div id="contentwrapper" class="contentwrapper elements">
+             
+            <div class="stdform stdform2">
+
+                <p id="box">
+                    <label>多图上传按CTRL</label>
+                    <span class="field" id="upload">
+                    </span>
+                </p>
+
+            </div>        
+                    
+        </div>
+
+        <div id="contentwrapper" class="contentwrapper nopadding">
+             
+            <div class="prodwrapper">   
+         
+                <div class="prodcontent">
+
+                    <ul class="prodlist">
+                        <?php foreach ($rows as $key => $val):?>
+                        <li class="one_third" style="margin-right:0;float:none;">
+                            <a href="<?php echo site_url('activity/delpic/'.$val->id); ?>" class="btn btn4 btn_trash" title="删除" style="position:absolute;right:0;top:0;"></a>
+                            <div class="thumb"><a href=""><img src="/<?php echo $val->content;?>" alt=""></a></div>
+                        </li>
+                        <?php endforeach;?>  
+                    </ul>
+                    
+                
+                </div><!--prodcontent-->
+            
+                <br clear="all"><br><br>
+            
+            </div>
+            
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+    /*
+    * 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+    * 其他参数同WebUploader 'upload/member/pic/'
+    */
+
+    jQuery('#upload').diyUpload({
+        url:'/admin.php/activity/upfiles/<?php echo $aid;?>',
+        success:function( data ) {
+            //console.info( data );
+            window.location.reload();
+        },
+        error:function( err ) {
+            console.info( err );    
+        }
+    });
+
+    </script>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<title>冠军惠-首页</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/index.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/jquery.hiSlider.min.css" />
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jquery.hiSlider.min.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+</head>
+<body>
+
+  <div class="conter" style="padding-top: 0;">
+    
+    <div class="nav">
+      <a href="/user"><img src="<?php if(!empty($this->session->member->portraitUri)): echo $this->session->member->portraitUri;?><?php else:?>/public/home/images/index4.png<?php endif;?>" alt="" class="nav-1" /></a>
+
+      <form method="GET" action="/index/seach" onSubmit="return checksearch(this);">
+        <p class="nav-2">
+          <input type="text" placeholder="搜你想要的" name="keyword" id="keyword" />
+          <input type="image" src="/public/home/images/index1.png" name="search" id="search"/>
+        </p>
+        <a href="/notice">
+          <img src="/public/home/images/<?php if($no_read_notice > 0):?>index2.png<?php else:?>index12.png<?php endif;?>" alt="" class="nav-3" id="nav-3"/>
+        </a>
+      </form>
+    </div>
+
+    <div id="minirefresh" class="minirefresh-wrap" style="top:55px;overflow:visible;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+    <script>
+
+      var appendTestData = function(dom) {
+
+          if (typeof dom === 'string') {
+              dom = document.querySelector(dom);
+          }
+
+          $.ajax({
+            type: "GET",
+            url: "/index",
+            data: {'file':'ajax'},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              dom.innerHTML = '';
+
+              var str = '';
+
+              str += '<article class="htmleaf-container"><div id="wrap"><ul class="hiSlider hiSlider1">';
+              $(json.banner).each(function () {
+                str += '<li class="hiSlider-item"><a href="/slide/detail/'+this.id+'"><img src="'+this.pic+'" /></a></li>';
+              });
+              str +='</ul></div></article>';
+
+              str += '<div class="btn"><a href="/story/index/zx"><img src="/public/home/images/index5.png" alt="" /><span>我们的故事</span></a><a href="/activity"><img src="/public/home/images/index6.png" alt="" /><span>志愿服务</span></a><a href="/course"><img src="/public/home/images/index7.png" alt="" /><span>在线培训</span></a><a href=""><img src="/public/home/images/index8.png" alt="" /><span>即时通讯</span></a><a href="/proveseach"><img src="/public/home/images/index9.png" alt="" /><span>证明查询</span></a></div>';
+
+              if(json.notice[0]){
+                str += '<div class="gonggao"><p><span>公告</span><a href="/notice/detail/'+json.notice[0].id+'">'+json.notice[0].title+'</a></p><a href="/notice">更多</a></div>';
+
+                if(json.no_read_notice > 0){
+                  document.getElementById('nav-3').src = '/public/home/images/index2.png';
+                }
+
+              }
+  
+              if(json.volunteer){
+                str += '<div class="zhiyuan"><div class="zhiyuan-1"><span class="zhiyuan-11">志愿服务</span><span class="zhiyuan-12">POPULAR VOLUNTEER SERVICE</span><a href="/activity"><img src="/public/home/images/index10.png" alt="" /></a></div><div class="zhiyuan-2"><p><a href="/activity/detail/'+json.volunteer.id+'">'+json.volunteer.title+'</a></p><a href="/activity/detail/'+json.volunteer.id+'"><img src="'+json.volunteer.pic+'" alt="" /></a></div></div>';
+              }
+
+              if(json.story){
+                str += '<div class="gushi"><div class="gushi-1"><span class="gushi-11">我们的故事</span><span class="gushi-12">OUR STORY</span><a href="/story/index/zx"><img src="/public/home/images/index10.png" alt="" /></a></div><div class="gushi-2"><a href="/story/zxdetail/'+json.story.id+'">';
+                if(json.story.attach){
+                  str +='<img src="/'+json.story.attach+'" alt="" />';
+                }else{
+                  str +='<img src="/public/home/images/nopic.jpg" alt="" />';
+                }
+                str +='</a><p class="gushi-20"><a href="/story/zxdetail/'+json.story.id+'">'+json.story.title+'</a></p><p class="gushi-21"><span>'+json.story.date+'</span><span class="gushi-21-span">发布者：<a href="">'+json.story.author+'</a></span></p></div></div>';
+              }
+
+              if(json.course){
+
+                str += '<div class="jiaocheng"><div class="jiaocheng-1"><span class="jiaocheng-11">在线教程</span><span class="jiaocheng-12">WORK ONLINE</span><a href="/course"><img src="/public/home/images/index10.png" alt="" /></a></div><div class="jiaocheng-2"><div class="jiaocheng-21"><p class="jiaocheng-22"></p><div class="jiaocheng-23"><a href="/course/detail/'+json.course.id+'"><img src="/'+json.course.cover+'" alt="" /></a></div><p class="jiaocheng-24">'+json.course.content+'</p></div></div></div>';
+
+              }
+
+              dom.innerHTML = str;
+              
+            }
+          });
+
+      };
+
+      // 记录一个最新
+      var maxDataSize = 0,listDom = document.querySelector('#listdata'),requestDelayTime = 600;
+
+      var miniRefresh = new MiniRefresh({
+          container: '#minirefresh',
+          down: {
+              callback: function() {
+                  setTimeout(function() {
+                      // 每次下拉刷新后，上拉的状态会被自动重置
+                      appendTestData(listDom);
+                      miniRefresh.endDownLoading(true);
+                      slide();
+                  }, requestDelayTime);
+              }
+          },
+          up: {
+              isAuto: true,
+              callback: function() {
+                  setTimeout(function() {
+                      appendTestData(listDom);
+                      miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                      slide();
+                  }, requestDelayTime);
+              }
+          }          
+      });
+
+      function slide(){
+        $('.hiSlider1').hiSlider();
+        var a = $(window).width();
+        var lunboheight = Math.floor(300*a/640);
+        $(".hiSlider-item").css('width', a);
+        $(".hiSlider-item").css('height', lunboheight);
+        $(".hiSlider").css('height', lunboheight);
+        $("#wrap").css('height', lunboheight);
+        $(".hiSlider-wrap").css('height', lunboheight);
+        $(".hiSlider-item img").css('width', a);
+        $(".hiSlider-item img").css('height', lunboheight);
+      }
+
+      function checksearch(form){
+        if(form.keyword.value == ''){
+          jqalert({
+            title: '提示',
+            content: '搜索关键词必填'
+          });
+          return false;
+        }
+      }
+
+    </script>

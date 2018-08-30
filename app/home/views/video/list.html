@@ -1,0 +1,95 @@
+<title>冠军惠-系统通知</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/06shipin1.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script type="text/javascript">
+  var i = 1;
+  $(function () {
+    $(window).scroll(function () {
+        //$(window).scrollTop()这个方法是当前滚动条滚动的距离
+        //$(window).height()获取当前窗体的高度
+        //$(document).height()获取当前文档的高度
+
+        var bot = 50; //bot是底部距离的高度
+        if ((bot + $(window).scrollTop()) >= ($(document).height() - $(window).height())) {
+          //当底部基本距离+滚动的高度〉=文档的高度-窗体的高度时；
+          //异步加载数据
+          $.ajax({
+            type: "GET",
+            url: "/notice/getdata/",
+            data: {'page': i},
+            dataType: "json",
+            async:false,
+            beforeSend:function(){
+              $("#loading").show();
+            },
+            complete:function(){
+              $("#loading").hide();
+            },
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                  
+                  var str = '<div class="art"><p class="art1"><img src="/public/home/images/07gonggao2.png" alt=""><span>系统通知</span><object><a href=""><img src="/public/home/images/07gonggao3.png" alt=""></a></object></p><p class="art2">'+this.createTime+'</p><p class="art3"><a href="/notice/detail/'+this.id+'">'+this.title+'</a></p></div>';
+                  
+                  $("#list").fadeIn().append(str);
+
+                });
+
+                i++;
+
+              }else{
+                $("#noresult").show();
+              }
+
+            }
+          });
+
+        }
+    });
+  });
+</script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+      <a href="" class="head-0">
+          <img src="/public/home/images/01zhuce3.png" alt="">
+      </a>
+      <p>视频教程</p>
+  </div>
+ 
+  <div id="list">
+    <div class="art">
+    <?php foreach ($notice as $key => $val):?>  
+
+      <div class="art1">
+        <p class="art1-1">五维精品肌肉训练视频课程第三期<span>15:30</span></p>
+        <div class="art1-2">
+          <embed src="https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid=e0025j9ztyk&auto=0" allowFullScreen="true" quality="high" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" controls="playbutton"> </embed>
+        </div>
+        <p class="art1-3">
+          <span>山地赛车五维肌肉训练，是针对此项运动，最直接最有效的运动肌肉训练，通过此项训练，可以</span>
+          <span>可获积分<br>5000</span>
+        </p>
+      </div>
+
+      <div class="art2">
+        <p class="art2-1">五维精品肌肉训练视频课程第三期<span>15:30</span></p>
+        <div class="art2-2">
+          <embed src="https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid=e0025j9ztyk&auto=0" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+        </div>
+        <p class="art2-3">
+          <span>山地赛车五维肌肉训练，是针对此项运动，最直接最有效的运动肌肉训练，通过此项训练，可以大…</span>
+          <span>5000积分<br>以上可观看</span>
+        </p>
+      </div>
+    <?php endforeach;?>
+    </div>
+    <p id="loading" align="center" style="display: none;"><img src="/public/home/images/loader10.gif" alt="" /></p>
+  </div>
+  <p id="loading" align="center" style="display: none;"><img src="/public/home/images/loader10.gif" alt="" /></p>
+  <p id="noresult" align="center" style="display: none;">没有数据了</p>

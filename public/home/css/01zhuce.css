@@ -1,0 +1,45 @@
+.art{
+	font-size: 0px;
+}
+.art>p{
+	width: 100%;
+	text-align: center;
+	color: #666;
+	margin-top: 5%;
+	margin-bottom: 10%;
+	font-size: 16px;
+}
+.art>a{
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	color: #666;
+	font-size: 16px;
+}
+.art>a>img{
+	width: 30%;
+}
+.art>a>p{
+	margin-top: 10px;
+}
+.art>span{
+	display: block;
+	width: 80%;
+	border-bottom: dashed 1px #999;
+	margin-left: 10%;
+	margin-top: 8%;
+	margin-bottom: 8%;
+}
+.art1{
+	display: inline-block;
+	width: 50%;
+	float: left;
+}
+.art2{
+	display: inline-block;
+	width: 50%;
+	float: left;
+}
+.art1>img,.art2>img{
+	width: 55% !important;
+}

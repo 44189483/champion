@@ -1,0 +1,174 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>添加<?php echo $title;?></h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/activity/saveinfo" enctype="multipart/form-data">
+
+                    <?php if($type == 2):?>
+
+                        <link rel="stylesheet" type="text/css" href="/public/diyUpload/css/webuploader.css">
+                        <link rel="stylesheet" type="text/css" href="/public/diyUpload/css/diyUpload.css">
+                        
+
+                        <script type="text/javascript" src="/public/diyUpload/js/webuploader.html5only.min.js"></script>
+
+                        <script type="text/javascript" src="/public/diyUpload/js/diyUpload.js"></script>
+
+                        <div class="stdform stdform2">
+
+                            <p id="box">
+                                <label>
+                                    <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+
+                                    <br/>多图上传按CTRL(最多不超过10张)
+                                </label>
+
+                                <span class="field" id="upload">
+                                </span>
+                            </p>
+
+                        </div> 
+
+                        <script type="text/javascript">
+
+                            /*
+                            * 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+                            * 其他参数同WebUploader 'upload/member/pic/'
+                            */
+
+                            jQuery('#upload').diyUpload({
+                                url:'/admin.php/activity/upfiles/<?php echo $aid;?>',
+                                success:function( data ) {
+                                    //console.info( data );
+                                    window.location.href = '/admin.php/activity/lists/<?php echo $aid;?>/2';
+                                },
+                                error:function( err ) {
+                                    console.info( err );    
+                                },
+                                buttonText : '选择文件',
+                                chunked:true,
+                                // 分片大小
+                                chunkSize:512 * 1024,
+                                //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+                                fileNumLimit:10,
+                                fileSizeLimit:500000 * 1024,
+                                fileSingleSizeLimit:50000 * 1024,
+                                accept: {}
+
+                            });
+
+                        </script> 
+
+                    <?php else:?>
+
+                        <p>
+                            <label>标题</label>
+                            <span class="field"><input type="text" name="title" id="title" class="smallinput"/></span>
+                        </p>
+
+                        <?php if($type == 1):?>
+
+                            <p>
+                                <label>内容</label>
+                                <span class="field"><textarea id="content" name="content"></textarea></span>
+                            </p>
+
+                        <?php elseif($type == 3):?>
+
+                            <p>
+                                <label>视频网址</label>
+                                <span class="field"><input type="text" name="content" id="content" class="smallinput"/></span>
+                            </p>
+
+                        <?php endif;?>
+
+                        <p>
+                            <label>时间</label>
+                            <span class="field"><input type="text" name="datetime" id="datetime" class="smallinput" required="required" readonly="readonly" /></span>
+                        </p>
+
+                        <br />
+                        
+                        <p class="stdformbutton">
+                            <input type="hidden" name="type" id="type" value="<?php echo $type;?>" />
+                            <input type="hidden" name="aid" id="aid" value="<?php echo $aid;?>" />
+                            <button class="submit radius2">提 交</button>
+                            <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                        </p>
+
+                    <?php endif;?>
+
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<script>
+
+    jQuery(document).ready(function(){
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                title:"required"
+            },
+            messages: {
+                title:"标题必填"
+            }
+        });
+
+        jQuery('#datetime').datetimepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+
+    });
+
+    KindEditor.ready(function(K) {
+
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        prettyPrint();
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<title>冠军惠-通知详情</title>
+<?php if($type == 4):?>
+<link rel="stylesheet" href="/public/home/css/07wenjuan.css" />
+<?php else:?>
+<link rel="stylesheet" href="/public/home/css/07tongzhi.css" />
+<?php endif;?>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script src="/public/home/js/jquery.form.js"></script>
+<script src="/public/home/js/share.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="" />
+    </a>
+    <p>系统通知</p>
+    <a class="head-1 service">
+        <img src="/public/home/images/07wenjuan1.png" alt="" />
+    </a>
+  </div>
+
+  <p class="title"><?php echo $title;?></p>
+  <?php if($type == 0):?>
+  <p class="date"><?php echo $createTime;?></p>
+  <?php endif;?>
+  <?php if($type == 4):?>
+    <form name="form" id="form" action="" method="POST">
+      <?php foreach($content as $key => $val):?>
+      <div class="art">
+        <p class="art-1"><?php echo $key;?>、<?php echo $val['q'];?></p>
+        <p class="art-2">
+          <?php foreach($val['c'] as $k => $v):?>
+            <span><input type="radio" name="c_<?php echo $key;?>" value="<?php echo $k;?>" /><label><?php echo $v;?></label></span>
+          <?php endforeach;?>  
+        </p>
+      </div>
+      <?php endforeach;?>
+      <div class="user">
+          <span><input type="radio" id="user1" name="user" value="0" /><label for="user1">匿名</label></span>
+          <span><input type="radio" id="user2" name="user" checked="checked" value="<?php echo $this->session->member->id;?>" /><label for="user2">用户名</label></span>
+      </div>
+
+      <button type="button" id="submit" class="tijiao">确认提交</button>
+
+    </form>
+    <script type="text/javascript">
+      $(function(){
+        $("#submit").click(function(){
+          var num = 0;
+          $('.art').each(function(){
+            var radio = $(this).find('input[type="radio"]');
+            if(radio.not(':checked').length == radio.length){
+              num++;
+            }
+          });
+
+          if(num > 0){  
+            jqalert({
+              title: '提示',
+              content: '信息还没有填完'
+            }); 
+            return false;  
+          }
+          $("#form").ajaxSubmit({
+            type: "POST",//提交类型
+            data:{'id':<?php echo $id;?>},
+            url: "/notice/examine",//请求地址
+            beforeSubmit:function(){  
+            },
+            success: function (data) {//请求成功后的函数
+              var text = data.replace(/\s/g, "");
+              if(text != ''){
+                jqalert({
+                  title: '提示',
+                  content: text
+                });
+                return false;
+              }else{
+                jqalert({
+                  title: '提示',
+                  content: '问卷提交成功,感谢您的参与',
+                  yestext: '确定',
+                  yesfn: function() {
+                      window.location.href='/notice';
+                  }
+                });
+                return false;
+              }           
+            },
+            error: function (data) { 
+            },
+            async: true
+          });
+        });
+      });
+
+      //安卓获取返回脚本
+      function getBackAct(){
+        window.history.back();
+      }
+    </script>
+  <?php else:?>
+  <div class="art">
+   <?php echo $content;?>
+  </div>
+  <?php endif;?>
+  <!--
+  <a href="" class="shoucang">
+    <img src="/public/home/images/03huodong4.png" alt="">
+  </a>
+  -->
+  
+  <?php $this->load->view('service2.html');?>
+
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','<?php echo $title;?>','','',<?php echo $this->session->member->id;?>,<?php echo $id;?>,10)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','<?php echo $title;?>','','',<?php echo $this->session->member->id;?>,<?php echo $id;?>,10)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','<?php echo $title;?>','','',<?php echo $this->session->member->id;?>,<?php echo $id;?>,10)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','<?php echo $title;?>','','',<?php echo $this->session->member->id;?>,<?php echo $id;?>,10)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+</div>   
+</body>
+</html>

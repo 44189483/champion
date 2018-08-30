@@ -1,0 +1,69 @@
+    <div class="centercontent">
+    
+        <div class="pageheader">
+            <h1 class="pagetitle"><?php echo $title;?></h1>
+            <span class="pagedesc"><?php echo $menu;?> <button type="button" class="stdbtn" onclick="history.back()">返 回</button></span>
+        </div><!--pageheader-->
+        
+        <div class="contentwrapper">
+        
+            <div class="two_third newsfeed">
+                
+                <ul class="updatelist">
+                    <?php foreach($comments as $val): ?>
+                    <li>
+                        <div class="updatethumb">
+                            <img src="<?php if (!empty($val->portraitUri)):?><?php echo $val->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" height="50"/>
+                        </div>
+                        <div class="updatecontent">
+                            <div class="top">
+                                <a href="" class="user"><?php echo $val->nickname;?></a> - <a href="">评论(<?php echo count($val->review);?>)</a> - 
+                                <a href="">赞(<?php echo $val->praise;?>)</a> - 
+                                <span>
+                                    <?php echo $val->createTime;?> 
+                                    <a href="<?php echo  site_url('comment/del?cid='.$val->id);?>" style="color:red">(删除)</a>
+                                </span>
+                            </div><!--top-->
+                            <div class="text">
+                                <?php echo $val->content;?> 
+                                <?php if($val->review):?>
+                                    <ul class="updatelist" style="margin-top: 20px;">
+                                    <?php foreach($val->review as $v): ?>
+                                    <li style="border:none;">
+                                        <div class="updatethumb">
+                                            <img src="<?php if (!empty($v->portraitUri)):?><?php echo $v->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" height="50"/>
+                                        </div>
+                                        <div class="updatecontent">
+                                            <div class="top">
+                                                <a href="" class="user"><?php echo $v->nickname;?></a> - 
+                                                <span>
+                                                    <?php echo $v->createTime;?> 
+                                                    <a href="<?php echo  site_url('comment/del?rid='.$v->id);?>" style="color:red">(删除)</a>
+                                                </span>
+                                            </div><!--top-->
+                                            <div class="text">
+                                                <?php echo $v->content;?> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php endforeach;?>
+                                    </ul>
+                                <?php endif;?>
+                            </div><!--text-->
+                        </div><!--updatecontent-->
+                    </li>
+                    <?php endforeach;?>
+                </ul>
+
+            </div><!--two_third newsfeed-->
+            
+            <br clear="all">
+        
+        </div><!--contentwrapper-->
+        
+    </div>
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

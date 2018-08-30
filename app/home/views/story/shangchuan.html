@@ -1,0 +1,243 @@
+<title>冠军惠-上传资料</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/03shangchuan.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script src="/public/home/js/jquery.form.js"></script>
+<script src="/public/home/js/mobileFix.mini.js?v=ad62f13"></script>
+<script src="/public/home/js/exif.js?v=dd609b9"></script>
+<script src="/public/home/js/lrz.js?v=3d33fcf"></script> 
+
+<!--editor-->
+<link rel="stylesheet" href="/public/editor/themes/default/default.css" />
+<link rel="stylesheet" href="/public/editor/plugins/code/prettify.css" />
+<script charset="utf-8" src="/public/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/public/editor/lang/zh_CN.js"></script>
+<script charset="utf-8" src="/public/editor/plugins/code/prettify.js"></script>
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="/story/zldetail/<?php echo $id;?>" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="" />
+    </a>
+    <p>我要发稿</p>
+  </div>
+
+  <form id="saveForm" name="saveForm" method="POST" action="">
+    <div class="art">
+      <p class="title">选择上传内容</p>
+      <p class="art1">
+        <span><input type="radio" id="rad1" name="radio" checked="checked" value="video"/><label for="rad1">视频</label></span>
+        <span><input type="radio" id="rad2" name="radio" value="pic"/><label for="rad2">图片</label></span>
+        <span><input type="radio" id="rad3" name="radio" value="text" /><label for="rad3">文字</label></span>
+      </p>
+    </div>
+    <!-- 视频 -->
+    <div class="video divs">
+      <p class="art2">添加标题<input type="text" name="title1" id="title1" /></p>
+      <p class="art2">视频网址<input type="text" name="content1" id="content1" /></p>
+      <!--
+      <div class="upload">
+        <img src="/public/home/images/03shangchuan.png" alt="" />
+        <input type="file" name="file1" id="file1" />
+      </div>
+      -->
+    </div>
+    <!-- 图片 -->
+    <div class="picture divs">
+      <p class="art2">图集标题<input type="text" name="title2" id="title2" /></p>
+      <p>添加缩略图<span>（大小控制在1M以内）</span></p>
+      <div class="upload">
+        <img src="/public/home/images/03meiti1.png" alt="" id="showpic" />
+        <input type="file" name="file2" id="file2" accept="image/*" capture="camera" />
+        <input type="hidden" name="base64img" id="base64img" />
+      </div>
+    </div>
+    <!-- 文字 -->
+    <div class="text divs">
+      <p class="art2">稿件题目<input type="text" name="title3" id="title3" /></p>
+      <p>稿件内容</p>
+      <div style="width: 96%;margin: 0 auto;"><textarea name="content" id="content" cols="30" rows="10"></textarea></div>
+    </div>
+    <button type="button" name="submit" id="submit" class="tijiao">提交审核</button>
+    <p class="guize">发稿规则</p>
+  </form>
+  <script type="text/javascript">
+    $(function(){
+
+      //切换
+      $(".art1 span input").each(function(index, el) {
+        var i = index;
+        $(this).click(function(event) {
+          $(".divs").each(function(index, el){
+            $(".divs").css('display', 'none');
+          })
+          $(".divs").eq(i).css('display', 'block');
+        });
+      });
+
+      //图片压缩为上传处理
+      var input = document.querySelector('#file2');
+      if(input){
+        input.onchange = function () {
+          lrz(this.files[0], {width: 400}, function (results) {
+              //console.log(results);
+              var showpic = document.querySelector('#showpic'),
+              base64img = document.querySelector('#base64img');
+              showpic.src = base64img.value = results.base64;
+          });
+        };
+        // 演示用服务器太慢，做个延缓加载
+        window.onload = function () {
+            input.style.display = 'inline-block';
+        }
+      }
+
+      $("#submit").click(function(){
+
+        var type = $("input[name='radio']:checked").val();
+
+        switch(type){
+
+          case 'video':
+            var title = $("#title1").val();
+            if(title == ''){
+              jqalert({
+                title: '提示',
+                content: '标题必填'
+              });
+              return false;
+            }
+            var file = $("#file1").val();
+            if(file == ''){
+              jqalert({
+                title: '提示',
+                content: '视频必选'
+              });
+              return false;
+            }
+
+            // var ext = file.lastIndexOf("."); 
+            // var exttype = file.substr(ext); 
+            // if(type==".jpg"||type==".gif"||type==".JPG"||type==".GIF"){ 
+                        
+            // }
+
+            break;
+
+          case 'pic':
+            var title = $("#title2").val();
+            if(title == ''){
+              jqalert({
+                title: '提示',
+                content: '标题必选'
+              });
+              return false;
+            }
+            var file = $("#file2").val();
+            if(file == ''){
+              jqalert({
+                title: '提示',
+                content: '图片必选'
+              });
+              return false;
+            }
+            var num = file.lastIndexOf("."); 
+            var ext = file.substr(num).toLowerCase(); 
+            if(ext != ".jpg" && ext !=".gif" && ext != ".png"){ 
+              jqalert({
+                title: '提示',
+                content: '图片类型有误'
+              });
+              return false;  
+            }
+            break;
+
+          case 'text':
+            var title = $("#title3").val();
+            if(title == ''){
+              jqalert({
+                title: '提示',
+                content: '标题必填'
+              });
+              return false;
+            }
+            var content = $("#content").val();
+            if(content == ''){
+              jqalert({
+                title: '提示',
+                content: '内容必填'
+              });
+              return false;
+            }
+            break;
+        }
+
+        $("#saveForm").ajaxSubmit({
+          type: "POST",//提交类型
+          data:{'act':'save','type':type,'title':title,'file':file,'content':content},
+          url: "/activity/savedata/<?php echo $id;?>",//请求地址
+          beforeSubmit:function(){  
+          },
+          success: function (data) {//请求成功后的函数
+            var text = data.replace(/\s/g, "");
+            if(text == 1){
+              jqalert({
+                title: '特别提示',
+                content: '恭喜您发布成功！请等待审核',
+                yesfn: function() {
+                    window.location.href='/story/zldetail/<?php echo $id;?>';
+                }
+              });
+              return false;
+            }else{          
+              jqalert({
+                title: '提示',
+                content: '图片上传失败,请重新再试'
+              });
+              return false;
+            }
+          },
+          error: function (data) { 
+          },
+          async: true
+        });
+
+      });
+
+    });
+
+    KindEditor.ready(function(K) {
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"100%",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'link', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright'
+            ]
+            });
+        prettyPrint();
+    });
+  </script>
+</div>   
+</body>
+</html>

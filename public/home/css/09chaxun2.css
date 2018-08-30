@@ -1,0 +1,31 @@
+.art{
+	width: 100%;
+	height: auto;
+	background-color: #fff;
+	margin-bottom: 120px;
+	padding-bottom: 15px;
+	border-bottom: solid 1px #ebeaea;
+}
+.title{
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 55px !important;
+}
+.art>div{
+	width: 90%;
+	margin-left: 5%;
+	color: #666;
+	line-height: 25px;
+}
+.art>div>span{
+	color: #fe1859;
+	display: inline-block;
+	/*width: 70px;*/
+	float: left;
+}
+.art>div>p{
+	display: inline-block;
+	width: calc(90% - 70px);
+}
+

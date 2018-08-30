@@ -1,0 +1,51 @@
+a{
+	text-decoration: none;
+	color: #4d4d4d;
+}
+.art{
+	display: block;
+	width: 100%;
+	background-color: #fff;
+	margin-bottom: 7px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.art>p{
+	width: 94%;
+	margin-left: 3%;
+}
+.art1{
+	font-size: 16px;
+	line-height: 25px;
+	color: #000;
+}
+.art1>span{
+	float: right;
+	font-size: 12px;
+}
+.art1>span>a{
+	font-size: 12px;
+	color: #666;
+	text-decoration: none;
+}
+.art1-1>img{
+	width: 17px;
+	margin-right: 5px;
+}
+.art1-1{
+    margin-right: 15px;
+}
+.art1-2>img{
+	width: 17px;
+}
+.art2{
+	color: #666;
+	font-size: 12px;
+	margin-bottom: 8px;
+}
+.art3{
+	color: #666;
+	overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}

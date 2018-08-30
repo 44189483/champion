@@ -1,0 +1,65 @@
+<title>冠军惠-更新头像</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo-zhiyuanzc2.css" />
+<style type="text/css">
+    #showpic{
+        max-width:135px;
+        border-radius:5px ;
+        cursor: pointer;
+    }
+</style>
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+<div class="conter">
+    
+    <div class="head">
+        <a href="/user" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="" />
+        </a>
+        <p>更新头像</p>
+        <a href="tel:13889467368" class="head-1">
+            <img src="/public/home/images/02jihuo1.png" alt="" />
+        </a>
+    </div>
+    
+    <form id="avatarform" action="" method="">
+        <div class="upload">
+            <p>
+                <img src="/public/home/images/02jihuo6.png" alt="" />上传照片
+            </p>
+            <div>
+                <img src="<?php if(!empty($member->portraitUri)): echo $member->portraitUri;?><?php else:?>/public/home/images/02jihuo7.png<?php endif;?>" alt="" id="showpic"/>
+                <input type="file" name="file" id="file" />
+                <input type="hidden" name="base64img" id="base64img" />
+            </div> 
+        </div>
+        <p class="explain">需上传正面免冠纯色背景证明照</p>
+        <input type="hidden" name="act" id="act" value="save" />
+        <button type="button" id="avatarsubmit" class="btn">确认</button>
+    </form>
+<script type="text/javascript">   
+//图片压缩为上传处理
+(function () {
+  var input = document.querySelector('#file');
+  if(input){
+    input.onchange = function () {
+      lrz(this.files[0], {width: 300,height:300}, function (results) {
+          //console.log(results);
+          var showpic = document.querySelector('#showpic'),
+          base64img = document.querySelector('#base64img');
+          showpic.src = base64img.value = results.base64;
+      });
+    };
+    // 演示用服务器太慢，做个延缓加载
+    window.onload = function () {
+        input.style.display = 'inline-block';
+    }
+  }
+})();
+</script>
+</div>
+</div>   
+</body>
+</html>

@@ -1,0 +1,118 @@
+<title>冠军惠-我的积分</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun5.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" /> 
+</head>
+<body>
+<div class="conter">  
+  <div class="head">
+    <a href="javascript:history.back();" class="head-0">
+        <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>我的积分</p>
+  </div>
+
+  <div class="art">
+    <div class="art0">
+        <img src="<?php if($member->portraitUri):?><?php echo $member->portraitUri;?><?php else:?>/public/home/images/nohead.jpg<?php endif;?>" alt="" />
+       <span class="art0-1"><?php echo $member->realname;?></span>
+       <span class="art0-2">志愿者编号：<?php echo $member->id;?></span>
+       <a href="/user/getintegral" style="background: red" class="art0-3">积分获得方法</a> 
+    </div>
+    <p class="score">积分总数：<span><?php echo $member->integral;?></span></p>
+    <p class="art1">
+     <span>日期</span>
+     <span>内容</span>
+     <span>获得积分</span>
+    </p>
+  </div>  
+    <div id="minirefresh" class="minirefresh-wrap" style="top: 196px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+    <script>
+                      
+      var i = 1;
+      var counterArr = [0];
+      var str = '';
+
+      var appendTestData = function(dom, count, isReset, index) {
+          if (typeof dom === 'string') {
+              dom = document.querySelector(dom);
+          }
+          
+          var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+          
+          var counterIndex = index || 0;
+          
+          counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+          if (isReset) {
+              dom.innerHTML = '';
+              counterArr[counterIndex] = 0;
+          }
+         
+          $.ajax({
+            type: "GET",
+            url: "/user/integral/<?php echo $member->id;?>",
+            data: {'file':'ajax','page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                 
+                  str += '<div class="art2"><span>'+this.createdate+'</span><span>'+this.content+'</span><span>'+this.integral+'</span></div>';
+
+                });
+
+                i++;
+
+              }
+              
+            }
+          });
+
+          var child = parseHtml(str);
+
+          dom.appendChild(child);
+
+      };
+
+      // 记录一个最新
+      var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+          requestDelayTime = 600;
+
+      var miniRefresh = new MiniRefresh({
+          container: '#minirefresh',
+          down: {
+              callback: function() {
+                  setTimeout(function() {
+                      // 每次下拉刷新后，上拉的状态会被自动重置
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endDownLoading(true);
+                  }, requestDelayTime);
+              }
+          },
+          up: {
+              isAuto: true,
+              callback: function() {
+                  setTimeout(function() {
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                  }, requestDelayTime);
+              }
+          }
+      });
+
+    </script>

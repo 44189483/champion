@@ -1,0 +1,62 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/02jihuo-zhiyuanzc2.css" />
+<?php $this->load->view('templates/js.html');?>
+
+</head>
+<body>
+
+<div class="conter">
+    
+    <div class="head">
+        <a href="javascript:history.back();" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="" />
+        </a>
+        <p>志愿者注册</p>
+        <a class="head-1 service">
+            <img src="/public/home/images/02jihuo1.png" alt="" />
+        </a>
+    </div>
+    
+    <form id="zyform1" name="zyform1" method="POST" action="">
+        <div class="upload">
+            <p><img src="/public/home/images/02jihuo6.png" alt="" />上传照片<span>(仅用于志愿者证明使用)</span></p>
+            <div>
+                <img src="/public/home/images/02jihuo7.png" id="showpic" alt="" />
+                <input type="file" name="file" id="file" accept="image/*" />
+                <input type="hidden" name="base64img" id="base64img" />
+            </div> 
+        </div>
+        <p class="explain">需上传正面免冠纯色背景证明照</p>
+        <a href="" class="agreement">冠军惠用户协议</a>
+        <input type="hidden" name="act" id="act" value="save" />
+        <button type="button" name="zysubmit1" id="zysubmit1" class="btn">确认注册</button>
+    </form>
+
+    <?php $this->load->view('service1.html');?>
+
+</div>
+<script type="text/javascript">   
+//图片压缩为上传处理
+(function () {
+  var input = document.querySelector('#file');
+  if(input){
+    input.onchange = function () {
+      lrz(this.files[0], {width: 300,height: 300}, function (results) {
+          //console.log(results);
+          var showpic = document.querySelector('#showpic'),
+          base64img = document.querySelector('#base64img');
+          showpic.src = base64img.value = results.base64;
+      });
+    };
+    // 演示用服务器太慢，做个延缓加载
+    window.onload = function () {
+        input.style.display = 'inline-block';
+    }
+  }
+})();
+</script>
+</body>
+</html>

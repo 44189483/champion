@@ -1,0 +1,275 @@
+<title>冠军惠-我的收藏</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+
+<?php if($type == 'acticle'):?>
+<link rel="stylesheet" href="/public/home/css/04shangchuan1.css" />
+<?php elseif($type == 'pic'):?>
+<link rel="stylesheet" href="/public/home/css/04shangchuan.css" />
+<link rel="stylesheet" href="/public/home/css/amazeui.min.css" />
+<?php elseif($type == 'video'):?> 
+<link rel="stylesheet" href="/public/home/css/04shangchuan2.css" />
+<?php else:?>
+<link rel="stylesheet" href="/public/home/css/04zhiyuanfw1.css" />
+<?php endif;?>
+
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" />
+<style type="text/css">
+  .bg{
+    background-size:100% 100% !important;
+    width:25px;
+    height:25px;
+    display:block;
+  }
+</style>
+
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/amazeui.js"></script>
+<script type="text/javascript">
+  $(function () {
+    //图片/视频点赞
+    $(".conter").delegate(".praise","click",function(){
+      var area = $(this);
+      var id = area.attr("data-id");
+      var num = parseInt(area.find("span").text());
+      $.ajax({  
+        type: "POST",  
+        url: "/activity/praise",  
+        data: {"id":id},
+        cache: false,
+        beforeSend: function(){
+        },  
+        success: function(data){ 
+          var text = data.replace(/\s/g, "");
+          area.find("span").text(num+parseInt(data));
+          if(text == 1){
+            $(area).attr("style","background:url('/public/home/images/zan_1.png') no-repeat;text-indent:30px;");
+          }else if(text == -1){
+            $(area).attr("style","background:url('/public/home/images/zan.png') no-repeat;text-indent:30px;");
+          }
+        },
+        error: function(jqXHR, textStatus, errorMsg){
+        }   
+      });
+    });
+  });
+</script> 
+</head>
+<body>
+<div class="conter">  
+  <div class="head">
+    <a href="/user" class="head-0">
+        <img src="/public/home/images/01zhuce3.png" alt="" />
+    </a>
+    <p>我的收藏</p>
+  </div>
+  <div class="nav shoucang">
+      <span><a href="/user/collect" <?php if($type == '' || $type == 'activity'):?>class="xs"<?php endif;?>>活动</a></span>
+      <span><a href="/user/collect/pic" <?php if($type == 'pic'):?>class="xs"<?php endif;?>>图集</a></span>
+      <span><a href="/user/collect/video" <?php if($type == 'video'):?>class="xs"<?php endif;?>>视频</a></span>
+      <span><a href="/user/collect/article" <?php if($type == 'article'):?>class="xs"<?php endif;?>>美文</a></span>
+  </div>
+  <div id="list">
+  <?php if($type == 'pic'):?>
+    <div class="htmleaf-container">
+      <div class="htmleaf-content bgcolor-3">
+        <div id="div1" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+            <?php foreach($result as $val):?>
+            <div class="box">
+              <img src="/<?php echo $val->image;?>" class="photo" alt="">
+              <p class="title">
+                <span class="bg" style="background: url('<?php echo $val->head;?>') no-repeat;"></span>
+                <span class="title1">上传者：<?php echo $val->author;?></span>
+                <span class="title2"><?php echo $val->date;?></span>
+                <a class="praise bg" data-id="<?php echo $val->id;?>" data-id="<?php echo $val->id;?>"  style="background: url('/public/home/images/<?php if($val->isPraise == 1):?>zan_1.png<?php else:?>zan.png<?php endif;?>') no-repeat;text-indent:30px;">
+                  <span><?php echo $val->praise;?></span>
+                </a>
+              </p>
+            </div>
+            <?php endforeach;?>
+        </div>
+      </div>
+    </div>
+    <script src="/public/home/js/jquery.waterfall.js"></script>
+    <script>
+      var i = 2;
+      $("#div1").waterfall({
+          itemClass: ".box",
+          minColCount: 2,
+          spacingHeight: 10,
+          resizeable: true,
+          isFadeIn:true,
+          ajaxCallback: function(success, end) {
+            success(loadpic(i));
+            end();
+            i++;
+          }
+      });
+      function loadpic(i){
+        $.ajax({
+          type: "GET",
+          url: "/user/collect/<?php echo $type;?>",
+          data: {'page': i},
+          dataType: "json",
+          success: function (data) {
+            $(data).each(function () {
+              var str = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><img src="/'+this.image+'" alt="" class="photo" /><p class="title"><span class="bg" style="background: url('+this.head+') no-repeat;"></span><span class="title1">上传者：'+this.author+'</span><span class="title2">'+this.date+'</span><a class="praise bg" data-id="'+this.id+'" style="background: url(/public/home/images/';
+                if(this.isPraise == 1){
+                  str += 'zan_1.png) no-repeat;">';
+                }else{
+                  str += 'zan.png) no-repeat;">';
+                }  
+                str = '<span>'+this.praise+'</span></a></p></div>';
+              $(str).fadeIn().appendTo($("#div1"));
+            });
+          }
+        });   
+      }
+    </script>
+    <!--
+    <script src="/public/home/js/BigPicture.min.js"></script>
+    <script>
+      (function() {
+
+        function setClickHandler(id, fn) {
+          document.getElementById(id).onclick = fn;
+        }
+
+        setClickHandler('div1', function(e) {
+          e.target.className === 'photo' && BigPicture({
+          el: e.target,
+          imgSrc: e.target.src.replace('_thumb', '')
+          });
+        });
+
+      })();
+    </script>
+    -->
+  <?php else:?>
+
+    <div id="minirefresh" class="minirefresh-wrap" style="top: 108px;">
+      <div class="minirefresh-scroll">
+        <div class="data-list" id="listdata">
+
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+    <script>
+                      
+      var i = 1;
+      var counterArr = [0];
+      var str = '';
+
+      var appendTestData = function(dom, count, isReset, index) {
+          if (typeof dom === 'string') {
+              dom = document.querySelector(dom);
+          }
+          
+          var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+          
+          var counterIndex = index || 0;
+          
+          counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+          if (isReset) {
+              dom.innerHTML = '';
+              counterArr[counterIndex] = 0;
+          }
+         
+          $.ajax({
+            type: "GET",
+            url: "/user/collect/<?php echo $type;?>/ajax",
+            data: {'page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+
+                  <?php 
+                    switch ($type):
+                      case 'activity':
+                      case '':
+                  ?>
+                 
+                    str += '<a class="art" href="/activity/detail/'+this.id+'/mycollect"><div><img src="/'+this.pic+'" alt="" /><p class="art-0 blue">可获得：'+this.integral+'积分</p></div><p class="art-1">'+this.title+'</p><p class="art-2">活动时间：'+this.startDate+'/'+this.endDate+'</p><p class="art-3';
+
+                    if(this.status == 'begain'){
+                      str += this.isSign == 1 ? ' yellow">已报名' : ' red">进行中';
+                    }else if(this.status == 'over'){
+                      str += this.isSign == 1 ? ' deepgrey">已报名' : ' grey">已结束';
+                    }else{
+                      str += this.isSign == 1 ? ' deepblue">已报名' : ' blue">招募中';
+                    }
+
+                    str += '</p></a>';
+
+                  <?php
+                    break;
+                    case 'video':
+                  ?>
+                    str += '<div class="art"><div class="art1"><p class="art1-1">'+this.title+'</p><div class="art1-2">'+this.content+'</div><p class="art1-3"><span class="art1-31"><img src="<?php echo $this->session->member->portraitUri;?>" alt=""></span><span class="art1-32">上传者：<?php echo $this->session->member->nickname;?></span><span class="art1-33">'+this.date+'</span><a class="praise bg art1-34" data-id="'+this.id+'" style="background:url(/public/home/images/';
+                      if(this.isPraise == 1){
+                        str += 'zan_1.png) no-repeat;';
+                      }else{
+                        str += 'zan.png) no-repeat;';
+                      }  
+                      str += 'text-indent:25px;"><span>'+this.praise+'</span></a></p></div></div>';
+                  <?php
+                    break;
+                    case 'article':
+                  ?>
+                    str += '<a class="art" href="/story/articledetail/'+this.id+'"><p class="art1">'+this.title+'</p><p class="art2">'+this.date+'</p><p class="art3">'+this.content+'</p></a>';
+                  <?php 
+                    break;
+                    endswitch;
+                  ?>
+
+                });
+
+                i++;
+
+              }
+              
+            }
+          });
+
+          var child = parseHtml(str);
+
+          dom.appendChild(child);
+
+      };
+
+      // 记录一个最新
+      var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+          requestDelayTime = 600;
+
+      var miniRefresh = new MiniRefresh({
+          container: '#minirefresh',
+          down: {
+              callback: function() {
+                  setTimeout(function() {
+                      // 每次下拉刷新后，上拉的状态会被自动重置
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endDownLoading(true);
+                  }, requestDelayTime);
+              }
+          },
+          up: {
+              isAuto: true,
+              callback: function() {
+                  setTimeout(function() {
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                  }, requestDelayTime);
+              }
+          }
+      });
+
+    </script>
+  <?php endif;?>  

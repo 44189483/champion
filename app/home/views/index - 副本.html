@@ -1,0 +1,139 @@
+<title>冠军惠-首页</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/index.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/jquery.hiSlider.min.css" />
+</head>
+<body>
+
+  <div class="conter">
+  <div class="nav">
+    <a href="/user"><img src="<?php if(!empty($this->session->member->portraitUri)): echo $this->session->member->portraitUri;?><?php else:?>/public/home/images/index4.png<?php endif;?>" alt="" class="nav-1" /></a>
+
+    <form method="GET" action="/index/seach">
+      <p class="nav-2">
+        <input type="text" placeholder="搜你想要的" name="keyword" id="keyword" />
+        <input type="image" src="/public/home/images/index1.png" name="search" id="search"/>
+      </p>
+      <a href="/notice"><img src="/public/home/images/index2.png" alt="" class="nav-3" /></a>
+    </form>
+  </div>
+
+  <article class="htmleaf-container">
+    <div id="wrap">
+        <ul class="hiSlider hiSlider1">
+          <?php foreach ($banner as $key => $val):?>
+            <li class="hiSlider-item"><a href="<?php if(empty($val->link)):echo '#';else:echo $val->link;?><?php endif;?>""><img src="<?php echo $val->url;?>" /></a></li>
+          <?php endforeach;?>
+        </ul>
+    </div>
+  </article>
+
+  <div class="btn">
+    <a href="/story/index/zx">
+      <img src="/public/home/images/index5.png" alt="" />
+      <span>我们的故事</span>
+    </a>
+    <a href="/activity">
+      <img src="/public/home/images/index6.png" alt="" />
+      <span>志愿服务</span>
+    </a>
+    <a href="/course">
+      <img src="/public/home/images/index7.png" alt="" />
+      <span>在线培训</span>
+    </a>
+    <a href="">
+      <img src="/public/home/images/index8.png" alt="" />
+      <span>即时通讯</span>
+    </a>
+    <a href="/proveseach">
+      <img src="/public/home/images/index9.png" alt="" />
+      <span>证明查询</span>
+    </a>
+  </div>
+  <?php if($notice):?> 
+  <div class="gonggao">
+    <p>
+      <span>公告</span>
+      <a href="/notice/detail/<?php echo $notice->id;?>"><?php echo $notice->title;?></a>
+    </p>
+    <a href="/notice">更多</a>
+  </div>
+  <?php endif;?>
+
+  <?php if($volunteer):?>
+  <div class="zhiyuan">
+    <div class="zhiyuan-1">
+        <span class="zhiyuan-11">志愿服务</span>
+        <span class="zhiyuan-12">POPULAR VOLUNTEER SERVICE</span>
+        <a href="/activity"><img src="/public/home/images/index10.png" alt="" /></a>
+    </div>
+    <div class="zhiyuan-2">
+      <p><a href="/activity/detail/<?php echo $volunteer->id;?>"><?php echo $volunteer->title;?></a></p>
+      <a href="/activity/detail/<?php echo $volunteer->id;?>"><img src="<?php echo $volunteer->pic;?>" alt="" /></a>
+    </div>
+  </div>
+  <?php endif;?>
+
+  <?php if($story):?>
+  <div class="gushi">
+    <div class="gushi-1">
+          <span class="gushi-11">我们的故事</span>
+          <span class="gushi-12">OUR STORY</span>
+          <a href="/story/index/zx"><img src="/public/home/images/index10.png" alt="" /></a>
+      </div>
+      <div class="gushi-2">
+          <a href="/story/zxdetail/<?php echo $story->id;?>"><img src="/<?php if($story->attach):?><?php echo $story->attach;?><?php else:?>public/home/images/nopic.jpg<?php endif;?>" alt="" /></a>
+          <p class="gushi-20">
+            <a href="/story/zxdetail/<?php echo $story->id;?>"><?php echo $story->title;?></a>
+          </p>   
+          <p class="gushi-21">
+             <span><?php echo $story->date;?></span>
+             <span class="gushi-21-span">发布者：<a href=""><?php echo $story->author;?></a></span>
+          </p>
+      </div>
+  </div>
+  <?php endif;?>
+
+  <?php if($course):?>
+  <div class="jiaocheng">
+      <div class="jiaocheng-1">
+          <span class="jiaocheng-11">在线教程</span>
+          <span class="jiaocheng-12">WORK ONLINE</span>
+          <a href="/course"><img src="/public/home/images/index10.png" alt="" /></a>
+      </div>
+      <div class="jiaocheng-2">
+            <div class="jiaocheng-21">
+              <p class="jiaocheng-22">
+                <?php echo $course->title;?>
+                <!--<span>15:30</span>-->
+              </p>
+              <div class="jiaocheng-23">
+                <!--<?php echo $course->url;?>-->
+                <a href="/course/detail/<?php echo $course->id;?>"><img src="/<?php echo $course->cover;?>" alt="" /></a>
+              </div>
+              <p class="jiaocheng-24">
+                <?php echo utfSubstr($course->content,0,100);?>
+              </p>
+            </div>
+      </div>
+  </div>
+  <?php endif;?>
+  <script src="/public/home/js/jquery.1.9.1.js"></script>
+  <script src="/public/home/js/jquery.hiSlider.min.js"></script>
+  <script type="text/javascript">
+    $('.hiSlider1').hiSlider();
+    $('iframe').width('100%');
+    $('iframe').height('auto');
+  </script>
+  <!--
+  <script src="/public/home/js/jqalert.js"></script>
+  <script type="text/javascript">
+    function imtip(){
+      jqalert({
+        title: '提示',
+        content: '暂无权限访问'
+      });
+    }
+  </script>
+  -->

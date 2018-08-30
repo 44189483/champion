@@ -1,0 +1,28 @@
+<?php $this->load->view('templates/header.html');?>
+<title>冠军惠-登录</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/01login.css" />
+<?php $this->load->view('templates/js.html');?>
+</head>
+<body>
+  <div class="conter">
+    <img src="/public/home/images/logo.png" alt="" class="logo" />
+    <form action="" method="POST">
+      <p class="account">
+          <img src="/public/home/images/01-login2.png" alt="" />
+          <input type="text" placeholder="用户名/手机号码" name="user" id="user"/>
+      </p>
+      <p class="password">
+          <img src="/public/home/images/01-login3.png" alt="" />
+          <input type="password" id="demo_input" name="pwd" placeholder="请输入密码"/>
+          <img src="/public/home/images/01-login4.png" id="demo_img" alt="" onclick="hideShowPsw(this,'demo_input','01-login4')" />
+      </p>
+      <div>
+      <a href="/member/findpwd" class="forget">忘记密码</a>
+      <button type="button" id="login" class="login1">登录</button>
+      <a href="/member/zhuce" class="login2">激活/注册</a>
+    </form>
+    <p class="foot">版本号：1.1.1</p>
+  </div>
+</body>
+</html>

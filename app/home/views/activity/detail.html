@@ -1,0 +1,425 @@
+<title>冠军惠-志愿者招募详情</title>
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/04baoming1.css" />
+<link rel="stylesheet" href="/public/home/css/smohan.face.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<script type="text/javascript" src="/public/home/js/jquery.form.js"></script>
+<script type="text/javascript" src="/public/home/js/jSignature.min.noconflict.js"></script>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/public/home/js/flashcanvas.min.js"></script>
+<![endif]-->
+<script src="/public/home/js/smohan.face.js"></script>
+<script src="/public/home/js/share.js"></script>
+
+<script type="text/javascript">
+     
+    $(function() {
+
+      $('.baom-1').click(function(){
+        var phone = '<?php echo $this->session->member->phone;?>';
+        if(phone == ''){
+          jqalert({
+            title: '提示',
+            content: '您还没有填写手机号码,请先去完善资料',
+            yestext: '确认',
+            notext: '取消',
+            yesfn: function() {
+              window.location.href = '/member/information';
+            },
+            nofn: function() {
+            }
+          });
+          return false;
+        }
+        $('.qianm').show();
+      });
+
+      //加载评论
+      loadcomment();
+
+      var $sigdiv = $("#signature");
+      $sigdiv.jSignature({width:'290px',height:'160px'}); // 初始化jSignature插件.
+      $("#yes").click(function(){
+          //将画布内容转换为图片
+          var datapair = $sigdiv.jSignature("getData", "image");
+          var datas = "data:" + datapair[0] + "," + datapair[1];
+          
+          $.ajax({
+          type: "POST",//提交类型
+          url: "/activity/signature/<?php echo $id;?>",//请求地址
+          data: {"base64img":datas},//请求数据
+          beforeSubmit:function(){  
+          },
+          success: function (data) {//请求成功后的函数
+
+            var text = data.replace(/\s/g, "");
+            if(text != 1){
+              jqalert({
+                title: '提示',
+                content: text
+              });
+              return false;
+            }else{
+              jqalert({
+                title: '特别提示',
+                content: '恭喜您报名成功！请及时参与活动,感谢您的支持',
+                yesfn: function() {
+                  window.location.href='/activity/detail/<?php echo $id;?>';
+                }
+              });
+              return false;
+            } 
+              
+          },
+          error: function (data) { 
+          },
+          async: true
+        });
+          
+      });
+      $("#reset").click(function(){
+          $sigdiv.jSignature("reset"); //重置画布，可以进行重新作画.
+          //$("#someelement").html("");
+      });
+
+      
+      //评论表情
+      $("a.xiaolian").smohanfacebox({ 
+          Event : "click",    //触发事件     
+          divid : "Smohan_FaceBox", //外层DIV ID 
+          textid : "comment" //文本框 ID 
+      }); 
+      //解析表情  $('#Zones').replaceface($('#Zones').html()); 
+
+      //提交评论
+      $('.comments-2').click(function(){
+        var content = $('#comment').val();
+        if(content == null || content == ''){
+          jqalert({
+            title: '提示',
+            content: '内容必填'
+          });
+          return false;
+        }
+
+        //判断是否包含
+        var isReview,id;
+        if($("#sign").val() && content.search($("#sign").val()) > -1 ){//回复
+          isReview = 1;  
+          id = $("#nid").val();
+        }else{//只是评论
+          isReview = 0;
+          id = <?php echo $id;?>;
+        }
+
+        $.ajax({  
+          type: "POST",  
+          url: "/comment/save",  
+          data: {'type':$('#type').val(),'comment':$('#comment').val(),'id':id,'isReview':isReview},
+          async:false,
+          cache: false,
+          beforeSend: function(){
+            $("#commentbox").html('<div align="center"><img src="/public/home/images/loader10.gif"/></div>');
+          },  
+          success: function(){ 
+            $('#comment').val('');
+            loadcomment();  
+          },
+          error: function(jqXHR, textStatus, errorMsg){
+          }   
+        });
+
+      });
+
+      //获取加密后的群组ID 群聊
+      var groundId = n3dEncrypt(<?php echo $id;?>);
+      $(".groupHref").attr("href","http://127.0.0.1/webIM/web/#/main/chat/"+groundId+"/3");
+     
+    });
+
+    function loadcomment(){
+      $("#commentbox").load("/comment/getdata/activity/<?php echo $id;?>");
+    }
+
+    /*
+    * n3dEncrypt 对应WEBIM 群组ID加密
+    * 注:key必须要与WEBIM SERVER 配置文件N3D_KEY赋值相同否则群组有误
+    * num 群组明文ID
+    * return 加密群组ID
+    */
+    function n3dEncrypt(num) {
+      var a, charMap, i, j, k, l, n, ref, s,m, map, result;
+      var key = '11EdDIauqcim';//key == N3D_KEY
+      var lower = 1;//最小值
+      var upper = 4294967295;//最大值
+      this.lower = lower;
+      this.upper = upper;
+      charMap = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      this.radix = charMap.length;
+      this.dict = [];
+      this.keyCode = 0;
+      if (!isUnsigned(this.lower) || !isUnsigned(this.upper)) {
+        throw new Error('Parameter is error.');
+      }
+      if (this.upper <= this.lower) {
+        throw new Error('The upper must be greater than the lower.');
+      }
+      if (typeof key !== 'string' || key.length === 0) {
+        throw new Error('The key is error.');
+      }
+      for (i = n = 0, ref = key.length; 0 <= ref ? n < ref : n > ref; i = 0 <= ref ? ++n : --n) {
+        a = key.charCodeAt(i);
+        if (a > 127) {
+          throw new Error('The key is error.');
+        }
+        this.keyCode += a * Math.pow(128, i % 7);
+      }
+      if (this.keyCode + this.radix < this.upper) {
+        throw new Error('The secret key is too short.');
+      }
+      i = this.keyCode - this.radix;
+      j = 0;
+      while (i < this.keyCode) {
+        this.dict[j] = [];
+        k = this.radix;
+        l = 0;
+        while (k > 0) {
+          s = i % k;
+          this.dict[j][l] = charMap[s];
+          charMap[s] = charMap[k - 1];
+          k--;
+          l++;
+        }
+        charMap = this.dict[j].slice(0);
+        i++;
+        j++;
+      }
+
+      if (!isUnsigned(num) || num > this.upper || num < this.lower) {
+        throw new Error('Parameter is error.');
+      }
+      num = this.keyCode - num;
+      result = [];
+      m = num % this.radix;
+      map = this.dict[m];
+      s = 0;
+      result.push(this.dict[0][m]);
+      while (num > this.radix) {
+        num = (num - m) / this.radix;
+        m = num % this.radix;
+        if ((s = m + s) >= this.radix) {
+          s -= this.radix;
+        }
+        result.push(map[s]);
+      }
+      return result.join('');
+    }
+
+    function isUnsigned(num) {
+      return Math.floor(num) === num && num > 0 && num < Number.MAX_VALUE;
+    }
+
+</script>
+
+</head>
+<body>
+<div class="conter">
+  
+  <div class="head">
+    <a href="<?php if($sign == 'search' || $sign == 'mycollect' || $sign == 'mywelfare'):?>javascript:history.back();<?php else:?>/activity/index/<?php echo $state == 'active' ? '' : $state;?><?php endif;?>" class="head-0">
+      <img src="/public/home/images/01zhuce3.png" alt="">
+    </a>
+    <p>志愿者招募</p>
+    <a class="head-1 share">
+        <img src="/public/home/images/03zhiyuan4.png" alt="">
+    </a>
+  </div>
+    
+  <div class="tu">
+    <?php if(!empty($pic)):?>
+    <img src="/<?php echo $pic;?>" alt="" />
+    <?php endif;?>
+  </div>  
+
+  <div class="art">
+    <div class="title"><?php echo $title;?></div>
+    <div>
+      <span>主办单位：</span>
+      <p><?php echo $sponsor;?></p>
+    </div>
+    <div>
+      <span>承办单位：</span>
+      <p><?php echo $organizer;?></p>
+    </div>
+    <div>
+      <span>活动地点：</span>
+      <p><?php echo $activityAddress;?></p>
+    </div>
+    <div>
+      <span>活动方案：</span>
+      <p><?php echo $activityScheme;?></p>
+    </div>
+    <div>
+      <span>活动编号：</span>
+      <p><?php echo $serviceNumber;?></p>
+    </div>
+    <div>
+      <span>活动性质：</span>
+      <p><?php echo $activityNature;?></p>
+    </div>
+    <div>
+      <span>积分奖励：</span>
+      <p><?php echo $integral;?></p>
+    </div>
+    <div>
+      <span>招募人数：</span>
+      <p><?php echo $recruitment;?></p>
+    </div>
+    <div>
+      <span>运动项目需求：</span>
+      <p><?php echo $sportNeed;?></p>
+    </div>
+    <div>
+      <span>其它条件：</span>
+      <p><?php echo $other;?></p>
+    </div>
+    <div>
+      <span>活动时间：</span>
+      <p><?php echo substr($startTime,0,10).' 至 '.substr($endTime,0,10);?></p>
+    </div>
+
+    <?php if($state == 'over'):?>
+    <div class="jieshu">
+      <span class="jieshu-1">活动已结束</span>
+      <p class="jieshu-2">已报名：<?php echo $total;?></p>
+      <img src="/public/home/images/line1.png" alt="" class="jieshu-3">
+      <p class="jieshu-4">冠军志愿者</p>
+      <div class="jieshu-5">
+         <p>
+          <?php foreach($members as $val):?>
+           <a href="javascript:void();">
+            <span>
+              <img src="<?php echo $val->portraitUri;?>" alt="" />
+              <img src="/public/home/images/di.png" alt="" class="di" />
+            </span>
+            <?php echo $val->nickname;?>
+           </a>
+          <?php endforeach;?> 
+         </p>
+      </div>
+      <p class="line"></p>
+        <div class="jieshu-6">
+          <a href="/story/zldetail/<?php echo $id;?>"><img src="/public/home/images/04baoming6.png" alt=""><span>查看活动信息</span></a>
+          <?php if($isSign == 1 && $member->level == 1):?>
+          <!--
+          <a class="groupHref"><img src="/public/home/images/04baoming1.png" alt=""><span>请进入活动群聊</span></a>-->
+          <a href="/activity/savedata/<?php echo $id;?>"><img src="/public/home/images/04baoming4.png" alt=""><span>上传活动资料</span></a>
+          <?php endif;?>
+        </div>
+    </div>
+    <?php endif;?>
+
+    <?php if($state == 'begain'):?>
+    <div class="jinxing">
+      <span class="jinxing-1">进行中</span>
+      <p class="jinxing-2">已报名：<?php echo $total;?></p>
+      <?php if($isSign == 1 && $member->level == 1):?>
+        <div class="jinxing-3">
+          <!--
+          <a class="groupHref"><img src="/public/home/images/04baoming1.png" alt=""><span>请进入活动群聊</span></a>-->
+          <a href="/activity/savedata/<?php echo $id;?>"><img src="/public/home/images/04baoming4.png" alt=""><span>上传活动资料</span></a>
+          <a href="/activity/myupload/<?php echo $id;?>/2"><img src="/public/home/images/04baoming5.png" alt=""><span>我上传的</span></a>
+        </div>
+      <?php endif;?>
+    </div>
+    <?php endif;?>
+
+    <?php if($state == 'active' && $member && $member->level == 1):?>
+      <?php if($isSign == 0):?>
+        <div class="baom">
+          <a href="javascript:;" class="baom-1">我要报名</a>
+          <p class="baom-2">已报名：<?php echo $total;?></p>
+        </div>
+      <?php elseif($isStatus == 0):?>
+        <div class="shenhe">
+          <a class="shenhe-1">审核中</a>
+          <p class="shenhe-2">已报名：<?php echo $total;?></p>
+        </div>
+      <?php else:?>
+        <div class="success">
+          <a class="success-1">报名成功</a>
+          <p class="success-2">已报名：<?php echo $total;?></p>
+          <!--
+          <a class="groupHref success-3">
+            <img src="/public/home/images/04baoming1.png" alt="">
+            <span>请进入活动群聊</span>
+          </a>
+          -->
+        </div>
+      <?php endif;?>
+    <?php endif;?>
+    
+  </div>
+
+  <?php if($state == 'active' && $isSign == 0):?>
+  <div class="qianm" style="display: none;">
+    <div>
+      <p>请手写签名确认</p>
+      <div class="canvas">
+        <div id="signature"></div>
+        <a href="javascript:;" id="reset">
+          <img src="/public/home/images/04baoming7.png" alt="" />
+        </a>
+        <a href="javascript:;" id="yes">
+          <img src="/public/home/images/04baoming8.png" alt="" />
+        </a>
+        <input type="hidden" name="qm" id="qm" />
+      </div>
+    </div>
+  </div>
+  <?php endif;?>
+
+  <div id="someelement"></div>
+
+  <!-- 留言 -->
+  <div id="commentbox">
+    <div align="center"><img src="/public/home/images/loader10.gif"/></div>
+  </div>
+  
+  <div class="gaodu"></div>
+
+  <?php if($this->session->member && $this->session->member->level != 0):?>
+  <div class="comments" id="Smohan_FaceBox">
+    <a href="javascript:;" class="xiaolian"><img src="/public/home/images/06shipin5.png" alt=""></a>
+    <input type="text" name="comment" id="comment" placeholder="期待您的评论" class="inp" />
+    <!--<a href="" class="jiahao"><img src="/public/home/images/04baoming3.png" alt=""></a>-->
+    <a href="javascript:;" class="comments-2"><img src="/public/home/images/06shipin4.png" alt=""></a>
+    <input type="hidden" id="type" value="activity"/>
+    <input type="hidden" id="sign" />
+    <input type="hidden" id="nid" />
+  </div>
+  <?php endif;?>
+  
+  <div class="fenxiang">
+    <div>
+      <p class="fenxiang-1">
+        <span>分享到</span>
+      </p>
+      <p class="fenxiang-2">
+        <?php if($this->session->member->id):?>
+        <a href="javascript:shareTo('sina','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx1.png" alt=""><span>微博</span></a>
+        <a href="javascript:shareTo('wechat','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>,<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx2.png" alt=""><span>微信</span></a>
+        <!--<a href="javascript:shareTo('qzone')"><img src="/public/home/images/fenx3.png" alt=""><span>朋友圈</span></a>-->
+        <a href="javascript:shareTo('qzone','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx4.png" alt=""><span>QQ空间</span></a>
+        <a href="javascript:shareTo('qq','<?php echo $title;?>','<?php echo $pic;?>','<?php echo strip_tags($activityScheme);?>',<?php echo $this->session->member->id;?>,<?php echo $id;?>,6)"><img src="/public/home/images/fenx5.png" alt=""><span>QQ</span></a>
+        <?php endif;?>
+      </p>
+      <a class="fenxiang-3">取消</a>
+    </div>
+  </div>
+
+</div>   
+</body>
+</html>

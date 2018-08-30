@@ -1,0 +1,144 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>编辑问卷</h3>
+            </div><!--contenttitle-->
+
+            <form id="form1" name="form1" class="stdform stdform2" method="post" action="/admin.php/examine/save" onSubmi="return checkform(this)">
+
+                <p>
+                    <label>主题</label>
+                    <span class="field"><input type="text" name="title" id="title" class="longinput" value="<?php echo $title;?>" /></span>
+                </p>
+               
+                <?php foreach ($content as $key => $val):?>
+
+                    <p>
+                        <span class="field">
+                            问题<b><?php echo $key;?></b>.<input type="text" name="q<?php echo $key;?>" class="smallinput" value="<?php echo $val['q'];?>" />&nbsp;<button type="button" class="submit radius2 addchoice">添加选项</button>&nbsp;<button type="button" class="backbutton delchoice">删除选项</button>
+
+                            <?php foreach ($val['c'] as $k => $v):?>
+                            <span>
+                                <br><br>
+                                选项(<?php echo $k;?>).<input type="text" name="c_<?php echo $key;?>_<?php echo $k;?>" class="smallinput" value="<?php echo $v;?>"/>
+                            </span>
+                            <?php endforeach;?>
+                        </span>
+                    </p>
+
+                <?php endforeach;?>
+
+                <p>
+                    <span class="field">
+                        <button type="button" class="submit radius2 addque">添加问题</button>
+                        &nbsp;
+                        <button type="button" class="backbutton delque">删除问题</button>
+                    </span>
+                </p>
+
+                <p class="show">
+                    <label>发布</label>
+                    <span class="field">
+                        <span>
+                            <input type="checkbox" name="show" style="opacity: 0;" value="1" <?php if($isShow =='1'):?>checked="checked"<?php endif;?> />
+                        </span>
+                    </span>
+                </p>
+              
+                <p class="stdformbutton" align="center">
+                    <input type="hidden" name="type" value="radio"/>
+                    <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                    <button id="submit" class="submit radius2">提 交</button>
+                    <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                </p>
+
+            </form>
+
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<script>
+
+    jQuery(document).ready(function(){
+
+        //添加选项
+        jQuery("body").delegate(".addchoice","click",function(){
+
+            var b = jQuery(this).siblings("b").text();
+            
+            var p = jQuery(this).parent();
+
+            var n = p.find("span").length + 1;
+
+            if(n > 4){
+                alert('最多填加4个选项');
+                return false;
+            }
+            
+            var str = '<span><br/><br/>选项('+n+').<input type="text" name="c_'+b+'_'+n+'" class="smallinput" /></span>';
+            p.append(str);
+
+        });
+
+        //删除选项
+        jQuery("body").delegate(".delchoice","click",function(){
+
+            var s = jQuery(this).siblings("span");
+
+            var n = s.length;
+
+            //从最后的节点删除
+            jQuery(this).siblings("span").eq(n-1).remove();
+
+        });
+
+        //添加问题
+        jQuery(".addque").click(function(){
+            
+            var p = jQuery(this).parent().parent();
+
+            var n = p.siblings('p').not('.show').length - 1;
+
+            var str = '<p><span class="field">问题<b>'+n+'</b>.<input type="text" name="q'+n+'" class="smallinput" />&nbsp;<button type="button" class="submit radius2 addchoice">添加选项</button>&nbsp;<button type="button" class="backbutton delchoice">删除选项</button></span></p>';
+
+            p.siblings().eq(n-1).after(str);
+
+        });
+
+        //删除问题
+        jQuery(".delque").click(function(){
+            
+            var p = jQuery(this).parent().parent();
+
+            var n = p.siblings('p').not('.show').length - 1;
+
+            p.siblings().eq(n-1).remove();
+
+        });
+
+        //判断input是否为空
+        jQuery("#submit").click(function(){
+            var num = 0;
+            jQuery("input[type='text']").each(function(n){  
+                if(jQuery(this).val() == ""){  
+                   num++;   
+                }  
+            });  
+            if(num > 0){  
+                alert('信息还没有填完');  
+                return false;  
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

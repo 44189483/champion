@@ -1,0 +1,91 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3>留言反馈</h3>
+            </div><!--contenttitle-->
+
+            <div class="tableoptions">
+                <form method="GET" action="">
+                    <label>
+                        <select name="type">
+                            <option value="">-类型-</option> 
+                            <option value="1" <?php if($type == 1):?>selected="selected"<?php endif;?>>-在线留言-</option>
+                            <option value="2" <?php if($type == 2):?>selected="selected"<?php endif;?>>-意见反馈-</option>
+                        </select>
+                    </label>
+                    &nbsp;
+                    <button type="submit">查询</button>
+                    <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                </form>
+            </div>
+
+            <!--tableoptions-->	
+
+            <form name="form" id="form" method="POST" action="/admin.php/message/del">
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                    <thead>
+                        <tr>
+                            <th class="head0">
+                                <input type="checkbox" class="checkall"/>
+                            </th>
+                            <th class="head0">类型</th>
+                            <th class="head0">内容</th>
+                            <th class="head3">时间</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($rows):?>
+                        <?php foreach ($rows as $k => $val):?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="id[]" value="<?php echo $val->id;?>" />
+                            </td>
+
+                            <td>
+                                <?php 
+                                    switch($val->type){
+                                        case 1:
+                                            echo '在线留言';
+                                            break;
+                                        case 2:
+                                            echo '意见反馈';
+                                            break;
+                                    } 
+                                ?>
+                            </td>
+
+                            <td>
+                                <?php echo utfSubstr($val->content,0,20); ?>
+                            </td>
+                            
+                            <td class="head3">
+                                <?php echo $val->createTime; ?>
+                            </td>
+                            <td class="center">
+                                <a href="<?php echo site_url('message/view/'.$val->id); ?>">查看</a> / <a data-href="<?php echo site_url('message/del/'.$val->id); ?>" class="delete">删除</a>                              
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <tr><td colspan="5" align="center">暂无信息...</td></tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                    <button type="button" class="deletebutton">删除选中</button>
+                    <?php echo $page;?>
+                </div>
+            </form>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

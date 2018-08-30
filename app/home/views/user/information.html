@@ -1,0 +1,50 @@
+<title>冠军惠</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun9.css" />
+</head>
+<body>
+<div class="conter">
+    <div class="head">
+        <a href="/user" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="" />
+        </a>
+        <p>我的</p>
+    </div>
+
+   <div class="art">
+     <div class="art0">
+        <img src="/public/home/images/08guanjun1.png" alt="" />
+
+        <img src="<?php if($member->portraitUri):?><?php echo $member->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" class="touxiang" />        
+
+       <p class="name"><?php echo $member->realname == '' ? $member->nickname : $member->realname;?></p>
+       <p class="identity">
+        <?php if($member->level == 0):?>
+          普通会员
+        <?php elseif($member->level == 1):?>
+          志愿者
+        <?php elseif($member->level == 2):?>
+          媒体记者
+        <?php endif;?>
+       </p>
+       <a href="/member/information/edit">修改</a>
+     </div>
+     <div class="art1">
+       <p><span>国籍</span>中国</p>
+       <p><span>民族</span><?php echo $nation;?></p>
+       <p><span>出生地</span><?php echo $birthAddress;?></p>
+       <!--<p><span>出生日期</span><?php echo $birth;?></p>-->
+       <p><span>身份证号码</span><?php echo $identificationNumber;?></p>
+       <?php if($member->level == 1):?>
+       <p><span>运动项目</span><?php echo $sportEvent;?></p>
+       <p><span>所属运动队</span><?php echo $sportTeam;?></p>
+       <p><span>主要奖项</span><?php echo $sportPrize;?></p>
+       <?php endif;?>
+       <p><span>手机号码</span><?php echo $phone;?></p>
+       <p><span>邮箱地址</span><?php echo $email;?></p>
+       <p><span>通信地址</span><?php echo $contactAddress;?></p>
+     </div>
+   </div>
+</div>   
+</body>
+</html>

@@ -1,0 +1,113 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3>活动管理</h3>
+            </div><!--contenttitle-->
+
+            <div class="tableoptions">
+                <form method="GET" action="">
+                    <label>
+                        <select name="state">
+                            <option value="">-活动状态-</option> 
+                            <option value="1" <?php if($state == 1):?>selected="selected"<?php endif;?>>-正在招募-</option>
+                            <option value="2" <?php if($state == 2):?>selected="selected"<?php endif;?>>-进行中-</option>
+                            <option value="3" <?php if($state == 3):?>selected="selected"<?php endif;?>>-已结束-</option>
+                        </select>
+                    </label>
+                    <label>
+                        <input type="text" name="number" id="number" placeholder="服务编号" value="<?php echo $number;?>" class="smallinput"/>
+                    </label>
+                    <label>
+                        <input type="text" name="title" id="title" placeholder="标题" value="<?php echo $title;?>" class="smallinput"/>
+                    </label>
+                    &nbsp;
+                    <button type="submit">查询</button>
+                    <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    <button type="button" onclick="window.location.href='/admin.php/activity/add'" class="floatright">添加志愿服务</button>
+                </form>
+            </div>
+
+            <!--tableoptions-->	
+
+            <form name="form" id="form" method="POST" action="/admin.php/activity/del">
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb" id="tab">
+                    <thead>
+                        <tr>
+                            <th class="head0">
+                                <input type="checkbox" class="checkall"/>
+                            </th>
+                            <th class="head0">编号</th>
+                            <th class="head0">标题</th>
+                            <th class="head3">主办方</th>
+                            <th class="head3">招募人数</th>
+                            <th class="head3">状态</th>
+                            <th class="head3">开始</th>
+                            <th class="head3">结束</th>
+                            <th class="head3">审核</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($rows):?>
+                        <?php foreach ($rows as $k => $val):?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="id[]" value="<?php echo $val->id;?>" />
+                            </td>
+                            <td>
+                                <?php 
+                                    echo $val->serviceNumber;
+                                ?>
+                            </td>
+                            <td title="<?php echo $val->title; ?>">
+                                <?php echo utfSubstr($val->title,0,20); ?>
+                            </td>
+                            <td class="head3" title="<?php echo $val->sponsor; ?>">
+                                <?php echo utfSubstr($val->sponsor,0,20); ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->recruitment; ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->state; ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->startTime; ?>
+                            </td>
+                            <td class="head3">
+                                <?php echo $val->endTime; ?>
+                            </td>
+                            <td class="head3">
+                                <input type="checkbox" <?php if($val->status =='1'):?>checked="checked"<?php endif;?> value="1" name="status" id="<?php echo $val->status;?>" onchange="changeCheck('activity','id',<?php echo $val->id;?>,'status',<?php echo $val->status;?>);"/>
+                            </td>
+                            <td class="center">
+                                
+                                <!--<a href="<?php echo site_url('activity/pics/'.$val->id); ?>">管理图片</a> /--> 
+                                <a href="<?php echo site_url('activity/signup/'.$val->id); ?>">报名人</a> / 
+                                <a href="<?php echo site_url('activity/edit/'.$val->id); ?>">活动详情</a> / <a data-href="<?php echo site_url('activity/del/'.$val->id); ?>" class="delete">删除活动</a> / 
+                                <a href="<?php echo site_url('activity/lists/'.$val->id); ?>">活动资料</a> / <a href="<?php echo site_url('comment/index/activity/'.$val->id); ?>">评论</a>                                
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <tr><td colspan="11" align="center">暂无信息...</td></tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+                <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                    <button type="button" class="deletebutton">删除选中</button>
+                    <?php echo $page;?>
+                </div>
+            </form>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>添加会员</h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/member/save" enctype="multipart/form-data">
+
+                    <p>
+                        <label>头像</label>
+                        <span class="field"><input type="file" name="avatar" id="avatar" class="smallinput"/></span>
+                    </p>
+
+                    <p>
+                        <label>昵称</label>
+                        <span class="field"><input type="text" name="nickname" id="nickname" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>姓名</label>
+                        <span class="field"><input type="text" name="realname" id="realname" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>手机</label>
+                        <span class="field"><input type="text" name="phone" id="phone" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>邮箱</label>
+                        <span class="field"><input type="text" name="email" id="email" class="smallinput" /></span>
+                    </p>
+
+                    <p>
+                        <label>密码</label>
+                        <span class="field"><input type="password" name="newpwd" id="newpwd" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>确认密码</label>
+                        <span class="field"><input type="password" name="repwd" id="repwd" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>身份证</label>
+                        <span class="field"><input type="text" name="identificationNumber" id="identificationNumber" class="smallinput" required="required" /></span>
+                    </p>
+
+                    <p>
+                        <label>民族</label>
+                        <span class="field"><input type="text" name="nation" id="nation" class="smallinput" /></span>
+                    </p>
+
+                    <p>
+                        <label>会员类型</label>
+                        <span class="field">
+                            <select name="level" onchange="show(this.value)">
+                                <option value="">-请选择-</option> 
+                                <option value="0">-普通会员-</option>
+                                <option value="1">-志愿者-</option>
+                                <option value="2">-媒体-</option>
+                            </select>
+                        </span>
+                    </p>
+
+                    <p class="s1">
+                        <label>运动项目</label>
+                        <span class="field">
+                            <input type="text" name="event" id="event" class="smallinput" />
+                        </span>
+                    </p>
+                    
+                    <p class="s1">
+                        <label>所属运动队</label>
+                        <span class="field">
+                            <input type="text" name="item" id="item" class="smallinput" />
+                        </span>
+                    </p>
+                    
+                    <p class="s1">
+                        <label>主要奖项</label>
+                        <span class="field">
+                            <input type="text" name="prize" id="prize" class="smallinput" />
+                        </span>
+                    </p>
+
+                    <p class="s2">
+                        <label>媒体名称</label>
+                        <span class="field">
+                            <input type="text" name="media" id="media" class="smallinput" />
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>积分</label>
+                        <span class="field"><input type="text" name="integral" id="integral" class="smallinput" /></span>
+                    </p>
+
+                    <p>
+                        <label>出生地</label>
+                        <span class="field" id="prov_city">
+                            <input type="text" name="birthAddress" id="birthAddress" class="smallinput" />
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>居住地</label>
+                        <span class="field" id="prov_city">
+                            <input type="text" name="liveAddress" id="liveAddress" class="smallinput" />
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>通信地址</label>
+                        <span class="field" id="prov_city">
+                            <input type="text" name="contactAddress" id="contactAddress" class="smallinput" />
+                        </span>
+                    </p>
+
+                    <p class="s1">
+                        <label>激活</label>
+                        <span class="formwrapper">
+                            <span>
+                                <input type="checkbox" name="activation" style="opacity: 0;" value="1" />
+                            </span>
+                        </span>
+                    </p>
+
+                    <p class="s2 s0">
+                        <label>审核</label>
+                        <span class="formwrapper">
+                            <span>
+                                <input type="checkbox" name="status" style="opacity: 0;" value="1" />
+                            </span>
+                        </span>
+                    </p>
+                    
+                    <p class="stdformbutton">
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+</div><!--bodywrapper-->
+<script type="text/javascript">
+
+    jQuery(document).ready(function(){
+
+        jQuery('.s1,.s2,.s0').hide();
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                phone:{
+                 required:true, 
+                 checkphone: true
+                },
+                email: {
+        　　　　　required: true,
+        　　　　　email: true
+       　　　　 },
+                newpwd: {
+                 required:true, 
+                 checkpwd: true
+                },
+                repwd: {
+                 equalTo: "#newpwd"
+                },
+                identificationNumber:{
+                 required:true, 
+                 checkident: true
+                },
+                level: "required",
+                integral:"digits"
+            },
+            messages: {
+                phone: {
+                    required: "请填写手机",   
+                    checkphone: "手机格式有误"
+                },
+                email: {
+                    required: "请填写邮箱",   
+                    email: "邮箱格式有误"
+                },
+                newpwd: {
+                    required: "请填写密码",   
+                    checkpwd: "密码需为6-20位字母与数字组合"
+                },
+                repwd: {
+                 equalTo: "两次输入密码不一致"
+                },
+                identificationNumber: {
+                    required: "请填写身份证",   
+                    checkphone: "身份证格式有误"
+                },
+                level:"会员类型必填",
+                integral:"积分必须为整数"
+            }
+        });
+
+    });
+
+    function show(e){
+        jQuery('.s1,.s2,.s0').hide();
+        jQuery('.s'+e).show();
+    }
+
+</script>
+</body>
+</html>

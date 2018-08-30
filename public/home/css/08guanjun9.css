@@ -1,0 +1,64 @@
+.art{
+	width: 94%;
+	margin-left: 3%;
+	height: auto;
+	background-color: #fff;
+	border-bottom: solid 1px #bfbdbe;
+	border-radius: 10px;
+}
+.art0{
+	width: 100%;
+	position: relative;
+}
+.art0>img{
+	width: 100%;
+}
+.touxiang{
+    /*width: 30% !important;*/
+    width: 90px !important;
+    height:90px;
+    margin-left: 35%;
+    border-radius: 50%;
+    position: absolute;
+    top: 5%;
+    left: 0px;
+    border: solid 5px #fff;
+}
+.name{
+	width: 100%;
+	text-align: center;
+	position: absolute;
+    bottom: 25%;
+    color: #fff;
+}
+.identity{
+	width: 100%;
+	text-align: center;
+	position: absolute;
+    bottom: 15%;
+    color: #fff;
+}
+.art0>a{
+	color: #fff;
+	position: absolute;
+	right: 2%;
+	top: 4%;
+}
+
+
+.art1{
+	width: 96%;
+	margin-left: 2%;
+}
+.art1>p{
+	width: 96%;
+	margin-left: 2%;
+	color: #999;
+	border-bottom: solid 1px #e6e6e6;
+	line-height: 40px;
+}
+.art1>p>span{
+	display: inline-block;
+	width: 100px;
+	color: #4d4d4d !important;
+}

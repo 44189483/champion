@@ -1,0 +1,53 @@
+body{
+	background-color: #fff !important;
+}
+.art{
+	width:90%;
+	margin-left: 5%;
+	background-color: #fff;
+	margin-bottom: 7px;
+	padding-bottom: 10px;
+	color: #4d4d4d;
+}
+.title{
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 35px;
+}
+.art1{
+	text-align: center;
+	margin-bottom: 15px;
+	color: #999;
+}
+.art1>span{
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.art2{
+	line-height: 20px;
+}
+
+
+.art3{
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+.art3-1{
+	display: inline-block;
+	/*width: 40px;*/
+	text-decoration: none;
+	color: #666;
+}
+.art3-1>img{
+	width: 27px;
+}
+.art3-2{
+	display: inline-block;
+	width: 40px;
+	margin-left: 60px;
+}
+.art3-2>img{
+	width: 27px;
+}

@@ -1,0 +1,123 @@
+<title>冠军惠-我的经历</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun1.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<link rel="stylesheet" href="/public/home/css/minirefresh.min.css" />
+<link rel="stylesheet" href="/public/home/css/common.css" /> 
+</head>
+<body>
+<div class="conter" style="padding-top: 10px;position: fixed;">  
+  
+  <div class="art">
+    <div class="art0">
+     <img src="/public/home/images/08guanjun1.png" alt="" />
+     <img src="<?php if(!empty($member->portraitUri)): echo $member->portraitUri;?><?php else:?>/public/home/images/logo.png<?php endif;?>" alt="" class="touxiang" />
+     <p class="name">
+      <?php 
+        if(!empty($member->realname)):
+          echo $member->realname;
+        else: 
+          echo $member->nickname;
+        endif;
+      ?>
+    </p>
+     <p class="identity">志愿者</p>
+    </div>
+    <div class="art1">
+     <span>活动经历</span>
+     <span>参加日期</span>
+     <span>身份</span>
+    
+      <div id="minirefresh" class="minirefresh-wrap" style="top: 255px;bottom:10px;width:94%;margin-left:3%;">
+        <div class="minirefresh-scroll">
+          <div class="data-list" id="listdata">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/public/home/js/minirefresh.min.js"></script>
+
+    <script>
+                      
+      var i = 1;
+      var counterArr = [0];
+      var str = '';
+
+      var appendTestData = function(dom, count, isReset, index) {
+          if (typeof dom === 'string') {
+              dom = document.querySelector(dom);
+          }
+          
+          var prevTitle = typeof index !== 'undefined' ? ('Tab' + index) : '';
+          
+          var counterIndex = index || 0;
+          
+          counterArr[counterIndex] = counterArr[counterIndex] || 0;
+
+          if (isReset) {
+              dom.innerHTML = '';
+              counterArr[counterIndex] = 0;
+          }
+         
+          $.ajax({
+            type: "GET",
+            url: "/user/history/<?php echo $member->id;?>",
+            data: {'file':'ajax','page': i},
+            dataType: "json",
+            async:false,
+            success: function (json) {
+
+              if(json != 0){
+
+                $(json).each(function () {
+                 
+                  str += '<div class="art2"><span>'+this.title+'</span><span>'+this.cdate+'</span><span>志愿者</span></div>';
+
+                });
+
+                i++;
+
+              }
+              
+            }
+          });
+
+          var child = parseHtml(str);
+
+          dom.appendChild(child);
+
+      };
+
+      // 记录一个最新
+      var maxDataSize = <?php echo $total;?>,listDom = document.querySelector('#listdata'),
+          requestDelayTime = 600;
+
+      var miniRefresh = new MiniRefresh({
+          container: '#minirefresh',
+          down: {
+              callback: function() {
+                  setTimeout(function() {
+                      // 每次下拉刷新后，上拉的状态会被自动重置
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endDownLoading(true);
+                  }, requestDelayTime);
+              }
+          },
+          up: {
+              isAuto: true,
+              callback: function() {
+                  setTimeout(function() {
+                      appendTestData(listDom, 5, true);
+                      miniRefresh.endUpLoading(listDom.children.length >= maxDataSize ? true : false);
+                  }, requestDelayTime);
+              }
+          }
+      });
+
+    </script>
+    </div>
+  </div>
+</div>   
+</body>
+</html>  

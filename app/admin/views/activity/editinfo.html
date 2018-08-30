@@ -1,0 +1,116 @@
+    <div class="centercontent">
+        
+        <div id="contentwrapper" class="contentwrapper">
+
+            <div class="contenttitle2">
+                <h3>编辑<?php echo $title;?></h3>
+            </div><!--contenttitle-->
+            
+            <div id="validation" class="subcontent">
+
+                <form id="form1" name="form1" class="stdform" method="post" action="/admin.php/activity/saveinfo" enctype="multipart/form-data">
+
+                    <p>
+                        <label>标题</label>
+                        <span class="field"><input type="text" name="title" id="title" class="smallinput" value="<?php echo $row->title;?>" /></span>
+                    </p>
+
+                    <?php if($row->type == 1):?>
+
+                        <p>
+                            <label>内容</label>
+                            <span class="field"><textarea id="content" name="content"><?php echo $row->content;?></textarea></span>
+                        </p>
+
+                    <?php elseif($row->type == 3):?>
+
+                        <p>
+                            <label>视频网址</label>
+                            <span class="field"><input type="text" name="content" id="content" class="smallinput" value="<?php echo $row->content;?>" /> (请用iframe)</span>
+                        </p>
+
+                    <?php endif;?>
+
+                    <p>
+                        <label>时间</label>
+                        <span class="field"><input type="text" name="datetime" id="datetime" class="smallinput" required="required" readonly="readonly" value="<?php echo $row->createTime;?>" /></span>
+                    </p>
+
+                    <br />
+                    
+                    <p class="stdformbutton">
+                        <input type="hidden" name="type" id="type" value="<?php echo $row->type;?>" />
+                        <input type="hidden" name="id" id="id" value="<?php echo $row->id;?>" />
+                        <input type="hidden" name="aid" id="aid" value="<?php echo $row->aid;?>" />
+                        <button class="submit radius2">提 交</button>
+                        <button type="button" class="backbutton" onclick="history.back()">返 回</button>
+                    </p>
+
+                </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+
+<script>
+
+    jQuery(document).ready(function(){
+
+        ///// FORM VALIDATION /////
+        jQuery("#form1").validate({
+            rules: {
+                title:"required"
+            },
+            messages: {
+                title:"标题必填"
+            }
+        });
+
+        jQuery('#datetime').datetimepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+
+    });
+
+    KindEditor.ready(function(K) {
+
+        editor1 = K.create('textarea[name="content"]', {
+            cssPath : '/public/editor/plugins/code/prettify.css',
+            afterCreate : function() {
+                var self = this;
+                K.ctrl(document, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+                K.ctrl(self.edit.doc, 13, function() {
+                    self.sync();
+                    K('form[name=form1]')[0].submit();
+                });
+            },afterBlur: function(){this.sync();},
+            themeType : 'simple',
+            resizeType: 1,
+            height : "200px", 
+            width:"382px",   //将宽度设置为div宽度的100%即可
+            filterMode : false, 
+            dialogAlignType:"page",
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'link','clearhtml','source'
+            ]
+        });
+
+        prettyPrint();
+
+    });
+
+</script>
+
+</body>
+</html>

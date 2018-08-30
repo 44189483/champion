@@ -1,0 +1,224 @@
+<title>冠军惠-会员中心</title>
+<link rel="stylesheet" href="/public/home/css/head-foot.css" />
+<link rel="stylesheet" href="/public/home/css/08guanjun8-jizhe1.css" />
+<link rel="stylesheet" href="/public/home/css/jqalert.css" />
+<script src="/public/home/js/jquery.1.9.1.js"></script>
+<script src="/public/home/js/jqalert.js"></script>
+<!--<script src="/public/home/js/clipboard.min.js"></script>-->
+<style type="text/css">
+  .jq-alert .alert .content{
+    border-bottom: 1px solid #a6a6a6;
+  }
+  .tel{
+    color:#fe1859;
+    font-size:24px;
+    margin-top:10px;
+  }
+</style>
+</head>
+<body>
+<div class="conter">
+  
+    <div class="head">
+        <a href="/" class="head-0">
+            <img src="/public/home/images/01zhuce3.png" alt="">
+        </a>
+        <p>我的</p>
+    </div>
+
+    <div class="art">
+        <img src="/public/home/images/08guanjun7.png" alt="" class="art-1" />
+        <?php if($member->level == 1):?>
+        <a href="/user/integral/<?php echo $member->id;?>" class="art-2">积分详情</a>
+        <?php endif;?>
+
+        <?php if($member->portraitUri):?>
+          <img src="<?php echo $member->portraitUri;?>" alt="" class="art-3" />
+        <?php else:?>
+          <img src="/public/home/images/logo.png" alt="" class="art-3" />
+        <?php endif;?>
+
+        <?php if($member->level == 1):?>
+        <a href="/user/activity" class="art-4">我的公益</a>
+        <?php endif;?>
+
+        <span class="art-5"><?php echo $member->realname == '' ? $member->nickname : $member->realname;?></span>
+        <?php if($member->level == 2):?>
+          <span class="art-6">媒体：<?php echo $member->mediaCompany;?></span>
+        <?php endif;?>
+        <?php if($member->level == 1):?>
+        <span class="art-6">志愿者ID：<?php echo $member->id;?></span>
+        <p class="art-7">
+            <span>积分：<?php echo $member->integral;?></span>
+            <span>好友：<?php echo $friendtotal;?></span>
+            <span>参与活动：<a href="/user/activity" style="color:#fff"><?php echo $acttotal;?></a></span>
+        </p>
+        <?php endif;?>
+
+    </div>
+    <div class="art1">
+      <a href="/user/avatar">
+        <img src="/public/home/images/head.png" alt="">
+        更新头像
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a href="/user/information">
+        <img src="/public/home/images/08guanjun8.png" alt="">
+        我的信息
+        <!--<span>0</span>-->
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a href="/user/collect">
+        <img src="/public/home/images/08guanjun91.png" alt="">
+        我的收藏
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php if($member->level == 1):?>
+      <a href="/user/honor">
+        <img src="/public/home/images/08guanjun101.png" alt="">
+        荣誉证书
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a href="/user/certificate">
+        <img src="/public/home/images/08guanjun111.png" alt="">
+        志愿者证
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a href="/user/prove">
+        <img src="/public/home/images/08guanjun121.png" alt="">
+        志愿服务证明
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a href="javascript:;" class="code">
+        <img src="/public/home/images/08guanjun13.png" alt="">
+        我的邀请码
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+      <!--
+      <a href="/user/comment">
+        <img src="/public/home/images/08guanjun9.png" alt="">
+        我的评论
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      -->
+
+      <?php if($member->level == 2):?>
+      <a href="/user/contribute/zx">
+        <img src="/public/home/images/08jizhe1.png" alt="">
+        我的投稿
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <?php endif;?>
+
+    </div>
+
+    <div class="art2">
+      <a href="/notice">
+        <img src="/public/home/images/08guanjun14.png" alt="">
+        消息中心
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+      <a class="zixun">
+        <img src="/public/home/images/08guanjun15.png" alt="">
+        疑难咨询
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+    </div>
+    <div class="art3">
+      <a href="/user/setup">
+        <img src="/public/home/images/08guanjun16.png" alt="">
+        设置
+        <span></span>
+        <img src="/public/home/images/right1.png" alt="">
+      </a>
+    </div>
+
+    <input readOnly="true" style="outline: none;border: 0px; color: rgba(0,0,0,0.0);position: absolute;left:-200px; background-color: transparent" id="biao1" value="<?php echo $member->inviteCode;?>" />  
+    <div id="biaoios" style=";position: absolute;left:-200px; color: rgba(0,0,0,0);background-color: transparent" ><?php echo $member->inviteCode;?></div>
+
+    <script type="text/javascript">
+      $(function(){
+        $(".code").click(function(){
+          jqalert({
+            title: '我的邀请码',
+            content: '<p align="center"><?php echo $member->inviteCode;?></p>',
+            yestext: '复制',
+            notext: '取消',
+            yesfn: function() {
+              copy();
+              /*
+              const input = document.createElement('input');
+              input.setAttribute('readonly', 'readonly');
+              input.setAttribute('value', '<?php echo $member->inviteCode;?>');
+              document.body.appendChild(input);
+              input.setSelectionRange(0, 9999);
+              if (document.execCommand('copy')) {
+                  document.execCommand('copy');
+                  jqtoast('复制成功');
+              }
+              document.body.removeChild(input);
+              */
+            },
+            nofn: function() {
+            }
+          });
+        });
+      }); 
+
+
+      function copy(){  
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {//区分iPhone设备  
+            window.getSelection().removeAllRanges();//这段代码必须放在前面否则无效  
+            var Url2=document.getElementById("biaoios");//要复制文字的节点  
+            var range = document.createRange();  
+            // 选中需要复制的节点  
+            range.selectNode(Url2);  
+            // 执行选中元素  
+            window.getSelection().addRange(range);  
+            // 执行 copy 操作  
+            var successful = document.execCommand('copy');  
+
+            // 移除选中的元素  
+            window.getSelection().removeAllRanges();  
+        }else{  
+            var Url2=document.getElementById("biao1");//要复制文字的节点  
+            Url2.select(); // 选择对象  
+            document.execCommand("Copy"); // 执行浏览器复制命令  
+        }       
+      }
+
+      //疑难咨询
+      $(".zixun").click(function(){
+          jqalert({
+            title: '客服热线',
+            content: '<div align="center"><p><img src="/public/home/images/icon_tel.png" alt="" /></p><p class="tel">13889467368</p></div>',
+            yestext: '点击拨号',
+            yesfn: function() {
+              window.location.href = "tel:13889467368";
+            }
+          });
+      });
+
+      /*
+      function copy(message) {
+        var input = document.createElement("input");
+            input.value = message;
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+            document.body.removeChild(input);
+            //$.toast("复制成功", "text");
+      }
+      */  
+    </script>

@@ -1,0 +1,134 @@
+#div1 { margin:auto; position:relative;}
+.box { float:left; padding:0px; 
+	background:#fff; 
+	border-radius: 10px;
+}
+
+.box{
+	width: calc(47% - 5px);
+}
+.box>img{
+	width: 100%;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+.title{
+	width: 100%;
+	position: relative;
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+.title>img{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+}
+.title1{
+	color: #666;
+	font-size: 12px;
+	position: absolute;
+	top: 5px;
+	left: 35px;
+}
+.title2{
+	color: #666;
+	font-size: 12px;
+	position: absolute;
+	bottom: 8px;
+	left: 35px;
+}
+.title>a{
+    display: inline-block;
+    position: absolute;
+    right: 25px;
+    bottom: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #666;
+}
+.title>a>img{
+	width: 15px;
+}
+.scang{
+	width: 25px;
+	display: inline-block;
+	position: absolute;
+	top: 5px;
+    right: 5px;
+}
+.scang img{
+	width: 25px;
+}
+
+
+/*弹出层*/
+.tanc{
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(0,0,0,0.6);
+}
+.del{
+	float: right;
+	margin-top: 25%;
+	margin-right: 3%;
+}
+.tanc-1{
+	width: 100%;
+	margin-top: 5%;
+}
+.user{
+	width: 90%;
+	margin-left: 5%;
+	position: relative;
+	padding-top: 5px;
+	padding-bottom: 10px;
+	color: #fff;
+}
+.user>img{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+}
+.user1{
+	color: #fff;
+	font-size: 12px;
+	position: absolute;
+	top: 5px;
+	left: 40px;
+}
+.user2{
+	color: #fff;
+	font-size: 12px;
+	position: absolute;
+	bottom: 8px;
+	left: 40px;
+}
+.user-1{
+    display: inline-block;
+    position: absolute;
+    right: 40px;
+    bottom: 18px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #fff;
+    margin-right: 20px;
+}
+.user-1>img{
+	margin-right: 5px;
+}
+.user-2{
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    bottom: 18px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #fff;
+    margin-right: 20px;
+}
+.user>a>img{
+	width: 18px;
+}

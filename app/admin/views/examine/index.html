@@ -1,0 +1,72 @@
+    <div class="centercontent tables">
+    
+        <div id="contentwrapper" class="contentwrapper">
+                
+            <div class="contenttitle2">
+            	<h3>问卷管理</h3>
+            </div><!--contenttitle-->
+
+            <div class="tableoptions">
+                <button type="button" onclick="window.location.href='/admin.php/examine/add'">添加</button>
+            </div>
+
+            <!--tableoptions-->	
+
+            <form name="form" id="form" method="POST" action="/admin.php/examine/del">
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablecb tableoptions" id="tab">
+                    <thead>
+                        <tr>
+                            <th class="head0">
+                                <input type="checkbox" class="checkall"/>
+                            </th>
+                            <th class="head0">标题</th>
+                            <th class="head0">发布</th>
+                            <th class="head0">时间</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if($rows):?>
+                        <?php foreach ($rows as $k => $val):?>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="id[]" value="<?php echo $val->id;?>" />
+                            </td>
+                            <td>
+                                <?php echo utfSubstr($val->title, 0, 30);?>
+                            </td>
+                            <td>
+                                <input type="checkbox" <?php if($val->isShow =='1'):?>checked="checked"<?php endif;?> value="1" name="isShow" id="<?php echo $val->isShow;?>" onchange="changeCheck('article','id',<?php echo $val->id;?>,'isShow',<?php echo $val->isShow;?>);"/>
+                            </td>
+                            <td>
+                                <?php echo $val->createTime;?>
+                            </td>
+                            <td class="center">
+                                <a href="<?php echo site_url('examine/signup/'.$val->id); ?>">参与者</a>
+                                /
+                                <a href="<?php echo site_url('examine/edit/'.$val->id); ?>" class="edit">编辑</a>
+                                /
+                                <a data-href="<?php echo site_url('examine/del/'.$val->id); ?>" class="delete">删除</a>
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <tr><td colspan="5" align="center">暂无信息...</td></tr>
+                    <?php endif;?>
+                    </tbody>
+                </table>
+
+                <div class="dataTables_paginate paging_full_titles" id="dyntable_paginate">
+                    <button type="button" class="deletebutton">删除选中</button>
+                    <?php echo $page;?>
+                </div>
+            </form>
+        
+        </div><!--contentwrapper-->
+        
+	</div><!-- centercontent -->
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>
